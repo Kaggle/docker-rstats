@@ -1,1 +1,3 @@
-This contains the Dockerfiles (etc.) used for building Docker images used by "Scripts" on Kaggle.com.
+# docker-r
+
+This contains the Dockerfile used for building the R docker image for Kaggle Scripts.
