@@ -177,7 +177,8 @@ RUN install2.r --error \
 	xtable \
 	xts \
 	yaml \
-	zoo
+	zoo \ 
+	rpart
 
 
 # Needed for package DiagrammR, which xgboost needs
