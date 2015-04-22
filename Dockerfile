@@ -82,6 +82,7 @@ RUN install2.r --error \
 	coda \
 	codetools \
 	colorspace \
+	corrplot \
 	DBI \
 	devtools \
 	dichromat \
