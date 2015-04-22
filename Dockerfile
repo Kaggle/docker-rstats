@@ -33,6 +33,7 @@ RUN install2.r --error \
 	bartMachine \
 	biganalytics \
 	bigmemory \
+	Boruta \
 	doParallel \
 	earth \
 	FeaLect \
