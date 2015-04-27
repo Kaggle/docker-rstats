@@ -64,6 +64,7 @@ RUN install2.r --error \
 	SnowballC \
 	timeSeries \
 	tm \
+	tree \
 	twitteR \
 	tau \
 	Matrix \
