@@ -181,7 +181,9 @@ RUN install2.r --error \
 	xts \
 	yaml \
 	zoo \ 
-	rpart
+	rpart \
+	signal \
+	wavelets
 
 
 # Needed for package DiagrammR, which xgboost needs
