@@ -183,7 +183,8 @@ RUN install2.r --error \
 	zoo \ 
 	rpart \
 	signal \
-	wavelets
+	wavelets \
+	gam
 
 
 # Needed for package DiagrammR, which xgboost needs
