@@ -184,7 +184,11 @@ RUN install2.r --error \
 	rpart \
 	signal \
 	wavelets \
-	gam
+	gam \
+	Ckmeans.1d.dp \
+	vcd \
+	DiagrammeR
+	
 
 
 # Needed for package DiagrammR, which xgboost needs
