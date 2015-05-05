@@ -187,7 +187,8 @@ RUN install2.r --error \
 	gam \
 	Ckmeans.1d.dp \
 	vcd \
-	DiagrammeR
+	DiagrammeR \
+	googleVis
 	
 
 
