@@ -183,6 +183,7 @@ RUN install2.r --error \
 	zoo \ 
 	rpart \
 	signal \
+	wordcloud \
 	wavelets \
 	gam \
 	Ckmeans.1d.dp \
