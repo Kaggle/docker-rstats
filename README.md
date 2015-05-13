@@ -2,6 +2,6 @@
 
 ![example script](http://i.imgur.com/yGQ0Zes.png)
 
-This is the Dockerfile (etc.) used for building the image that runs R scripts on Kaggle. [Here's](https://registry.hub.docker.com/u/kaggle/r/) the Docker image on Dockerhub
+This is the Dockerfile (etc.) used for building the image that runs R scripts on Kaggle. [Here's](https://registry.hub.docker.com/u/kaggle/rstats/) the Docker image on Dockerhub
 
 **We welcome pull requests** if there are any packages you'd like to add!
