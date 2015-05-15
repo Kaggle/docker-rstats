@@ -190,7 +190,8 @@ RUN install2.r --error \
 	vcd \
 	DiagrammeR \
 	googleVis \
-	animation
+	animation \
+	plot3D
 	
 
 
