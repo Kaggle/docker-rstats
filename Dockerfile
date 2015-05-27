@@ -1,5 +1,10 @@
 FROM rocker/hadleyverse
 
+# libv8-dev is needed for package DiagrammR, which xgboost needs
+RUN apt-get update \
+  && apt-get install -y libv8-dev sqlite3
+
+
 RUN install2.r --error \
 	randomForest \
 	glmnet \
@@ -192,15 +197,8 @@ RUN install2.r --error \
 	googleVis \
 	animation \
 	plot3D \
-	RSQLite \
 	directlabels
 	
-
-
-# Needed for package DiagrammR, which xgboost needs
-RUN apt-get update \
-  && apt-get install -y --no-install-recommends libv8-dev sqlite3
-
 ADD RProfile.R /etc/R/Rprofile.site
 
 # package installation using devtools' install_github function
