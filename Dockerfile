@@ -191,13 +191,14 @@ RUN install2.r --error \
 	DiagrammeR \
 	googleVis \
 	animation \
-	plot3D
+	plot3D \
+	RSQLite
 	
 
 
 # Needed for package DiagrammR, which xgboost needs
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends libv8-dev
+  && apt-get install -y --no-install-recommends libv8-dev sqlite3
 
 ADD RProfile.R /etc/R/Rprofile.site
 
