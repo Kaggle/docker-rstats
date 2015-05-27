@@ -197,7 +197,8 @@ RUN install2.r --error \
 	googleVis \
 	animation \
 	plot3D \
-	directlabels
+	directlabels \
+	ICEbox
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
