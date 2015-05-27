@@ -2,7 +2,8 @@ FROM rocker/hadleyverse
 
 # libv8-dev is needed for package DiagrammR, which xgboost needs
 RUN apt-get update \
-  && apt-get install -y libv8-dev
+  && apt-get install -y libv8-dev nodejs npm
+  && npm install vega
 
 RUN install2.r --error \
 	randomForest \
