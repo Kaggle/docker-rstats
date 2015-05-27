@@ -192,7 +192,8 @@ RUN install2.r --error \
 	googleVis \
 	animation \
 	plot3D \
-	RSQLite
+	RSQLite \
+	directlabels
 	
 
 
