@@ -197,7 +197,8 @@ RUN install2.r --error \
 	animation \
 	plot3D \
 	directlabels \
-	ICEbox
+	ICEbox \
+	klaR
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
