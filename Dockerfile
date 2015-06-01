@@ -104,6 +104,7 @@ RUN install2.r --error \
 	geoR \
 	ggplot2 \
 	ggvis \
+	googleVis \
 	gridExtra \
 	gtable \
 	hexbin \
