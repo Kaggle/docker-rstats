@@ -199,7 +199,8 @@ RUN install2.r --error \
 	plot3D \
 	directlabels \
 	ICEbox \
-	klaR
+	klaR \ 
+	mefa
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
