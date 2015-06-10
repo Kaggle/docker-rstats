@@ -3,6 +3,8 @@ options(repos = list(CRAN = "http://cran.rstudio.com/"))
 options(device = function() png(width = 900))
 
 # Suppressing package startup messages in package loads
+# WART: this appears dangerous and is likely the source of
+#       future tough-to-debug bugs
 env <- as.environment('package:base') 
 unlockBinding('library', env) 
 library.warn <- library
