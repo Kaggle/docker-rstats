@@ -201,7 +201,8 @@ RUN install2.r --error \
 	ICEbox \
 	klaR \ 
 	mefa \
-	gridSVG
+	gridSVG \
+	rgdal
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
