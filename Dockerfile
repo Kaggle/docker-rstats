@@ -200,7 +200,8 @@ RUN install2.r --error \
 	directlabels \
 	ICEbox \
 	klaR \ 
-	mefa
+	mefa \
+	gridSVG
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
