@@ -2,7 +2,7 @@ FROM rocker/hadleyverse
 
 # libv8-dev is needed for package DiagrammR, which xgboost needs
 RUN apt-get update \
-  && apt-get install -y libv8-dev
+  && apt-get install -y libv8-dev libgeos-dev libgdal-dev libproj-dev
 
 RUN install2.r --error \
 	randomForest \
@@ -202,6 +202,7 @@ RUN install2.r --error \
 	klaR \ 
 	mefa \
 	gridSVG \
+	rgeos \
 	rgdal
 	
 ADD RProfile.R /etc/R/Rprofile.site
