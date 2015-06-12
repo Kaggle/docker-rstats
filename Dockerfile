@@ -205,7 +205,8 @@ RUN install2.r --error \
 	rgeos \
 	rgdal \
 	rARPACK \
-	Amelia
+	Amelia \
+	prevR
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
