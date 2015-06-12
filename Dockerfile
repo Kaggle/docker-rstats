@@ -203,7 +203,9 @@ RUN install2.r --error \
 	mefa \
 	gridSVG \
 	rgeos \
-	rgdal
+	rgdal \
+	rARPACK \
+	Amelia
 	
 ADD RProfile.R /etc/R/Rprofile.site
 
