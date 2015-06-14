@@ -1,4 +1,4 @@
-FROM rocker/hadleyverse
+FROM benhamner/rcran
 
 # libv8-dev is needed for package DiagrammR, which xgboost needs
 RUN apt-get update \
