@@ -152,7 +152,7 @@ RUN install2.r --error \
 	proto \
 	pryr \
 	R6 \
-	RandomFields \
+	# RandomFields \  (recent version broke. seems to be a problem w/ the package: https://registry.hub.docker.com/u/kaggle/rstats/build_id/60234/code/btdnyf55rbhfewxba9ta5jc/)
 	raster \
 	RColorBrewer \
 	Rcpp \
