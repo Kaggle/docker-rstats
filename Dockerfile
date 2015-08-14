@@ -24,6 +24,8 @@ RUN install2.r --error \
 	
 RUN date
 
+RUN Rscript -e 'source("http://bioconductor.org/biocLite.R") && biocLite("EBImage")'
+
 ADD RProfile.R /etc/R/Rprofile.site
 
 RUN date
