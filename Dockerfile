@@ -8,7 +8,8 @@ FROM kaggle/rcran
 RUN date
 
 RUN apt-get update \
-  && apt-get install -y r-cran-rgtk2 libv8-dev libgeos-dev libgdal-dev libproj-dev
+  && apt-get install -y r-cran-rgtk2 libv8-dev libgeos-dev libgdal-dev libproj-dev \
+    libtiff5-dev 
 
 RUN date
 
