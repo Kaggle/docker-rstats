@@ -9,7 +9,8 @@ RUN date
 
 RUN apt-get update \
   && apt-get install -y r-cran-rgtk2 libv8-dev libgeos-dev libgdal-dev libproj-dev \
-    libtiff5-dev libfftw3-dev libjpeg62-dev
+    libtiff5-dev libfftw3-dev libjpeg62-dev libjpeg-dev libjpeg62 libhdf4-alt-dev \
+    libhdf5-dev
 
 RUN date
 
