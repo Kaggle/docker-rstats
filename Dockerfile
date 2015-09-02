@@ -27,8 +27,7 @@ RUN install2.r --error \
 RUN date
 
 RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("EBImage"); library(devtools)
-; install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz")
-'
+; install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz")'
 
 ADD RProfile.R /etc/R/Rprofile.site
 
