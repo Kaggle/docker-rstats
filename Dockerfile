@@ -9,7 +9,7 @@ RUN date
 
 RUN apt-get update \
   && apt-get install -y r-cran-rgtk2 libv8-dev libgeos-dev libgdal-dev libproj-dev \
-    libtiff5-dev 
+    libtiff5-dev libfftw3-dev libjpeg62-dev
 
 RUN date
 
@@ -25,7 +25,9 @@ RUN install2.r --error \
 	
 RUN date
 
-RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("EBImage")'
+RUN Rscript -e 'source("http://bioconductor.org/biocLite.R"); biocLite("EBImage"); library(devtools)
+; install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz")
+'
 
 ADD RProfile.R /etc/R/Rprofile.site
 
