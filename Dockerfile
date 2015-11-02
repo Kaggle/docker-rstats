@@ -38,17 +38,7 @@ RUN date
 RUN Rscript /tmp/package_installs.R
 
     # MXNet
-    # The g++4.8 dependency is not currently available via the default apt-get
-    # channels, so we add the Ubuntu repository (which requires python-software-properties
-    # so we can call `add-apt-repository`. There's also some mucking about with GPG keys
-    # required.
-RUN apt-get install -y python-software-properties && \
-    add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty main" && \
-    apt-get install debian-archive-keyring && apt-key update && apt-get update && \
-    apt-get install --force-yes -y ubuntu-keyring && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5 3B4FE6ACC0B21F32 && \
-    mv /var/lib/apt/lists /tmp && mkdir -p /var/lib/apt/lists/partial && \
-    apt-get clean && apt-get update && apt-get install -y g++-4.8 && \
+RUN apt-get install -y g++-4.8 && \
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/mxnet && \
     cd /usr/local/src/mxnet && cp make/config.mk . && sed -i 's/CC = gcc/CC = gcc-4.8/' config.mk && \
     sed -i 's/CXX = g++/CXX = g++-4.8/' config.mk && \
