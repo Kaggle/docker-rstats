@@ -43,6 +43,7 @@ RUN apt-get install -y g++-4.8 && \
     cd /usr/local/src/mxnet && cp make/config.mk . && sed -i 's/CC = gcc/CC = gcc-4.8/' config.mk && \
     sed -i 's/CXX = g++/CXX = g++-4.8/' config.mk && \
     sed -i 's/ADD_LDFLAGS =/ADD_LDFLAGS = -lstdc++/' config.mk && \
+    sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
     make && R CMD INSTALL R-package
 
 CMD ["R"]
