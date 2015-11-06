@@ -57,6 +57,11 @@ RUN apt-get install -y libzmq3-dev && \
 
 RUN yes | pip uninstall pyzmq && pip install --no-use-wheel pyzmq
 
+# Make sure Jupyter won't try to "migrate" its junk in a read-only container
+RUN  mkdir -p /root/.jupyter/kernels && \
+    cp -r /root/.local/share/jupyter/kernels/julia-0.5 /root/.jupyter/kernels && \
+    touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
+
 CMD ["R"]
 
 RUN date
