@@ -5,14 +5,10 @@ FROM kaggle/rcran
 #   for R package rattle. (Suggested here: http://r.789695.n4.nabble.com/RGtk2-on-Debian-Testing-td3311725.html)
 #   (I tried a bunch of other things for a long time w/ no success.)
 
-RUN date
-
 RUN apt-get update \
   && apt-get install -y -f r-cran-rgtk2 libv8-dev libgeos-dev libgdal-dev libgdal1i libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev
-
-RUN date
 
 RUN install2.r --error \
 	DiagrammeR \
@@ -24,16 +20,10 @@ RUN install2.r --error \
 	Amelia \
 	prevR
 	
-RUN date
-
 ADD RProfile.R /etc/R/Rprofile.site
-
-RUN date
 
 # package installation using devtools' install_github function
 ADD package_installs.R /tmp/package_installs.R 
-
-RUN date
 
 RUN Rscript /tmp/package_installs.R
 
@@ -64,5 +54,4 @@ RUN  mkdir -p /root/.jupyter/kernels && \
 
 CMD ["R"]
 
-RUN date
 
