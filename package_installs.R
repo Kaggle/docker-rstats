@@ -1,6 +1,11 @@
 library(devtools)
 install_github("hadley/readr")
-install_git('dmlc/xgboost', subdir='R-package', args="--recursive")
+
+# xgboost has previously been git clone'd
+setwd("/usr/local/src/xgboost")
+build()
+install()
+
 install_github("jkrijthe/Rtsne")
 install_github("slowkow/ggrepel")
 

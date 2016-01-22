@@ -25,7 +25,8 @@ ADD RProfile.R /etc/R/Rprofile.site
 # package installation using devtools' install_github function
 ADD package_installs.R /tmp/package_installs.R 
 
-RUN Rscript /tmp/package_installs.R
+RUN cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
+    Rscript /tmp/package_installs.R
 
     # MXNet
 RUN apt-get update && apt-get install -y g++-4.8 libatlas-base-dev && \
