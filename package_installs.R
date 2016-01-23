@@ -1,11 +1,5 @@
 library(devtools)
 install_github("hadley/readr")
-
-# xgboost has previously been git clone'd
-setwd("/usr/local/src/xgboost")
-build()
-install()
-
 install_github("jkrijthe/Rtsne")
 install_github("slowkow/ggrepel")
 

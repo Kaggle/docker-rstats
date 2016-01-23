@@ -24,8 +24,10 @@ ADD RProfile.R /etc/R/Rprofile.site
 
 # package installation using devtools' install_github function
 ADD package_installs.R /tmp/package_installs.R 
-
+    
+    # XGBoost gets special treatment because the nightlies are hard to build with devtools.
 RUN cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
+    cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
     Rscript /tmp/package_installs.R
 
     # MXNet
