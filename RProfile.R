@@ -22,3 +22,6 @@ options(device = function() png(width = 900))
 #     logical.return, warn.conflicts, quietly, verbose))
 # }, ns="base")
 # lockBinding('library', env) 
+
+# Needed to make plots in rendered iR notebooks display correctly
+options(jupyter.plot_mimetypes = "image/png")
