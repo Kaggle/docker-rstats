@@ -46,12 +46,10 @@ RUN apt-get install -y libzmq3-dev && \
     Rscript /tmp/install_iR.R  && \
     apt-get install -y python-pip python-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
-    R -e 'IRkernel::installspec()'
-
-RUN yes | pip uninstall pyzmq && pip install --no-use-wheel pyzmq
-
+    R -e 'IRkernel::installspec()' && \
+    yes | pip uninstall pyzmq && pip install --no-use-wheel pyzmq && \
 # Make sure Jupyter won't try to "migrate" its junk in a read-only container
-RUN  mkdir -p /root/.jupyter/kernels && \
+    mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
 
