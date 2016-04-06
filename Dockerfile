@@ -8,7 +8,9 @@ FROM kaggle/rcran
 RUN apt-get update \
   && apt-get install -y -f r-cran-rgtk2 libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
-    libhdf5-dev
+    libhdf5-dev && \
+    # Needed for Sxslt (a dependency of openWAR)
+    libxslt1-dev libxslt1.1 libxml2 libxml2-dev
 
 RUN install2.r --error \
 	DiagrammeR \
