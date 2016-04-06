@@ -10,7 +10,7 @@ RUN apt-get update \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev && \
     # Needed for Sxslt (a dependency of openWAR)
-    libxslt1-dev libxml2 libxml2-dev
+    libxml2-dev libxslt-dev
 
 RUN install2.r --error \
 	DiagrammeR \
