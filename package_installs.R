@@ -3,7 +3,6 @@ install_github("hadley/readr")
 install_github("jkrijthe/Rtsne")
 install_github("slowkow/ggrepel")
 install_github("jrnold/ggthemes")
-install_github("beanumber/openWAR")
 install_github("BillPetti/baseballr")
 
 source("http://bioconductor.org/biocLite.R")
