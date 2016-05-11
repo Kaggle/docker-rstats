@@ -31,10 +31,9 @@ RUN cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost &
     Rscript /tmp/package_installs.R
 
     # MXNet
-RUN apt-get update && apt-get install -y g++-4.8 libatlas-base-dev && \
+RUN apt-get update && apt-get install -y libatlas-base-dev && \
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/mxnet && \
-    cd /usr/local/src/mxnet && cp make/config.mk . && sed -i 's/CC = gcc/CC = gcc-4.8/' config.mk && \
-    sed -i 's/CXX = g++/CXX = g++-4.8/' config.mk && \
+    cd /usr/local/src/mxnet && cp make/config.mk . && \
     sed -i 's/ADD_LDFLAGS =/ADD_LDFLAGS = -lstdc++/' config.mk && \
     sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
     make all && make rpkg
