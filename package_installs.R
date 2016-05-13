@@ -4,6 +4,7 @@ install_github("jkrijthe/Rtsne")
 install_github("slowkow/ggrepel")
 install_github("jrnold/ggthemes")
 install_github("BillPetti/baseballr")
+install_github("dahtah/imager")
 
 source("http://bioconductor.org/biocLite.R")
 biocLite("EBImage", ask=FALSE)
