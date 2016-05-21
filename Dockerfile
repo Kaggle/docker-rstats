@@ -1,5 +1,11 @@
 FROM kaggle/rstats0
 
+# package installation using devtools' install_github function
+ADD package_installs.R /tmp/package_installs.R 
+
+RUN Rscript /tmp/package_installs.R
+
+
     # MXNet
 RUN apt-get update && apt-get install -y libatlas-base-dev && \
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/mxnet && \
