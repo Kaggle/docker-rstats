@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y libatlas-base-dev && \
     cd /usr/local/src/mxnet && cp make/config.mk . && \
     sed -i 's/ADD_LDFLAGS =/ADD_LDFLAGS = -lstdc++/' config.mk && \
     sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
-    make all && make rpkg && R CMD INSTALL mxnet_0.5.tar.gz
+    make all && make rpkg && R CMD INSTALL mxnet_*.tar.gz
 
     # IRKernel
 ADD install_iR.R  /tmp/install_iR.R
