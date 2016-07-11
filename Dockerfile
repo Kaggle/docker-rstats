@@ -1,4 +1,4 @@
-FROM kaggle/rstats1
+FROM kaggle/rstats2
 
     # MXNet
 RUN apt-get update && apt-get install -y libatlas-base-dev && \
