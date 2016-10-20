@@ -28,8 +28,9 @@ RUN apt-get update \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
-    Rscript /tmp/package_installs.R && \
-    Rscript /tmp/bioconductor_installs.R && \
+    Rscript /tmp/package_installs.R
+    
+RUN Rscript /tmp/bioconductor_installs.R && \
     # MXNet install deprecated until https://github.com/dmlc/mxnet/issues/2185 is fixed
     #apt-get update && apt-get install -y libatlas-base-dev && \
     #cd /usr/local/src && git clone --recursive https://github.com/dmlc/mxnet && \
