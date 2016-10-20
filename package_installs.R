@@ -7,9 +7,4 @@ install_github("BillPetti/baseballr")
 install_github("dahtah/imager")
 install_github("elbamos/largevis")
 
-source("http://bioconductor.org/biocLite.R")
-biocLite("EBImage", ask=FALSE)
-biocLite("rhdf5", ask=FALSE)
-install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz")
-
 install.packages("genderdata", repos = "http://packages.ropensci.org")
