@@ -16,7 +16,7 @@ rm -rf /tmp/rstats-build
 mkdir -p /tmp/rstats-build/tmp
 mkdir -p /tmp/rstats-build/devshm
 mkdir -p /tmp/rstats-build/working
-docker run --rm -it --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm kaggle/rstats-build /bin/bash -c 'R /input/test_build.R'
+docker run --rm -it --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm kaggle/rstats-build /bin/bash -c 'Rscript /input/test_build.R'
 
 # The test_build.R script creates a plot called plot1.png; check that it exists
 [ -s /tmp/rstats-build/working/plot1.png ] || exit 1
