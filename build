@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+# Default behavior is to do everything from scratch.
+# The --use-cache option is useful if you're iterating on a broken build.
+if [[ "$1" ==  "--use-cache" ]]; then
+    docker build --rm -t kaggle/rstats-build .
+else
+    docker pull kaggle/rcran:latest
+    docker build --rm --no-cache -t kaggle/rstats-build .
+fi
+
+
+
+rm -rf /tmp/rstats-build
+mkdir -p /tmp/rstats-build/tmp
+mkdir -p /tmp/rstats-build/devshm
+mkdir -p /tmp/rstats-build/working
+docker run --rm -it --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm kaggle/rstats-build /bin/bash -c 'R /input/test_build.R'
+
+# The test_build.R script creates a plot called plot1.png; check that it exists
+[ -s /tmp/rstats-build/working/plot1.png ] || exit 1
+
+docker tag kaggle/rstats-build:latest kaggle/rstats:latest
+docker push kaggle/rstats:latest
