@@ -16,7 +16,7 @@ We can merge your request quickly if you check that it builds correctly. Here's 
 
 ### New R libraries
 
-If you want a library that's, say, on GitHub but not yet on CRAN, then you can add it to `package_installs.R`. To check that it will work, you can follow this example, which shows how to add a library called `coolstuff` that's available from GitHub user `nerdcha`.
+If you want a library that's, say, on GitHub but not yet on CRAN, then you can add it to [`package_installs.R`](https://github.com/Kaggle/docker-rstats/blob/master/package_installs.R). To check that it will work, you can follow this example, which shows how to add a library called `coolstuff` that's available from GitHub user `nerdcha`.
 
 ```bash
 me@my-computer:/home$ docker run --rm -it kaggle/rstats
@@ -59,5 +59,5 @@ Downloading GitHub repo nerdcha/coolstuff@master
 >
 ```
 
-If that's all working as expected, then you can add `apt-get install libcool-dev` to the end of the `Dockerfile`, and `install_github("nerdcha/coolstuff")` to `package_installs.R`.
+If that's all working as expected, then you can add `apt-get install libcool-dev` to the end of the [`Dockerfile`](https://github.com/Kaggle/docker-rstats/blob/master/Dockerfile), and `install_github("nerdcha/coolstuff")` to `package_installs.R`.
 
