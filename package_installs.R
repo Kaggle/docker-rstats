@@ -13,3 +13,7 @@ install_github("elbamos/largevis")
 install_github("dgrtwo/widyr")
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
+
+install.packages("openNLPmodels.en",
+                 repos = "http://datacube.wu.ac.at/",
+                 type = "source")
