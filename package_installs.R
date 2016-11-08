@@ -11,6 +11,7 @@ install_github("BillPetti/baseballr")
 install_github("dahtah/imager")
 install_github("elbamos/largevis")
 install_github("dgrtwo/widyr")
+install_github("ellisp/forecastxgb-r-package/pkg")
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
