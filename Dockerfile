@@ -13,7 +13,8 @@ ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R 
 
 RUN apt-get update \
-  && apt-get install -y -f r-cran-rgtk2 libv8-dev libgeos-dev libproj-dev \
+  && (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
+    apt-get install -y -f libv8-dev libgeos-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev && \
     install2.r --error \
