@@ -18,8 +18,9 @@ mkdir -p /tmp/rstats-build/devshm
 mkdir -p /tmp/rstats-build/working
 docker run --rm -t --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm kaggle/rstats-build /bin/bash -c 'Rscript /input/test_build.R'
 
-# The test_build.R script creates a plot called plot1.png; check that it exists
+# The test_build.R script creates plots called plot1.png and Rplot001.png; check that they exist
 [ -s /tmp/rstats-build/working/plot1.png ] || exit 1
+[ -s /tmp/rstats-build/working/Rplot001.png ] || exit 1
 
 docker tag kaggle/rstats-build:latest kaggle/rstats:latest
 docker push kaggle/rstats:latest

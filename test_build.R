@@ -33,4 +33,7 @@ Library("xgboost")
 testPlot <- ggplot(data.frame(x=1:10,y=runif(10))) + aes(x=x,y=y) + geom_line()
 ggsave(testPlot, filename="plot1.png")
 
+# Test that base graphics will save to .png by default
+plot(runif(10))
+
 print("Ok!")
