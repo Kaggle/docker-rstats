@@ -23,7 +23,6 @@ RUN apt-get update \
 	gridSVG \
 	rgeos \
 	rgdal \
-	rARPACK \
 	Amelia \
 	prevR && \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
