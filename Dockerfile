@@ -29,6 +29,11 @@ RUN apt-get update \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
+    # Prereq for installing udunits2 package; see https://github.com/edzer/units
+    cd /usr/local/src && wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.20.tar.gz && \
+    tar zxf udunits-2.2.20.tar.gz && cd udunits-2.2.20 && ./configure && make && make install && \
+    ldconfig && echo 'export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"' >> ~/.bashrc && \
+    export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml" && \
     Rscript /tmp/package_installs.R
     
 RUN Rscript /tmp/bioconductor_installs.R && \
