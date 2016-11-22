@@ -18,3 +18,5 @@ install.packages("genderdata", repos = "http://packages.ropensci.org")
 install.packages("openNLPmodels.en",
                  repos = "http://datacube.wu.ac.at/",
                  type = "source")
+
+install_github("davpinto/fastknn")
