@@ -6,7 +6,7 @@ FROM kaggle/rcran
 #   (I tried a bunch of other things for a long time w/ no success.)
 
 	
-ADD RProfile.R /etc/R/Rprofile.site
+ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R 
