@@ -1,19 +1,16 @@
 FROM kaggle/rcran
 
 # libv8-dev is needed for package DiagrammR, which xgboost needs
-# installing r-cran-rgtk2 to deal w/ error installing R package Rgtk2 ("GTK version 2.8.0 required") which was a dependency
-#   for R package rattle. (Suggested here: http://r.789695.n4.nabble.com/RGtk2-on-Debian-Testing-td3311725.html)
-#   (I tried a bunch of other things for a long time w/ no success.)
 
-	
+
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R 
 ADD package_installs.R /tmp/package_installs.R 
 
-RUN apt-get update \
-  && (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
+
+RUN apt-get update && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev && \
