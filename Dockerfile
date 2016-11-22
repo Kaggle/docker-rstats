@@ -17,7 +17,7 @@ RUN apt-get update \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev && \
-    install2.r --error \
+    install2.r --error --repo http://cran.rstudio.com \
 	DiagrammeR \
 	mefa \
 	gridSVG \
