@@ -20,3 +20,5 @@ install.packages("openNLPmodels.en",
                  type = "source")
 
 install_github("davpinto/fastknn")
+install_github("mukul13/rword2vec")
+
