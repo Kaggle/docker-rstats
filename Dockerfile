@@ -14,6 +14,7 @@ RUN apt-get update && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev && \
+    # data.table added here because rcran missed it, and xgboost needs it
     install2.r --error --repo http://cran.rstudio.com \
 	DiagrammeR \
 	mefa \
@@ -22,7 +23,8 @@ RUN apt-get update && \
 	rgdal \
 	rARPACK \
 	prevR \
-	Amelia && \
+	Amelia \
+	data.table && \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
