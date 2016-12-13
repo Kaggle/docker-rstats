@@ -4,10 +4,10 @@ set -e
 # Default behavior is to do everything from scratch.
 # The --use-cache option is useful if you're iterating on a broken build.
 if [[ "$1" ==  "--use-cache" ]]; then
-    docker build --rm -t kaggle/rstats-build .
+    docker build --rm --cpu-period=100000 --cpu-quota=200000 -t kaggle/rstats-build .
 else
     docker pull kaggle/rcran:latest
-    docker build --rm --no-cache -t kaggle/rstats-build .
+    docker build --rm --no-cache --cpu-period=100000 --cpu-quota=200000 -t kaggle/rstats-build .
 fi
 
 
