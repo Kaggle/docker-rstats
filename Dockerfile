@@ -13,7 +13,7 @@ ADD package_installs.R /tmp/package_installs.R
 RUN apt-get update && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
-    libhdf5-dev libx11-dev && \
+    libhdf5-dev libx11-dev cmake libglu1-mesa-dev && \
     # data.table added here because rcran missed it, and xgboost needs it
     install2.r --error --repo http://cran.rstudio.com \
 	DiagrammeR \
@@ -55,6 +55,16 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
+
+#FSL installation
+RUN wget -O- http://neuro.debian.net/lists/jessie.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
+    apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9 && \
+    apt-get update && \
+    apt-get -y install fsl popularity-contest- && \
+    echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
+    echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
+    echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \ 
+    echo 'export FSLDIR PATH'
 
 CMD ["R"]
 

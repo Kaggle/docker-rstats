@@ -22,3 +22,12 @@ install.packages("openNLPmodels.en",
 install_github("davpinto/fastknn")
 install_github("mukul13/rword2vec")
 
+#Packages for Neurohacking in R coursera course
+install.packages("oro.nifti")
+install.packages("oro.dicom")
+devtools::install_github("muschellij2/fslr")
+devtools::install_github("stnava/ITKR")
+devtools::install_github("stnava/ANTsR")
+devtools::install_github("muschellij2/extrantsr")
+
+
