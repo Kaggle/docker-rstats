@@ -25,8 +25,7 @@ RUN apt-get update && \
 	rARPACK \
 	prevR \
 	Amelia \
-	data.table && \
-	install2.r --error --repo http://cran.rstudio.com rattle && \
+	rattle && \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
