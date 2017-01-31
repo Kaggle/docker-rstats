@@ -48,7 +48,9 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     apt-get install -y libhdf5-dev && \
     apt-get install -y libzmq3-dev && \
     Rscript /tmp/install_iR.R  && \
-    apt-get install -y python-pip python-dev libcurl4-openssl-dev && \
+    cd /usr/local/src && wget https://bootstrap.pypa.io/get-pip.py && \
+    python get-pip.py && \
+    apt-get install -y python-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
     R -e 'IRkernel::installspec()' && \
     yes | pip uninstall pyzmq && pip install --no-use-wheel pyzmq && \
