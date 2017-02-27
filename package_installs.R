@@ -9,7 +9,7 @@ install_github("thomasp85/ggraph")
 install_github("dgrtwo/gganimate")
 install_github("BillPetti/baseballr")
 install_github("dahtah/imager")
-install_github("elbamos/largevis")
+install_github("elbamos/largevis", ref="develop")  # Using development branch for now, see https://github.com/elbamos/largeVis/issues/40
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 
