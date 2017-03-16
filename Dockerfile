@@ -37,7 +37,6 @@ RUN apt-get update && \
     Rscript /tmp/package_installs.R
     
 RUN Rscript /tmp/bioconductor_installs.R && \
-    # MXNet install deprecated until https://github.com/dmlc/mxnet/issues/2185 is fixed
     apt-get update && apt-get install -y libatlas-base-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 https://github.com/dmlc/mxnet && \
     cd /usr/local/src/mxnet && cp make/config.mk . && \
