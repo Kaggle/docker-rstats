@@ -13,6 +13,7 @@ install_github("elbamos/largevis", ref="develop")  # Using development branch fo
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
+install_github("hrbrmstr/hrbrthemes")
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
