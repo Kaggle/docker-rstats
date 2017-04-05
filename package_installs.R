@@ -17,8 +17,6 @@ install_github("hrbrmstr/hrbrthemes")
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
-install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
-
 install.packages("openNLPmodels.en",
                  repos = "http://datacube.wu.ac.at/",
                  type = "source")
@@ -34,4 +32,5 @@ devtools::install_github("stnava/ITKR")
 devtools::install_github("stnava/ANTsR")
 devtools::install_github("muschellij2/extrantsr")
 
+install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
 
