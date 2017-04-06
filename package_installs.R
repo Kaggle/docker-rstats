@@ -14,6 +14,7 @@ install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
 install_github("Microsoft/LightGBM", subdir = "R-package")
+install_github("hrbrmstr/hrbrthemes")
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
