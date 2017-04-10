@@ -30,6 +30,7 @@ install.packages("oro.nifti")
 install.packages("oro.dicom")
 devtools::install_github("muschellij2/fslr")
 devtools::install_github("stnava/ITKR")
+install_github("stnava/ANTsRCore")
 devtools::install_github("stnava/ANTsR")
 devtools::install_github("muschellij2/extrantsr")
 
