@@ -7,4 +7,4 @@ biocLite("limma", ask=FALSE)
 tryCatch({biocValid()}, error=function(e){cat("biocValid ERROR:  :",conditionMessage(e), "\n")})
 
 library(devtools)
-install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz")
+install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz", quiet=TRUE)
