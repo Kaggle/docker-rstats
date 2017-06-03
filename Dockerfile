@@ -6,15 +6,15 @@ FROM kaggle/rcran
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 
 ADD install_iR.R  /tmp/install_iR.R
-ADD bioconductor_installs.R /tmp/bioconductor_installs.R 
-ADD package_installs.R /tmp/package_installs.R 
+ADD bioconductor_installs.R /tmp/bioconductor_installs.R
+ADD package_installs.R /tmp/package_installs.R
 
 
 RUN apt-get update && \
     (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
-    libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev && \
+    libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev postgresql-devel && \
     # data.table added here because rcran missed it, and xgboost needs it
     install2.r --error --repo http://cran.rstudio.com \
 	DiagrammeR \
@@ -35,7 +35,7 @@ RUN apt-get update && \
     ldconfig && echo 'export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"' >> ~/.bashrc && \
     export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml" && \
     Rscript /tmp/package_installs.R
-    
+
 RUN Rscript /tmp/bioconductor_installs.R && \
     apt-get update && apt-get install -y libatlas-base-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 https://github.com/nerdcha/mxnet && \
@@ -65,11 +65,9 @@ RUN wget -O- http://neuro.debian.net/lists/jessie.us-ca.full | tee /etc/apt/sour
     apt-get -y install fsl popularity-contest- && \
     echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
     echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
-    echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \ 
+    echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \
     echo 'export FSLDIR PATH' && \
     # Disambiguate R version for RStudio server
     echo 'rsession-which-r=/usr/local/bin/R' >> /etc/rstudio/rserver.conf
 
 CMD ["R"]
-
-
