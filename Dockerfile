@@ -1,14 +1,11 @@
-FROM kaggle/rcran
+FROM ankurbajaj9/rcran
 
 # libv8-dev is needed for package DiagrammR, which xgboost needs
 
-
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
-
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
-
 
 RUN apt-get update && \
     (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
