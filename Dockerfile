@@ -12,7 +12,7 @@ RUN apt-get update && \
     (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev \
     libtiff5-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
-    libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev postgresql-devel && \
+    libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev libpq-dev && \
     # data.table added here because rcran missed it, and xgboost needs it
     install2.r --error --repo http://cran.rstudio.com \
 	DiagrammeR \
