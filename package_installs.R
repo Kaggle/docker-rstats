@@ -26,13 +26,13 @@ install_github("davpinto/fastknn")
 install_github("mukul13/rword2vec")
 
 #Packages for Neurohacking in R coursera course
-install.packages("oro.nifti")
-install.packages("oro.dicom")
-devtools::install_github("muschellij2/fslr")
-devtools::install_github("stnava/ITKR")
-install_github("stnava/ANTsRCore")
-devtools::install_github("stnava/ANTsR")
-devtools::install_github("muschellij2/extrantsr")
+#install.packages("oro.nifti")
+#install.packages("oro.dicom")
+#devtools::install_github("muschellij2/fslr")
+#devtools::install_github("stnava/ITKR")
+#install_github("stnava/ANTsRCore")
+#devtools::install_github("stnava/ANTsR")
+#devtools::install_github("muschellij2/extrantsr")
 
 install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
 
