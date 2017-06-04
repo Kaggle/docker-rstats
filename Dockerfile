@@ -53,6 +53,7 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     pip install jupyter pycurl && \
     R -e 'IRkernel::installspec()' && \
     yes | pip uninstall pyzmq && pip install --no-use-wheel pyzmq && \
+    cp -r /root/.local/share/jupyter/kernels/ir /usr/local/share/jupyter/kernels && \
 # Make sure Jupyter won't try to "migrate" its junk in a read-only container
     mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
