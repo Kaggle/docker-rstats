@@ -57,15 +57,15 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
 
 #FSL installation
-RUN wget -O- http://neuro.debian.net/lists/jessie.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
-    apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9 && \
-    apt-get update && \
-    apt-get -y install fsl popularity-contest- && \
-    echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
-    echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
-    echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \
-    echo 'export FSLDIR PATH' && \
-    # Disambiguate R version for RStudio server
-    echo 'rsession-which-r=/usr/local/bin/R' >> /etc/rstudio/rserver.conf
+#RUN wget -O- http://neuro.debian.net/lists/jessie.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
+#    apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9 && \
+#    apt-get update && \
+#    apt-get -y install fsl popularity-contest- && \
+#    echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
+#    echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
+#    echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \
+#    echo 'export FSLDIR PATH' && \
+#    # Disambiguate R version for RStudio server
+#    echo 'rsession-which-r=/usr/local/bin/R' >> /etc/rstudio/rserver.conf
 
 CMD ["R"]
