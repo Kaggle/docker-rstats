@@ -60,8 +60,8 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
 
 #FSL installation
-RUN wget -O- http://neuro.debian.net/lists/jessie.us-ca.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
-    apt-key adv --recv-keys --keyserver hkp://pgp.mit.edu:80 0xA5D32F012649A5A9 && \
+RUN wget -O- http://neuro.debian.net/lists/stretch.us-nh.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
+    sudo apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9 && \
     apt-get update && \
     apt-get -y install fsl popularity-contest- && \
     echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
