@@ -67,9 +67,7 @@ RUN wget -O- http://neuro.debian.net/lists/stretch.us-nh.full | tee /etc/apt/sou
     echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
     echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
     echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \
-    echo 'export FSLDIR PATH' && \
-    # Disambiguate R version for RStudio server
-    echo 'rsession-which-r=/usr/local/bin/R' >> /etc/rstudio/rserver.conf
+    echo 'export FSLDIR PATH' 
 
 # Finally, apply any locally defined patches.
 RUN /bin/bash -c \
