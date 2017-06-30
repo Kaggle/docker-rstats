@@ -1,6 +1,7 @@
 library(devtools)
 install_github("hadley/readr")
 install_github("jkrijthe/Rtsne")
+install_github("jennybc/gapminder")
 install_github("slowkow/ggrepel")
 install_github("hadley/ggplot2")    # ggthemes is built against the latest ggplot2
 install_github("jrnold/ggthemes")

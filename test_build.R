@@ -42,7 +42,7 @@ plot(runif(10))
 testPlot2 <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year)) +
   geom_point() +
   scale_x_log10()
-gganimate(testPlot2, "plot2.gif")
+testPlot2Animation <- gganimate(testPlot2, "plot2.gif")
 
 
 print("Ok!")
