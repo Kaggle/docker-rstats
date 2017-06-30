@@ -6,6 +6,8 @@ Library <- function(libname){
 }
 
 Library("Rcpp")
+Library("gapminder")
+Library("gganimate")
 Library("ggplot2")
 Library("stringr")
 Library("plyr")
@@ -30,10 +32,17 @@ Library("tidyr")
 Library("randomForest")
 Library("xgboost")
 
-testPlot <- ggplot(data.frame(x=1:10,y=runif(10))) + aes(x=x,y=y) + geom_line()
-ggsave(testPlot, filename="plot1.png")
+testPlot1 <- ggplot(data.frame(x=1:10,y=runif(10))) + aes(x=x,y=y) + geom_line()
+ggsave(testPlot1, filename="plot1.png")
 
 # Test that base graphics will save to .png by default
 plot(runif(10))
+
+# Test gganimate.
+testPlot2 <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year)) +
+  geom_point() +
+  scale_x_log10()
+gganimate(testPlot2, "plot2.gif")
+
 
 print("Ok!")
