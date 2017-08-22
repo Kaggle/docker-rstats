@@ -38,11 +38,11 @@ RUN apt-get update && \
 
 RUN Rscript /tmp/bioconductor_installs.R && \
     apt-get update && apt-get install -y libatlas-base-dev && \
-    cd /usr/local/src && git clone --recursive --depth=1 https://github.com/dmlc/mxnet && \
-    cd /usr/local/src/mxnet && cp make/config.mk . && \
-    sed -i 's/ADD_LDFLAGS =/ADD_LDFLAGS = -lstdc++/' config.mk && \
-    sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
-    make all && make rpkg && R CMD INSTALL mxnet_*.tar.gz && \
+    #cd /usr/local/src && git clone --recursive --depth=1 https://github.com/dmlc/mxnet && \
+    #cd /usr/local/src/mxnet && cp make/config.mk . && \
+    #sed -i 's/ADD_LDFLAGS =/ADD_LDFLAGS = -lstdc++/' config.mk && \
+    #sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
+    #make all && make rpkg && R CMD INSTALL mxnet_*.tar.gz && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev && \
     apt-get install -y libzmq3-dev && \
