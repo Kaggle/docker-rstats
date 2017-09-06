@@ -37,4 +37,8 @@ devtools::install_github("stnava/ANTsR")
 devtools::install_github("muschellij2/extrantsr")
 
 install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
-
+  
+# An upgrade to BH broke rstan, which in turn broke prophet. https://github.com/stan-dev/rstan/issues/441
+install_version("BH", version="1.62.0-1")
+install.packages("rstan")
+install.packages("prophet")
