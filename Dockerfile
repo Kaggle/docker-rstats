@@ -24,8 +24,9 @@ RUN apt-get update && \
 	rgdal \
 	rARPACK \
 	prevR \
-	Amelia \
-	rattle && \
+	# Rattle installation currently broken by missing "cairoDevice" error
+	# rattle \
+	Amelia && \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
     cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
