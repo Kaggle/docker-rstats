@@ -42,3 +42,8 @@ install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws
 install_version("BH", version="1.62.0-1")
 install.packages("rstan")
 install.packages("prophet")
+
+# These signal processing libraries are on CRAN, but they require apt-get dependences that are
+# handled in this image's Dockerfile.
+install.packages("fftw")
+install.packages("seewave")
