@@ -63,7 +63,7 @@ RUN Rscript /tmp/bioconductor_installs.R && \
 
 #FSL installation
 RUN wget -O- http://neuro.debian.net/lists/stretch.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
-    apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9 && \
+    apt-key adv --recv-keys --keyserver hkp://p80.pool.sks-keyservers.net:80 0xA5D32F012649A5A9 && \
     apt-get update && \
     apt-get -y install fsl popularity-contest- && \
     echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
