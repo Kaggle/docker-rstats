@@ -61,9 +61,6 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
 
-# Tensorflow and Keras
-RUN pip install virtualenv && R -e 'keras::install_keras()'
-
 #FSL installation
 RUN wget -O- http://neuro.debian.net/lists/stretch.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
     apt-key adv --recv-keys --keyserver hkp://p80.pool.sks-keyservers.net:80 0xA5D32F012649A5A9 && \
@@ -73,6 +70,17 @@ RUN wget -O- http://neuro.debian.net/lists/stretch.us-nh.full | tee /etc/apt/sou
     echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
     echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \
     echo 'export FSLDIR PATH' 
+
+# Tensorflow and Keras
+RUN pip install virtualenv && R -e 'keras::install_keras()' 
+# Py3 handles a read-only environment fine, but Py2.7 needs 
+# help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
+ENV PYTHONDONTWRITEBYTECODE=1
+# keras::install_keras puts the new libraries inside a virtualenv called r-tensorflow. Importing the
+# library triggers a reinstall/rebuild unless the reticulate library gets a strong hint about
+# where to find it.
+# https://rstudio.github.io/reticulate/articles/versions.html
+ENV RETICULATE_PYTHON="/root/.virtualenvs/r-tensorflow/bin/python"
 
 # Finally, apply any locally defined patches.
 RUN /bin/bash -c \
