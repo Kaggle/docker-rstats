@@ -5,6 +5,9 @@ Library <- function(libname){
   suppressPackageStartupMessages(library(libname, character.only=TRUE))
 }
 
+Library("keras")
+print("Testing keras-python connection")
+m <- keras_model_sequential()
 Library("Rcpp")
 Library("gapminder")
 Library("gganimate")
