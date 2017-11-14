@@ -11,11 +11,17 @@ else
 fi
 
 
-
+docker rm jupyter_test_r || true
 rm -rf /tmp/rstats-build
 mkdir -p /tmp/rstats-build/tmp
 mkdir -p /tmp/rstats-build/devshm
 mkdir -p /tmp/rstats-build/working
+
+# Check that Jupyter server can run; if it dies on startup, the `docker kill` command will throw an error
+docker run -d --name=jupyter_test_r --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm kaggle/rstats-build jupyter notebook --allow-root --ip="*"
+sleep 3
+docker kill jupyter_test_r && docker rm jupyter_test_r
+
 docker run --rm -t --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm kaggle/rstats-build /bin/bash -c 'Rscript /input/test_build.R'
 
 # Verify expected test_build.R output is present.
