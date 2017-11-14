@@ -46,8 +46,9 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     #sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
     #make all && make rpkg && R CMD INSTALL mxnet_*.tar.gz && \
     # Needed for "h5" library
-    apt-get install -y libhdf5-dev && \
-    apt-get install -y libzmq3-dev && \
+    apt-get install -y libhdf5-dev
+
+RUN apt-get install -y libzmq3-dev && \
     Rscript /tmp/install_iR.R  && \
     cd /usr/local/src && wget https://bootstrap.pypa.io/get-pip.py && \
     python get-pip.py && \
