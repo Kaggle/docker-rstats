@@ -17,6 +17,7 @@ install_github("rstudio/leaflet")
 install_github("Microsoft/LightGBM", subdir = "R-package")
 install_github("hrbrmstr/hrbrthemes")
 install_github('catboost/catboost', subdir = 'catboost/R-package')
+install_github("sassalley/hexmapr")
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
