@@ -19,6 +19,10 @@ install_github("hrbrmstr/hrbrthemes")
 install_github('catboost/catboost', subdir = 'catboost/R-package')
 install_github("sassalley/hexmapr")
 
+# install latest sparklyr and Spark (for local mode)
+install_github("rstudio/sparklyr")
+sparklyr::spark_install()
+
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
 install.packages("openNLPmodels.en",
