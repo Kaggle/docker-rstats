@@ -39,12 +39,11 @@ RUN apt-get update && \
     Rscript /tmp/package_installs.R
 
 RUN Rscript /tmp/bioconductor_installs.R && \
-    apt-get update && apt-get install -y libatlas-base-dev && \
-    #cd /usr/local/src && git clone --recursive --depth=1 https://github.com/dmlc/mxnet && \
-    #cd /usr/local/src/mxnet && cp make/config.mk . && \
-    #sed -i 's/ADD_LDFLAGS =/ADD_LDFLAGS = -lstdc++/' config.mk && \
-    #sed -i 's/USE_OPENCV = 1/USE_OPENCV = 0/' config.mk && \
-    #make all && make rpkg && R CMD INSTALL mxnet_*.tar.gz && \
+    apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
+    cd /usr/local/src && git clone --recursive --depth=1 --branch 0.11.0 https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd mxnet &&  make -j 4 USE_OPENCV=1 USE_BLAS=openblas && \
+    cd R-package && Rscript -e "library(devtools); library(methods); options(repos=c(CRAN='https://cran.rstudio.com')); install_deps(dependencies = TRUE)" && \
+    cd .. && make rpkg && R CMD INSTALL mxnet_current_r.tar.gz && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 
