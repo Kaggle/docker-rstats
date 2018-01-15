@@ -1,13 +1,15 @@
 #!/bin/bash
 set -e
 
+mkdir -p patches
+
 # Default behavior is to do everything from scratch.
 # The --use-cache option is useful if you're iterating on a broken build.
 if [[ "$1" ==  "--use-cache" ]]; then
-    docker build --rm --cpu-period=100000 --cpu-quota=200000 -t kaggle/rstats-build .
+    docker build --rm -t kaggle/rstats-build .
 else
     docker pull kaggle/rcran:latest
-    docker build --rm --no-cache --cpu-period=100000 --cpu-quota=200000 -t kaggle/rstats-build .
+    docker build --rm --no-cache -t kaggle/rstats-build .
 fi
 
 
@@ -27,6 +29,9 @@ docker run --rm -t --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp
 [ -s /tmp/rstats-build/working/plot1.png ] || exit 1
 [ -s /tmp/rstats-build/working/Rplot001.png ] || exit 1
 [ -s /tmp/rstats-build/working/plot2.gif ] || exit 1
+
+docker tag kaggle/rstats-build gcr.io/kaggle-images/rstats
+gcloud docker -- push gcr.io/kaggle-images/rstats
 
 docker tag kaggle/rstats-build:latest kaggle/rstats:latest
 docker push kaggle/rstats:latest
