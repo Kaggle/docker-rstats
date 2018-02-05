@@ -61,16 +61,6 @@ RUN apt-get install -y libzmq3-dev && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
 
-#FSL installation
-RUN wget -O- http://neuro.debian.net/lists/stretch.us-nh.full | tee /etc/apt/sources.list.d/neurodebian.sources.list && \
-    apt-key adv --recv-keys --keyserver hkp://p80.pool.sks-keyservers.net:80 0xA5D32F012649A5A9 && \
-    apt-get update && \
-    apt-get -y install fsl popularity-contest- && \
-    echo 'FSLDIR="/usr/share/fsl/5.0"' >> ~/.bashrc && \
-    echo '. ${FSLDIR}/etc/fslconf/fsl.sh' >> ~/.bashrc  && \
-    echo 'PATH=${FSLDIR}/bin:${PATH}' >> ~/.bashrc && \
-    echo 'export FSLDIR PATH' 
-
 # Tensorflow and Keras
 RUN pip install virtualenv && R -e 'keras::install_keras()' 
 # Py3 handles a read-only environment fine, but Py2.7 needs 
