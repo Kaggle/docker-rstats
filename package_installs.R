@@ -55,3 +55,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+#udpipe is there already but a lot of important functions are missing hence:
+install.packages('udpipe')
