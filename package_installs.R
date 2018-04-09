@@ -21,6 +21,7 @@ install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
 install_github("dselivanov/text2vec")
 install_github("dselivanov/LSHR")
+install_github("sinhrks/ggfortify")
 
 # install latest sparklyr and Spark (for local mode)
 install_github("rstudio/sparklyr")
