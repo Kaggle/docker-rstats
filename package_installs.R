@@ -56,3 +56,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+# Textfeatures
+install.packages("textfeatures")
