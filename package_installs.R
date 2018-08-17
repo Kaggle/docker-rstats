@@ -56,3 +56,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+# ExPanDaR package for Exploratory Panel Data Analysis (code based and interactively)
+install.packages("ExPanDaR")
