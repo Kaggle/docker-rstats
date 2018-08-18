@@ -38,6 +38,7 @@ Library("rstan")
 Library("prophet")
 Library("fftw")
 Library("seewave")
+Library("mxnet")
 
 testPlot1 <- ggplot(data.frame(x=1:10,y=runif(10))) + aes(x=x,y=y) + geom_line()
 ggsave(testPlot1, filename="plot1.png")
@@ -51,5 +52,7 @@ testPlot2 <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = conti
   scale_x_log10()
 testPlot2Animation <- gganimate(testPlot2, "plot2.gif")
 
+# Test MXNet
+mx.nd.ones(c(2,3))
 
 print("Ok!")
