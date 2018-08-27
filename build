@@ -8,6 +8,5 @@ mkdir -p patches
 if [[ "$1" ==  "--use-cache" ]]; then
     docker build --rm -t kaggle/rstats-build .
 else
-    docker pull kaggle/rcran:latest
-    docker build --rm --no-cache -t kaggle/rstats-build .
+    docker build --pull --rm --no-cache -t kaggle/rstats-build .
 fi
