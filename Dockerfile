@@ -40,7 +40,7 @@ RUN apt-get update && \
 
 RUN Rscript /tmp/bioconductor_installs.R && \
     apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
-    cd /usr/local/src && git clone --recursive --depth=1 --branch 1.2.0 https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd /usr/local/src && git clone --recursive --depth=1 --branch 1.3.0.rc0 https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j 4 USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
