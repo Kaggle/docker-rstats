@@ -1,4 +1,4 @@
-FROM kaggle/rcran
+FROM gcr.io/kaggle-images/rcran
 
 # libv8-dev is needed for package DiagrammR, which xgboost needs
 
