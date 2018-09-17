@@ -47,10 +47,11 @@ ggsave(testPlot1, filename="plot1.png")
 plot(runif(10))
 
 # Test gganimate.
-testPlot2 <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year)) +
+testPlot2 <- ggplot(gapminder,
+                    aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year),
+                    transition_states(gear, transition_length = 2, state_length = 1)) +
   geom_point() +
   scale_x_log10()
-testPlot2Animation <- gganimate(testPlot2, "plot2.gif")
 
 # Test MXNet
 mx.nd.ones(c(2,3))
