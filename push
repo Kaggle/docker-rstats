@@ -9,5 +9,5 @@ gcloud docker -- push gcr.io/kaggle-images/rstats:${label}
 
 if [[ "$label" == "latest" ]]; then
 	docker tag kaggle/rstats-build:latest kaggle/rstats:${label}
-	docker push kaggle/rstats::${label}
+	docker push kaggle/rstats:${label}
 fi
