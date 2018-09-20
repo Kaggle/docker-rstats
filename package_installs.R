@@ -14,7 +14,8 @@ install_github("elbamos/largevis", ref="develop")  # Using development branch fo
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
-install_github("Microsoft/LightGBM", subdir = "R-package")
+# Build is failing on master with "Copying CMakeLists failed" error
+install_github("Microsoft/LightGBM@v2.1.2", subdir = "R-package")
 install_github("hrbrmstr/hrbrthemes")
 install_github('catboost/catboost', subdir = 'catboost/R-package')
 install_github("sassalley/hexmapr")
