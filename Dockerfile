@@ -51,6 +51,10 @@ RUN apt-get install -y libzmq3-dev && \
     python get-pip.py && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
+    # to avoid breaking UI change, pin the jupyter notebook package
+    # the latest version also has a regression on the NotebookApp.ip option
+    # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
+    pip install notebook==5.5.0 && \
     R -e 'IRkernel::installspec()' && \
     # Build pyzmq from source instead of using a pre-built binary.
     yes | pip uninstall pyzmq && \
