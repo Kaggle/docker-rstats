@@ -57,3 +57,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+#Updated TSstudio package to version 0.1.2
+install.packages("TSstudio")
