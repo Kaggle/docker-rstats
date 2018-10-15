@@ -57,3 +57,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+# RHRV package do conduct heart rate variability analysis on ECG and PPG datasets
+install.packages("RHRV", dependencies = TRUE)
