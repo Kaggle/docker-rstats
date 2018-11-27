@@ -57,3 +57,9 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+#Tidymodels packages
+install_github("tidymodels/recipes")
+install_github("tidymodels/parsnip")
+install_github("tidymodels/yardstick")
+install_github("tidymodels/textrecipes")
