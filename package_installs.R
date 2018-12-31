@@ -58,8 +58,7 @@ install.packages("prophet")
 install.packages("fftw")
 install.packages("seewave")
 
-#Tidymodels packages
-install_github("tidymodels/recipes")
-install_github("tidymodels/parsnip")
-install_github("tidymodels/yardstick")
-install_github("tidymodels/textrecipes")
+install.packages("recipes")
+install.packages("yardstick")
+install.packages("textrecipes")
+install.packages("MachineShop")
