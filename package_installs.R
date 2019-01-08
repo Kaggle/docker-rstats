@@ -12,7 +12,7 @@ install_github("elbamos/largevis")  # The package was removed from R CRAN: https
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
-install_github('catboost/catboost', subdir = 'catboost/R-package')
+install_github('catboost/catboost@v0.10.2', subdir = 'catboost/R-package') # build is failing against master
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
 install_github("dselivanov/LSHR")
