@@ -1,5 +1,4 @@
 library(devtools)
-install_github("slowkow/ggrepel")
 install_github("hadley/ggplot2")    # ggthemes is built against the latest ggplot2
 install_github("jrnold/ggthemes")
 install_github("thomasp85/ggforce")
