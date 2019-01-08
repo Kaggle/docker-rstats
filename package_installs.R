@@ -1,5 +1,4 @@
 library(devtools)
-install_github("hadley/readr")
 install_github("jkrijthe/Rtsne")
 install_github("jennybc/gapminder")
 install_github("slowkow/ggrepel")
