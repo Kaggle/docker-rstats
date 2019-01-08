@@ -11,7 +11,6 @@ install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
 # Build is failing on master with "Copying CMakeLists failed" error
 install_github("Microsoft/LightGBM@v2.1.2", subdir = "R-package")
-install_github("hrbrmstr/hrbrthemes")
 install_github('catboost/catboost', subdir = 'catboost/R-package')
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
