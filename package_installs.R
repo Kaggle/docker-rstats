@@ -5,7 +5,7 @@ install_github("thomasp85/ggforce")
 install_github("thomasp85/ggraph")
 install_github("thomasp85/gganimate")
 install_github("BillPetti/baseballr")
-install_github("elbamos/largevis", ref="develop")  # Using development branch for now, see https://github.com/elbamos/largeVis/issues/40
+install_github("elbamos/largevis")  # The package was removed from R CRAN: https://cran.r-project.org/web/packages/largeVis/index.html
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
