@@ -15,7 +15,6 @@ install_github("hrbrmstr/hrbrthemes")
 install_github('catboost/catboost', subdir = 'catboost/R-package')
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
-install_github("dselivanov/text2vec")
 install_github("dselivanov/LSHR")
 install_github("sinhrks/ggfortify")
 
