@@ -35,9 +35,8 @@ RUN apt-get update && \
     cd /usr/local/src && wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.24.tar.gz && \
     tar zxf udunits-2.2.24.tar.gz && cd udunits-2.2.24 && ./configure && make && make install && \
     ldconfig && echo 'export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"' >> ~/.bashrc && \
-    export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml" 
-    #&& \
-RUN Rscript /tmp/package_installs.R
+    export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml" && \
+    Rscript /tmp/package_installs.R
 
 RUN Rscript /tmp/bioconductor_installs.R && \
     apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
