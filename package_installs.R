@@ -19,7 +19,7 @@ install_url('https://github.com/catboost/catboost/releases/download/v0.12.1.1/ca
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
 # master is broken, I opened a PR on the package to fix it. Remove the commit hash below once merged.
-# https://github.com/dselivanov/LSHR/pull/14
+# https://github.com/dselivanov/LSHR/pull/15
 install_github("dselivanov/LSHR@f1d5c954393f84a0f9df5f6d96da8432b33d8594")
 
 # install latest sparklyr and Spark (for local mode)
