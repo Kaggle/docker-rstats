@@ -1,4 +1,5 @@
 library(devtools)
+
 # Install the lightGBM installer package
 install_github("Laurae2/lgbdl")
 lgbdl::lgb.dl(compiler = "gcc")
@@ -12,10 +13,14 @@ install_github("elbamos/largevis")  # The package was removed from R CRAN: https
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
-install_github('catboost/catboost@v0.10.2', subdir = 'catboost/R-package') # build is failing against master
+# install_github fails for catboost.
+# Following direct installation instructions instead: https://tech.yandex.com/catboost/doc/dg/installation/r-installation-binary-installation-docpage/
+install_url('https://github.com/catboost/catboost/releases/download/v0.12.1.1/catboost-R-Linux-0.12.1.1.tgz', args = c("--no-multiarch"))
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
-install_github("dselivanov/LSHR")
+# master is broken, I opened a PR on the package to fix it. Remove the commit hash below once merged.
+# https://github.com/dselivanov/LSHR/pull/14
+install_github("dselivanov/LSHR@f1d5c954393f84a0f9df5f6d96da8432b33d8594")
 
 # install latest sparklyr and Spark (for local mode)
 install_github("rstudio/sparklyr")
