@@ -6,6 +6,7 @@ ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD patches/ /tmp/patches/
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
+ADD clean-layer.sh  /tmp/clean-layer.sh
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \
