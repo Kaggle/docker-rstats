@@ -46,11 +46,10 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 
-RUN apt-get install -y libzmq3-dev && \
+RUN apt-get install -y libzmq3-dev python3-pip && \
+    ln -s /usr/bin/pip3 /usr/bin/pip && \
     Rscript /tmp/install_iR.R  && \
-    cd /usr/local/src && wget https://bootstrap.pypa.io/get-pip.py && \
-    python get-pip.py && \
-    apt-get install -y python-dev libcurl4-openssl-dev && \
+    apt-get install -y python3-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
     # to avoid breaking UI change, pin the jupyter notebook package
     # the latest version also has a regression on the NotebookApp.ip option
@@ -68,9 +67,6 @@ RUN apt-get install -y libzmq3-dev && \
 
 # Tensorflow and Keras
 RUN pip install virtualenv && R -e 'keras::install_keras()' 
-# Py3 handles a read-only environment fine, but Py2.7 needs 
-# help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
-ENV PYTHONDONTWRITEBYTECODE=1
 # keras::install_keras puts the new libraries inside a virtualenv called r-tensorflow. Importing the
 # library triggers a reinstall/rebuild unless the reticulate library gets a strong hint about
 # where to find it.
