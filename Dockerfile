@@ -1,16 +1,17 @@
 FROM gcr.io/kaggle-images/rcran
 
-# libv8-dev is needed for package DiagrammR, which xgboost needs
-
-
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
-
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD patches/ /tmp/patches/
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
 
+RUN apt-get update && \
+    apt-get install apt-transport-https && \
+    /tmp/clean-layer.sh
+
+# libv8-dev is needed for package DiagrammR, which xgboost needs
 RUN apt-get update && \
     (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
