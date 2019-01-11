@@ -4,13 +4,16 @@ set -e
 usage() {
 cat << EOF
 Usage: $0 [OPTIONS]
-Build a new Python R image.
+Build a new Docker R image.
 Options:
     -c, --use-cache Use layer cache when building a new image.
+    -g, --gpu       Build an image with GPU support.
 EOF
 }
 
 CACHE_FLAG='--no-cache'
+DOCKERFILE='Dockerfile'
+IMAGE_TAG='kaggle/rstats-build'
 
 while :; do
     case "$1" in 
@@ -20,6 +23,10 @@ while :; do
             ;;
         -c|--use-cache)
             CACHE_FLAG=''
+            ;;
+        -g|--gpu)
+            IMAGE_TAG='kaggle/rstats-gpu-build'
+            DOCKERFILE='gpu.Dockerfile'
             ;;
         -?*)
             usage
@@ -34,6 +41,8 @@ while :; do
 done
 
 readonly CACHE_FLAG
+readonly DOCKERFILE
+readonly IMAGE_TAG
 
 set -x
-docker build --rm --pull $CACHE_FLAG -t kaggle/rstats-build .
+docker build --rm --pull $CACHE_FLAG -t "$IMAGE_TAG" -f "$DOCKERFILE" .
