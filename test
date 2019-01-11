@@ -1,18 +1,80 @@
 #!/bin/bash
 set -e
-set +x
 
+IMAGE_TAG='kaggle/rstats-build'
+IMAGE_TAG_OVERRIDE=''
+ADDITONAL_OPTS=''
+
+usage() {
+cat << EOF
+Usage: $0 [OPTIONS]
+Run tests for a newly-built R Docker image.
+By default, it runs the tests for the CPU image.
+Options:
+    -g, --gpu             Run tests for the GPU image.
+    -i, --image IMAGE     Run tests against the specified image
+EOF
+}
+
+while :; do
+    case "$1" in 
+        -h|--help)
+            usage
+            exit
+            ;;
+        -g|--gpu)
+            IMAGE_TAG='kaggle/rstats-gpu-build'
+            ADDITONAL_OPTS='-v /tmp/empty_dir:/usr/local/cuda/lib64/stubs:ro'
+            ;;
+        -i|--image)
+            if [[ -z $2 ]]; then
+                usage
+                printf 'ERROR: No IMAGE specified after the %s flag.\n' "$1" >&2
+                exit
+            fi
+            IMAGE_TAG_OVERRIDE=$2
+            shift # skip the flag value
+            ;;
+        -?*)
+            usage
+            printf 'ERROR: Unknown option: %s\n' "$1" >&2
+            exit
+            ;;
+        *)            
+            break
+    esac
+
+    shift
+done
+
+if [[ -n "$IMAGE_TAG_OVERRIDE" ]]; then
+    IMAGE_TAG="$IMAGE_TAG_OVERRIDE"
+fi
+
+readonly IMAGE_TAG
+readonly ADDITONAL_OPTS
+
+set -x
 docker rm jupyter_test_r || true
 rm -rf /tmp/rstats-build
 mkdir -p /tmp/rstats-build/tmp
+mkdir -p /tmp/rstats-build/devshm
 mkdir -p /tmp/rstats-build/working
 
 # Check that Jupyter server can run; if it dies on startup, the `docker kill` command will throw an error
-docker run -d --name=jupyter_test_r --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp --ipc=host kaggle/rstats-build jupyter notebook --allow-root --ip="*"
+docker run -d --name=jupyter_test_r --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/python-build/devshm:/dev/shm "$IMAGE_TAG" jupyter notebook --allow-root --ip="*"
 sleep 3
 docker kill jupyter_test_r && docker rm jupyter_test_r
 
-docker run --rm -t --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp --ipc=host kaggle/rstats-build /bin/bash -c 'Rscript /input/test_build.R'
+# TODO(rosbo): Add GPU specific tests
+docker run --rm -t --read-only --net=none \
+    -e HOME=/tmp \
+    -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
+    -v /tmp/rstats-build/tmp:/tmp -v /tmp/python-build/devshm:/dev/shm \
+    -w=/working \
+    $ADDITONAL_OPTS \
+    "$IMAGE_TAG" \
+    /bin/bash -c 'Rscript /input/test_build.R'
 
 # Verify expected test_build.R output is present.
 [ -s /tmp/rstats-build/working/plot1.png ] || exit 1
