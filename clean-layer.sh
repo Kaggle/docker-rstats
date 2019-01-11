@@ -18,5 +18,3 @@ apt-get autoremove -y
 apt-get clean
 # Delete source files used for building binaries
 rm -rf /usr/local/src/*
-# Delete conda downloaded tarballs
-conda clean -y --tarballs
