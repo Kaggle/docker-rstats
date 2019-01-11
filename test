@@ -62,7 +62,12 @@ mkdir -p /tmp/rstats-build/devshm
 mkdir -p /tmp/rstats-build/working
 
 # Check that Jupyter server can run; if it dies on startup, the `docker kill` command will throw an error
-docker run -d --name=jupyter_test_r --read-only --net=none -e HOME=/tmp -v $PWD:/input:ro -v /tmp/rstats-build/working:/working -w=/working -v /tmp/rstats-build/tmp:/tmp -v /tmp/python-build/devshm:/dev/shm "$IMAGE_TAG" jupyter notebook --allow-root --ip="*"
+docker run -d --name=jupyter_test_r --read-only --net=none \
+    -e HOME=/tmp \
+    -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
+    -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
+    -w=/working \
+    "$IMAGE_TAG" jupyter notebook --allow-root --ip="*"
 sleep 3
 docker kill jupyter_test_r && docker rm jupyter_test_r
 
@@ -70,7 +75,7 @@ docker kill jupyter_test_r && docker rm jupyter_test_r
 docker run --rm -t --read-only --net=none \
     -e HOME=/tmp \
     -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
-    -v /tmp/rstats-build/tmp:/tmp -v /tmp/python-build/devshm:/dev/shm \
+    -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
     -w=/working \
     $ADDITONAL_OPTS \
     "$IMAGE_TAG" \
