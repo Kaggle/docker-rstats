@@ -45,8 +45,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install tensorflow with GPU support
 COPY --from=tensorflow_whl /tmp/tensorflow_gpu/*.whl /tmp/tensorflow_gpu/
 RUN pip install --upgrade pip && \
-    pip uninstall -y tensorflow && \
-    pip install /tmp/tensorflow_gpu/tensorflow*.whl && \
+    R -e 'keras::install_keras(tensorflow = "'$(ls /tmp/tensorflow_gpu/tensorflow*.whl)'")' && \
     rm -rf /tmp/tensorflow_gpu && \
     /tmp/clean-layer.sh
 
