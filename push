@@ -1,13 +1,53 @@
 #!/bin/bash
 set -e
+
+usage() {
+cat << EOF
+Usage: $0 [OPTIONS] [LABEL]
+Push a newly-built image with the given LABEL to gcr.io and DockerHub.
+Options:
+    -g, --gpu   Push the image with GPU support.
+EOF
+}
+
+SOURCE_IMAGE='kaggle/rstats-build'
+TARGET_IMAGE='gcr.io/kaggle-images/rstats'
+
+while :; do
+    case "$1" in 
+        -h|--help)
+            usage
+            exit
+            ;;
+        -g|--gpu)
+            SOURCE_IMAGE='kaggle/rstats-gpu-build'
+            TARGET_IMAGE='gcr.io/kaggle-private-byod/rstats'
+            ;;
+        -?*)
+            usage
+            printf 'ERROR: Unknown option: %s\n' "$1" >&2
+            exit
+            ;;
+        *)            
+            break
+    esac
+
+    shift
+done
+
+LABEL=${1:-testing}
+
+readonly SOURCE_IMAGE
+readonly TARGET_IMAGE
+readonly LABEL
+
 set -x
 
-label=${1:-testing}
+docker tag "${SOURCE_IMAGE}:latest" "${TARGET_IMAGE}:${LABEL}"
+gcloud docker -- push "${TARGET_IMAGE}:${LABEL}"
 
-docker tag kaggle/rstats-build:latest gcr.io/kaggle-images/rstats:${label}
-gcloud docker -- push gcr.io/kaggle-images/rstats:${label}
-
-if [[ "$label" == "latest" ]]; then
-	docker tag kaggle/rstats-build:latest kaggle/rstats:${label}
-	docker push kaggle/rstats:${label}
+# Only CPU images are pushed to DockerHub at this time.
+if [[ "$LABEL" == "latest" && SOURCE_IMAGE = "kaggle/rstats-build" ]]; then
+  docker tag "${SOURCE_IMAGE}:latest" "kaggle/rstats:${LABEL}"
+  docker push "kaggle/rstats:${LABEL}"
 fi
