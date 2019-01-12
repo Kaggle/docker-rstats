@@ -19,6 +19,7 @@ install_url('https://github.com/catboost/catboost/releases/download/v0.12.1.1/ca
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
 install_github("dselivanov/LSHR")
+install_github("cran/FactoRizationMachines")
 
 # install latest sparklyr and Spark (for local mode)
 install_github("rstudio/sparklyr")
