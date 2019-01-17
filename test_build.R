@@ -46,6 +46,7 @@ Library("lightgbm")
 Library("fslr")
 Library("imager")
 Library("hrbrthemes")
+Library("tesseract")
 
 testPlot1 <- ggplot(data.frame(x=1:10,y=runif(10))) + aes(x=x,y=y) + geom_line()
 ggsave(testPlot1, filename="plot1.png")
