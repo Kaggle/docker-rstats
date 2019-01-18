@@ -42,21 +42,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     /tmp/clean-layer.sh
 
 # Install tensorflow with GPU support
-RUN pip install tensorflow-gpu
-
-# Install tensorflow with GPU support
-RUN R -e 'keras::install_keras(tensorflow = "'$(ls /tmp/tensorflow_gpu/tensorflow*.whl)'")' && \
+RUN R -e 'keras::install_keras(tensorflow = "gpu")' && \
     rm -rf /tmp/tensorflow_gpu && \
     /tmp/clean-layer.sh
+
+# OpenCL for bayesCL, gpuR, ...
+RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
+    mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # Install GPU specific packages
 RUN CPATH=/usr/local/cuda-9.2/targets/x86_64-linux/include install2.r --error --repo http://cran.rstudio.com \
     kmcudaR \
     h2o4gpu \
     bayesCL
-
-RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
-    mkdir -p /etc/OpenCL/vendors && \
-    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 RUN R -e 'install.packages("gpuR", INSTALL_opts=c("--no-test-load"))'
