@@ -47,7 +47,7 @@ RUN Rscript /tmp/bioconductor_installs.R && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 
-RUN apt-get install -y libzmq3-dev python-pip && \
+RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     Rscript /tmp/install_iR.R  && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
