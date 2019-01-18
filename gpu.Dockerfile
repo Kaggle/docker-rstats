@@ -41,50 +41,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
-# Install bazel
-# Tensorflow requires the Bazel 0.15: https://www.tensorflow.org/install/source
-ENV BAZEL_VERSION=0.15.0
-RUN apt-get update && apt-get install -y gnupg zip && \
-    echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list && \
-    echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys --no-tty EEA14886 C857C906 2B90D010 && \
-    apt-get update && \
-    echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-    echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections && \
-    apt-get install -y oracle-java8-installer && \
-    apt-get install -y --no-install-recommends \
-      bash-completion \
-      zlib1g-dev && \
-    # Install Bazel with apt-get once this issue is resolved: https://github.com/bazelbuild/continuous-integration/issues/128
-    wget --no-verbose "https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel_${BAZEL_VERSION}-linux-x86_64.deb" && \
-    dpkg -i bazel_*.deb && \
-    rm bazel_*.deb
-
-# Build Tensorflow
-ENV TF_NEED_CUDA=1
-ENV TF_CUDA_VERSION=9.2
-ENV TF_CUDA_COMPUTE_CAPABILITIES=3.7,6.0
-ENV TF_CUDNN_VERSION=7
-ENV TF_NCCL_VERSION=2
-ENV NCCL_INSTALL_PATH=/usr/
-ENV KERAS_BACKEND="tensorflow"
-
-RUN cd /usr/local/src && \
-    git clone https://github.com/tensorflow/tensorflow && \
-    cd tensorflow && \
-    git checkout r1.12 && \
-    cd /usr/local/src/tensorflow && \
-    ln -s /usr/lib/x86_64-linux-gnu/libnccl.so.2 /usr/lib/ && \
-    cat /dev/null | ./configure && \
-    echo "/usr/local/cuda-${TF_CUDA_VERSION}/targets/x86_64-linux/lib/stubs" > /etc/ld.so.conf.d/cuda-stubs.conf && ldconfig && \
-    bazel build --config=opt \
-                --config=cuda \
-                --cxxopt="-D_GLIBCXX_USE_CXX11_ABI=0" \
-                //tensorflow/tools/pip_package:build_pip_package && \
-    rm /etc/ld.so.conf.d/cuda-stubs.conf && ldconfig && \
-    bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_gpu && \
-    bazel clean && \
-    /tmp/clean-layer.sh
+# Install tensorflow with GPU support
+RUN pip install tensorflow-gpu
 
 # Install tensorflow with GPU support
 RUN R -e 'keras::install_keras(tensorflow = "'$(ls /tmp/tensorflow_gpu/tensorflow*.whl)'")' && \
