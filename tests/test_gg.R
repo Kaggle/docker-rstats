@@ -1,15 +1,16 @@
 context("gg* packages")
 
 test_that("gganimate", {
-  library("gganimate")
-  library("gapminder")
-  testPlot2 <- ggplot(gapminder,
-                    aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year),
-                    transition_states(gear, transition_length = 2, state_length = 1)) +
-  geom_point() +
-  scale_x_log10()
-
-  expect_true(TRUE)
+  expect_error({
+    library("gganimate")
+    library("gapminder")
+    
+    testPlot2 <- ggplot(gapminder,
+                      aes(gdpPercap, lifeExp, size = pop, color = continent, frame = year),
+                      transition_states(gear, transition_length = 2, state_length = 1)) +
+    geom_point() +
+    scale_x_log10()
+  }, NA) # expect no error to be thrown
 })
 
 test_that("ggplot", {
