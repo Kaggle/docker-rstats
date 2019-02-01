@@ -4,6 +4,7 @@ set -e
 IMAGE_TAG='kaggle/rstats-build'
 IMAGE_TAG_OVERRIDE=''
 ADDITONAL_OPTS=''
+TEST_FILE=''
 
 usage() {
 cat << EOF
@@ -11,8 +12,9 @@ Usage: $0 [OPTIONS]
 Run tests for a newly-built R Docker image.
 By default, it runs the tests for the CPU image.
 Options:
-    -g, --gpu             Run tests for the GPU image.
-    -i, --image IMAGE     Run tests against the specified image
+    -g, --gpu               Run tests for the GPU image.
+    -i, --image IMAGE       Run tests against the specified image
+    -t, --test_file FILENAME Run all tests for the specified file (e.g. test_keras.R)
 EOF
 }
 
@@ -35,6 +37,15 @@ while :; do
             IMAGE_TAG_OVERRIDE=$2
             shift # skip the flag value
             ;;
+        -t|--test_file)
+            if [[ -z $2 ]]; then
+                usage
+                printf 'ERROR: No FILENAME specified after the %s flag.\n' "$1" >&2
+                exit
+            fi
+            TEST_FILE=$2
+            shift # skip the flag value
+            ;;
         -?*)
             usage
             printf 'ERROR: Unknown option: %s\n' "$1" >&2
@@ -53,6 +64,7 @@ fi
 
 readonly IMAGE_TAG
 readonly ADDITONAL_OPTS
+readonly TEST_FILE
 
 set -x
 docker rm jupyter_test_r || true
@@ -78,4 +90,4 @@ docker run --rm -t --read-only --net=none \
     -w=/working \
     $ADDITONAL_OPTS \
     "$IMAGE_TAG" \
-    /bin/bash -c 'Rscript /input/testthat.R'
+    /bin/bash -c "/input/testthat.R $TEST_FILE"
