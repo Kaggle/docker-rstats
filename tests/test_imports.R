@@ -9,9 +9,6 @@ Library <- function(libname){
 # and prevent future regression.
 test_that("imports", {
   import_pkgs <- function() {
-    Library("keras")
-    print("Testing keras-python connection")
-    m <- keras_model_sequential()
     Library("Rcpp")
     Library("ggrepel")
     Library("ggforce")
