@@ -48,3 +48,5 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+#Package for Survival random forest
+install.packages("randomForestSRC")
