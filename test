@@ -83,7 +83,7 @@ docker run -d --name=jupyter_test_r --read-only --net=none \
 sleep 3
 docker kill jupyter_test_r && docker rm jupyter_test_r
 
-docker run --rm -t --read-only --net=none \
+docker run --rm -t --net=none \
     -e HOME=/tmp \
     -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
     -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
