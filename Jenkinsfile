@@ -20,7 +20,6 @@ pipeline {
   stages {
     stage('Docker CPU Build') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} docker build>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
 
@@ -31,7 +30,6 @@ pipeline {
 
     stage('Push CPU Pretest Image') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} pushing pretest image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
           date
@@ -42,7 +40,6 @@ pipeline {
 
     stage('Test CPU Image') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} test image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
 
@@ -54,7 +51,6 @@ pipeline {
 
     stage('Push CPU Image') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} pushing image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
 
@@ -67,7 +63,6 @@ pipeline {
     stage('Docker GPU Build') {
       agent { label 'ephemeral-linux-gpu' }
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} docker build>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
           docker image prune -f # remove previously built image to prevent disk from filling up
@@ -79,7 +74,6 @@ pipeline {
     stage('Push GPU Pretest Image') {
       agent { label 'ephemeral-linux-gpu' }
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} pushing pretest image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
           date
@@ -91,7 +85,6 @@ pipeline {
     stage('Test GPU Image') {
       agent { label 'ephemeral-linux-gpu' }
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} test image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
           date
@@ -103,7 +96,6 @@ pipeline {
     stage('Push GPU Image') {
       agent { label 'ephemeral-linux-gpu' }
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} pushing image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
           date
