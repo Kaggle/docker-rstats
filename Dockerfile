@@ -4,7 +4,6 @@ ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
-ADD patches/ /tmp/patches/
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
@@ -77,6 +76,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV RETICULATE_PYTHON="/root/.virtualenvs/r-tensorflow/bin/python"
 
 # Finally, apply any locally defined patches.
+ADD patches/ /tmp/patches/
 RUN /bin/bash -c \
     "cd / && for p in $(ls /tmp/patches/*.patch); do echo '= Applying patch '\${p}; patch -p2 < \${p}; done"
 
