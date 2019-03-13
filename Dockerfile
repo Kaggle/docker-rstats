@@ -1,10 +1,5 @@
 FROM gcr.io/kaggle-images/rcran
 
-ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
-ADD install_iR.R  /tmp/install_iR.R
-ADD bioconductor_installs.R /tmp/bioconductor_installs.R
-ADD package_installs.R /tmp/package_installs.R
-ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
 RUN apt-get update && \
@@ -36,18 +31,15 @@ RUN apt-get update && \
     cd /usr/local/src && wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.24.tar.gz && \
     tar zxf udunits-2.2.24.tar.gz && cd udunits-2.2.24 && ./configure && make && make install && \
     ldconfig && echo 'export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"' >> ~/.bashrc && \
-    export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml" && \
-    Rscript /tmp/package_installs.R
+    export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"
 
-RUN Rscript /tmp/bioconductor_installs.R && \
-    apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
+RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j 4 USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
-    Rscript /tmp/install_iR.R  && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
     # to avoid breaking UI change, pin the jupyter notebook package
@@ -66,6 +58,20 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
 
 # Tensorflow and Keras
 RUN pip install virtualenv && R -e 'keras::install_keras()' 
+
+# Install kaggle libraries.
+# Do this at the end to avoid rebuilding everything when any change is made.
+ADD kaggle/ /kaggle/
+# RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
+ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
+ADD install_iR.R  /tmp/install_iR.R
+ADD bioconductor_installs.R /tmp/bioconductor_installs.R
+ADD package_installs.R /tmp/package_installs.R
+ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
+RUN Rscript /tmp/package_installs.R && \
+    Rscript /tmp/bioconductor_installs.R && \
+    Rscript /tmp/install_iR.R  && \
+
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -74,10 +80,5 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # where to find it.
 # https://rstudio.github.io/reticulate/articles/versions.html
 ENV RETICULATE_PYTHON="/root/.virtualenvs/r-tensorflow/bin/python"
-
-# Finally, apply any locally defined patches.
-ADD patches/ /tmp/patches/
-RUN /bin/bash -c \
-    "cd / && for p in $(ls /tmp/patches/*.patch); do echo '= Applying patch '\${p}; patch -p2 < \${p}; done"
 
 CMD ["R"]
