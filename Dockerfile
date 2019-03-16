@@ -57,20 +57,22 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
 
 # Tensorflow and Keras
-RUN pip install virtualenv && R -e 'keras::install_keras()' 
+ENV WORKON_HOME=/usr/local/share/.virtualenvs
+RUN pip install --user virtualenv && R -e 'keras::install_keras()'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
 ADD kaggle/ /kaggle/
 # RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
+ENV R_HOME=/usr/local/lib/R
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
-RUN Rscript /tmp/package_installs.R && \
-    Rscript /tmp/bioconductor_installs.R && \
-    Rscript /tmp/install_iR.R  && \
+RUN Rscript /tmp/package_installs.R
+RUN Rscript /tmp/bioconductor_installs.R
+RUN Rscript /tmp/install_iR.R
 
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
@@ -79,6 +81,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # library triggers a reinstall/rebuild unless the reticulate library gets a strong hint about
 # where to find it.
 # https://rstudio.github.io/reticulate/articles/versions.html
-ENV RETICULATE_PYTHON="/root/.virtualenvs/r-tensorflow/bin/python"
+ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-tensorflow/bin/python"
 
 CMD ["R"]

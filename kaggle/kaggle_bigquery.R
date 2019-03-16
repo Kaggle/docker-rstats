@@ -6,6 +6,7 @@
 #
 # library(bigrquery)
 # set_access_cred(TokenBigQueryKernel$new())
+#
 # project <- "yes-theory-1" # put your project ID here
 # sql <- "SELECT year, month, day, weight_pounds FROM [publicdata:samples.natality] LIMIT 5"
 # query_exec(sql, project = project)
@@ -18,17 +19,17 @@ library(httr)
 TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, list(
   params = list(as_header = TRUE),
   initialize = function() {
-    if (KAGGLE_USER_SECRETS_TOKEN == '') {
-      stop("KAGGLE_USER_SECRETS_TOKEN", call. = FALSE)
-    }
   },
   can_refresh = function() {
     TRUE
   },
   refresh = function() {
+    if (KAGGLE_USER_SECRETS_TOKEN == '') {
+      stop("Expected KAGGLE_USER_SECRETS_TOKEN environment variable to be present.", call. = FALSE)
+    }
     request_body <- list(JWE = KAGGLE_USER_SECRETS_TOKEN, Target = 1)
     response <- POST(paste0(KAGGLE_BASE_URL, GET_USER_SECRET_ENDPONT), body = request_body, encode = "json")
-    if (http_error(response) || !identical(content(response)$wasSuccessful, "true")) {
+    if (http_error(response) || !identical(content(response)$wasSuccessful, TRUE)) {
       err <- paste("Unable to refresh token. Please ensure you have a connected BigQuery account. Error: ",
                         paste(content(response, "text", encoding = 'utf-8')))
       stop(err, call. = FALSE)
@@ -41,3 +42,6 @@ TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, li
   cache = function(path) self,
   load_from_cache = function() self
 ))
+
+library(bigrquery)
+set_access_cred(TokenBigQueryKernel$new())

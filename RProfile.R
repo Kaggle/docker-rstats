@@ -6,8 +6,8 @@ options(device = function() png(width = 900))
 # WART: this appears dangerous and is likely the source of
 #       future tough-to-debug bugs
 #  (removing this for now as it caused issues with the gbm package)
-# env <- as.environment('package:base') 
-# unlockBinding('library', env) 
+# env <- as.environment('package:base')
+# unlockBinding('library', env)
 # library.warn <- library
 # utils::assignInNamespace('library', function(
 #   package, help, pos = 2, lib.loc = NULL, character.only = FALSE,
@@ -21,9 +21,11 @@ options(device = function() png(width = 900))
 #     package, help, pos, lib.loc, character.only = TRUE,
 #     logical.return, warn.conflicts, quietly, verbose))
 # }, ns="base")
-# lockBinding('library', env) 
+# lockBinding('library', env)
 
 # Needed to make plots in rendered iR notebooks display correctly
 options(jupyter.plot_mimetypes = "image/png")
 
 source("/kaggle/kaggle_bigquery.R")
+# Ensure the file ends in a newline
+# https://yihui.name/en/2018/04/rprofile-trailing-newline/.
