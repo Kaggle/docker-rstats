@@ -4,9 +4,6 @@
 #
 # Sample user code:
 #
-# library(bigrquery)
-# set_access_cred(TokenBigQueryKernel$new())
-#
 # project <- "yes-theory-1" # put your project ID here
 # sql <- "SELECT year, month, day, weight_pounds FROM [publicdata:samples.natality] LIMIT 5"
 # query_exec(sql, project = project)
@@ -15,6 +12,8 @@ KAGGLE_USER_SECRETS_TOKEN <- Sys.getenv("KAGGLE_USER_SECRETS_TOKEN")
 KAGGLE_BASE_URL <- Sys.getenv("KAGGLE_BASE_URL")
 GET_USER_SECRET_ENDPONT = "/requests/GetUserSecretRequest"
 
+# We create a Token2.0 Credential object (from httr library) and use bigrquery's set_access_cred
+# to override the interactive authentication (https://github.com/r-dbi/bigrquery/blob/master/R/auth.R).
 library(httr)
 TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, list(
   params = list(as_header = TRUE),
