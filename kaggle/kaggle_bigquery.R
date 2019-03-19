@@ -9,7 +9,7 @@
 # query_exec(sql, project = project)
 
 KAGGLE_USER_SECRETS_TOKEN <- Sys.getenv("KAGGLE_USER_SECRETS_TOKEN")
-KAGGLE_BASE_URL <- Sys.getenv("KAGGLE_BASE_URL")
+KAGGLE_BASE_URL <- Sys.getenv("KAGGLE_URL_BASE")
 GET_USER_SECRET_ENDPONT = "/requests/GetUserSecretRequest"
 
 # We create a Token2.0 Credential object (from httr library) and use bigrquery's set_access_cred
