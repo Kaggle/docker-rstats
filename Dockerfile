@@ -1,4 +1,5 @@
 FROM gcr.io/kaggle-images/rcran
+ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
@@ -11,22 +12,18 @@ RUN apt-get update && \
     (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
-    libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev patch && \
+    libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
+    patch && \
     # data.table added here because rcran missed it, and xgboost needs it
-    install2.r --error --repo http://cran.rstudio.com \
-	DiagrammeR \
-	mefa \
-	gridSVG \
-	rgeos \
-	rgdal \
-	rARPACK \
-	prevR \
-	# Rattle installation currently broken by missing "cairoDevice" error
-	# rattle \
-	Amelia && \
+    # `ncpus` matches the number of CPU offered by the biggest machine available on GCB.
+    install2.r --error --deps TRUE --ncpus $ncpus --repo http://cran.rstudio.com \
+    DiagrammeR mefa gridSVG lattice rgeos rgdal rARPACK prevR foreign nnet rpart \
+    class imager Cairo Amelia && \
+    # Rattle installation currently broken by missing "cairoDevice" error
+    # rattle \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
     cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
-    cd xgboost && make Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
+    cd xgboost && make -j $ncpus Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
     # Prereq for installing udunits2 package; see https://github.com/edzer/units
     cd /usr/local/src && wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.24.tar.gz && \
     tar zxf udunits-2.2.24.tar.gz && cd udunits-2.2.24 && ./configure && make && make install && \
@@ -35,7 +32,7 @@ RUN apt-get update && \
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j 4 USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+    cd mxnet && make -j $ncpus USE_OPENCV=1 USE_BLAS=openblas && make -j $ncpus rpkg && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 

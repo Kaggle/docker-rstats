@@ -10,6 +10,7 @@ steps:
   - --rm
   - --no-cache
   - --file=Dockerfile
+  - --build-arg=ncpus=32
   - --tag=gcr.io/$PROJECT_ID/rstats-build:ci-pretest
   - --tag=gcr.io/$PROJECT_ID/rcran-build:staging
   - --tag=gcr.io/kaggle-images/rstats
