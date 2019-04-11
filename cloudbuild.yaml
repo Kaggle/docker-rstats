@@ -13,7 +13,7 @@ steps:
   - --build-arg=ncpus=32
   - --tag=gcr.io/$PROJECT_ID/rstats-build:ci-pretest
   - --tag=gcr.io/$PROJECT_ID/rcran-build:staging
-  - --tag=gcr.io/kaggle-images/rstats
+  - --tag=gcr.io/kaggle-images/rstats:staging
   - .
 
 - id: 'intermediate-push'
@@ -32,42 +32,9 @@ steps:
   - |
     ./test
 
-
-# GPU
-
-# - id: 'build-gpu'
-#   waitFor: ['-']
-#   name: 'gcr.io/cloud-builders/docker'
-#   args:
-#   - build
-#   - --rm
-#   - --no-cache
-#   - --file=gpu.Dockerfile
-#   - --tag=gcr.io/$PROJECT_ID/rstats-gpu-build:ci-pretest
-#   - --tag=gcr.io/kaggle-private-byod/rstats
-#   - .
-
-# - id: 'intermediate-push-gpu'
-#   waitFor: ['build-gpu']
-#   name: 'gcr.io/cloud-builders/docker'
-#   args:
-#   - push
-#   - gcr.io/$PROJECT_ID/rstats-gpu-build:ci-pretest
-
-# - id: 'test-gpu'
-#   waitFor: ['build-gpu']
-#   name: 'gcr.io/cloud-builders/docker'
-#   entrypoint: 'bash'
-#   args:
-#   - '-c'
-#   - |
-#     ./test --gpu
-
-# images:
-#   - gcr.io/$PROJECT_ID/rcran-build:staging
-#   - gcr.io/$PROJECT_ID/rstats-gpu-build:staging
-#   - gcr.io/kaggle-images/rstats
-#   - gcr.io/kaggle-private-byod/rstats
+images:
+  - gcr.io/$PROJECT_ID/rcran-build:staging
+  - gcr.io/kaggle-images/rstats:staging
 
 options:
   machineType: 'N1_HIGHCPU_32'

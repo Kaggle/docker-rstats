@@ -18,7 +18,7 @@ RUN apt-get update && \
     # `ncpus` matches the number of CPU offered by the biggest machine available on GCB.
     install2.r --error --deps TRUE --ncpus $ncpus --repo http://cran.rstudio.com \
     DiagrammeR mefa gridSVG lattice rgeos rgdal rARPACK prevR foreign nnet rpart \
-    class imager Cairo Amelia && \
+    class imager Amelia && \
     # Rattle installation currently broken by missing "cairoDevice" error
     # rattle \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
@@ -32,7 +32,7 @@ RUN apt-get update && \
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j $ncpus USE_OPENCV=1 USE_BLAS=openblas && make -j $ncpus rpkg && \
+    cd mxnet && make USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 
