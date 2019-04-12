@@ -17,7 +17,7 @@ RUN apt-get update && \
     # data.table added here because rcran missed it, and xgboost needs it
     # `ncpus` matches the number of CPU offered by the biggest machine available on GCB.
     install2.r --error --deps TRUE --ncpus $ncpus --repo http://cran.rstudio.com \
-    DiagrammeR mefa gridSVG lattice rgeos rgdal rARPACK prevR foreign nnet rpart \
+    DiagrammeR mefa gridSVG lattice rgeos rgdal rARPACK foreign prevR nnet rpart \
     class imager Amelia && \
     # Rattle installation currently broken by missing "cairoDevice" error
     # rattle \

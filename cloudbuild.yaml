@@ -12,7 +12,6 @@ steps:
   - --file=Dockerfile
   - --build-arg=ncpus=32
   - --tag=gcr.io/$PROJECT_ID/rstats-build:ci-pretest
-  - --tag=gcr.io/$PROJECT_ID/rcran-build:staging
   - --tag=gcr.io/kaggle-images/rstats:staging
   - .
 
@@ -21,19 +20,18 @@ steps:
   name: 'gcr.io/cloud-builders/docker'
   args:
   - push
-  - gcr.io/$PROJECT_ID/rcran-build:ci-pretest
+  - gcr.io/$PROJECT_ID/rstats-build:ci-pretest
 
 - id: 'test'
-  waitFor: ['build']
+  waitFor: ['intermediate-push']
   name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args:
   - '-c'
   - |
-    ./test
+    ./test -i gcr.io/kaggle-images/rstats:staging
 
 images:
-  - gcr.io/$PROJECT_ID/rcran-build:staging
   - gcr.io/kaggle-images/rstats:staging
 
 options:
