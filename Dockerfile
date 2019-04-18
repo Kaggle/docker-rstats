@@ -60,7 +60,7 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
 # Keras sets up a virtualenv and installs tensorflow
 # in the WORKON_HOME directory, so choose an explicit location for it.
 ENV WORKON_HOME=/usr/local/share/.virtualenvs
-RUN pip install --user virtualenv && R -e 'keras::install_keras()'
+RUN pip install --user virtualenv && R -e 'keras::install_keras(extra_packages = "tensorflow-probability")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.

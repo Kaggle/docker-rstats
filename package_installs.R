@@ -48,3 +48,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+# Install greta development version (stable version requires older version of tensorflow)
+install.packages("greta-dev/greta")
