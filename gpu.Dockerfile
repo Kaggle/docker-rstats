@@ -1,4 +1,4 @@
-FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 AS nvidia
+FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu16.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:staging
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
@@ -10,9 +10,9 @@ COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
 # Ensure the cuda libraries are compatible with the custom Tensorflow wheels.
 # TODO(b/120050292): Use templating to keep in sync or COPY installed binaries from it.
-ENV CUDA_VERSION=9.0.176
-ENV CUDA_PKG_VERSION=9-0=$CUDA_VERSION-1
-ENV CUDNN_VERSION=7.4.1.5
+ENV CUDA_VERSION=10.0.130
+ENV CUDA_PKG_VERSION=10-0=$CUDA_VERSION-1
+ENV CUDNN_VERSION=7.4.2.24
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -25,7 +25,7 @@ ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 ENV LD_LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/cuda/lib64:/usr/local/cuda/lib64/stubs"
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
-ENV NVIDIA_REQUIRE_CUDA="cuda>=9.0"
+ENV NVIDIA_REQUIRE_CUDA="cuda>=10.0"
 RUN apt-get update && apt-get install -y --no-install-recommends \
       cuda-cudart-$CUDA_PKG_VERSION \
       cuda-cudart-dev-$CUDA_PKG_VERSION \
@@ -34,9 +34,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       cuda-nvml-dev-$CUDA_PKG_VERSION \
       cuda-minimal-build-$CUDA_PKG_VERSION \
       cuda-command-line-tools-$CUDA_PKG_VERSION \
-      libcudnn7=$CUDNN_VERSION-1+cuda9.0 \
-      libcudnn7-dev=$CUDNN_VERSION-1+cuda9.0 && \
-    ln -s /usr/local/cuda-9.0 /usr/local/cuda && \
+      libcudnn7=$CUDNN_VERSION-1+cuda10.0 \
+      libcudnn7-dev=$CUDNN_VERSION-1+cuda10.0 && \
+    ln -s /usr/local/cuda-10.0 /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
@@ -51,7 +51,7 @@ RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # Install GPU specific packages
-RUN CPATH=/usr/local/cuda-9.0/targets/x86_64-linux/include install2.r --error --repo http://cran.rstudio.com \
+RUN CPATH=/usr/local/cuda-10.0/targets/x86_64-linux/include install2.r --error --repo http://cran.rstudio.com \
     kmcudaR \
     h2o4gpu \
     bayesCL
