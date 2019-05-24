@@ -18,7 +18,9 @@ RUN apt-get update && \
     # `ncpus` matches the number of CPU offered by the biggest machine available on GCB.
     install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
     DiagrammeR mefa gridSVG lattice rgeos rgdal Matrix rARPACK foreign prevR nnet rpart \
-    class imager Amelia && \
+    class imager Amelia \
+    # Packages necessary for /tmp/package_installs.R
+    MASS mgcv survival KernSmooth && \
     # Rattle installation currently broken by missing "cairoDevice" error
     # rattle \
     # XGBoost gets special treatment because the nightlies are hard to build with devtools.
