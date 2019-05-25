@@ -14,6 +14,7 @@ EOF
 CACHE_FLAG='--no-cache'
 DOCKERFILE='Dockerfile'
 IMAGE_TAG='kaggle/rstats-build'
+NCPUS=$(nproc || echo 1)
 
 while :; do
     case "$1" in 
@@ -45,4 +46,4 @@ readonly DOCKERFILE
 readonly IMAGE_TAG
 
 set -x
-docker build --rm --pull $CACHE_FLAG -t "$IMAGE_TAG" -f "$DOCKERFILE" .
+docker build --rm --pull $CACHE_FLAG -t "$IMAGE_TAG" -f "$DOCKERFILE" --build-arg ncpus=$NCPUS .

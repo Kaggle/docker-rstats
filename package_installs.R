@@ -1,5 +1,4 @@
 library(devtools)
-options(Ncpus = 32)
 
 # Install the lightGBM installer package
 install_github("Laurae2/lgbdl")

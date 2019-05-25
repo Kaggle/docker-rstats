@@ -1,5 +1,6 @@
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu16.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:staging
+ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
@@ -40,6 +41,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
+ENV CUDA_HOME=/usr/local/cuda
+
 # Install tensorflow with GPU support
 RUN R -e 'keras::install_keras(tensorflow = "gpu")' && \
     rm -rf /tmp/tensorflow_gpu && \
@@ -51,9 +54,12 @@ RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
     echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
 
 # Install GPU specific packages
-RUN CPATH=/usr/local/cuda-10.0/targets/x86_64-linux/include install2.r --error --repo http://cran.rstudio.com \
-    kmcudaR \
+RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
     h2o4gpu \
     bayesCL
+
+# Install the previous version of kmcudaR, the version 1.1.0 returns an error.
+RUN wget http://cran.r-project.org/src/contrib/Archive/kmcudaR/kmcudaR_1.0.0.tar.gz && \
+    CPATH=/usr/local/cuda-10.0/targets/x86_64-linux/include CUDA_HOME=/usr/local/cuda-10.0 R CMD INSTALL kmcudaR_1.0.0.tar.gz
 
 RUN R -e 'install.packages("gpuR", INSTALL_opts=c("--no-test-load"))'
