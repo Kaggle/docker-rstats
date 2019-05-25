@@ -34,7 +34,7 @@ RUN apt-get update && \
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+    cd mxnet && make -j $ncpus USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev
 
