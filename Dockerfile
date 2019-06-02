@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
-    patch && \
+    patch libmpfr-dev && \
     # data.table added here because rcran missed it, and xgboost needs it
     # `ncpus` matches the number of CPU offered by the biggest machine available on GCB.
     install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
