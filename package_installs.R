@@ -48,3 +48,4 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+install.packages("Rdimtools")
