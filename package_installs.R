@@ -48,3 +48,6 @@ install.packages("prophet")
 # handled in this image's Dockerfile.
 install.packages("fftw")
 install.packages("seewave")
+
+# https://github.com/Kaggle/docker-rstats/issues/73
+install.packages("topicmodels")
