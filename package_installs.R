@@ -49,5 +49,8 @@ install.packages("prophet")
 install.packages("fftw")
 install.packages("seewave")
 
+# https://github.com/Kaggle/docker-rstats/issues/74
+install_github("thomasp85/patchwork")
+
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
