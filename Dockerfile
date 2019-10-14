@@ -84,4 +84,13 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # https://rstudio.github.io/reticulate/articles/versions.html
 ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-tensorflow/bin/python"
 
+# Install miniconda (for competitions time-series library)
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.12-Linux-x86_64.sh -O ~/miniconda.sh && \
+    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+    rm ~/miniconda.sh && \
+    /opt/conda/bin/conda clean -tipsy
+
+# Make a Python 3.6 env for time-series library with dependent packages
+RUN /opt/conda/bin/conda create -n py36 python=3.6 pandas numpy pycryptodome
+
 CMD ["R"]
