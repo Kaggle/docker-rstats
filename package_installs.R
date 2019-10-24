@@ -26,6 +26,8 @@ sparklyr::spark_install()
 
 install.packages("genderdata", repos = "http://packages.ropensci.org")
 
+install.packages("DataExplorer")
+
 install.packages("openNLPmodels.en",
                  repos = "http://datacube.wu.ac.at/",
                  type = "source")
