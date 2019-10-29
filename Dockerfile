@@ -78,11 +78,9 @@ RUN Rscript /tmp/install_iR.R
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
 ENV PYTHONDONTWRITEBYTECODE=1
-# keras::install_keras puts the new libraries inside a virtualenv called r-tensorflow. Importing the
-# library triggers a reinstall/rebuild unless the reticulate library gets a strong hint about
-# where to find it.
+# Tell reticulate where to find python
 # https://rstudio.github.io/reticulate/articles/versions.html
-ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-tensorflow/bin/python"
+ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-reticulate/bin/"
 
 # Install miniconda (for competitions time-series library)
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.12-Linux-x86_64.sh -O ~/miniconda.sh && \
