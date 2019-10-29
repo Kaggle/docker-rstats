@@ -36,7 +36,9 @@ RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libop
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j $ncpus USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
-    apt-get install -y libhdf5-dev
+    apt-get install -y libhdf5-dev && \
+    # Needed for "topicmodels" library
+    apt-get install -y libgsl-dev
 
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
