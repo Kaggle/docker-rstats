@@ -16,5 +16,5 @@ check_gpu <- function() {
 if (length(args)==1) {
   testthat::test_file(paste("/input/tests_py36", args[1], sep="/"))
 } else {
-  testthat::test_dir("/input/tests_py36")
+  testthat::test_dir("/input/tests_py36", stop_on_failure=TRUE)
 }
