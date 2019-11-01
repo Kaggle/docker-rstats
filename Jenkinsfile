@@ -1,8 +1,9 @@
-String cron_string = BRANCH_NAME == "master" ? "H 12 * * 1-5" : ""
+String cron_string = BRANCH_NAME == "master" ? "H 12 * * 1,3" : ""
 
 pipeline {
   agent { label 'ephemeral-linux' }
   options {
+    // The Build GPU stage depends on the image from the Push CPU stage
     disableConcurrentBuilds()
   }
   triggers {
@@ -17,9 +18,8 @@ pipeline {
   }
 
   stages {
-    stage('Docker Build') {
+    stage('Docker CPU Build') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} docker build>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
 
@@ -28,9 +28,18 @@ pipeline {
       }
     }
 
-    stage('Test Image') {
+    stage('Push CPU Pretest Image') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} test image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
+        sh '''#!/bin/bash
+          set -exo pipefail
+          date
+          ./push ci-pretest
+        '''
+      }
+    }
+
+    stage('Test CPU Image') {
+      steps {
         sh '''#!/bin/bash
           set -exo pipefail
 
@@ -40,9 +49,8 @@ pipeline {
       }
     }
 
-    stage('Push Image') {
+    stage('Push CPU Image') {
       steps {
-        slackSend color: 'none', message: "*<${env.BUILD_URL}console|${JOB_NAME} pushing image>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
         sh '''#!/bin/bash
           set -exo pipefail
 
@@ -51,11 +59,55 @@ pipeline {
         '''
       }
     }
+
+    stage('Docker GPU Build') {
+      agent { label 'ephemeral-linux-gpu' }
+      steps {
+        sh '''#!/bin/bash
+          set -exo pipefail
+          docker image prune -f # remove previously built image to prevent disk from filling up
+          ./build --gpu | ts
+        '''
+      }
+    }
+
+    stage('Push GPU Pretest Image') {
+      agent { label 'ephemeral-linux-gpu' }
+      steps {
+        sh '''#!/bin/bash
+          set -exo pipefail
+          date
+          ./push --gpu ci-pretest
+        '''
+      }
+    }
+
+    stage('Test GPU Image') {
+      agent { label 'ephemeral-linux-gpu' }
+      steps {
+        sh '''#!/bin/bash
+          set -exo pipefail
+          date
+          ./test --gpu
+        '''
+      }
+    }
+
+    stage('Push GPU Image') {
+      agent { label 'ephemeral-linux-gpu' }
+      steps {
+        sh '''#!/bin/bash
+          set -exo pipefail
+          date
+          ./push --gpu staging
+        '''
+      }
+    }
   }
 
   post {
     failure {
-      slackSend color: 'danger', message: "*<${env.BUILD_URL}console|${JOB_NAME} failed>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL
+      slackSend color: 'danger', message: "*<${env.BUILD_URL}console|${JOB_NAME} failed>* ${GIT_COMMIT_SUMMARY} @kernels-backend-ops", channel: env.SLACK_CHANNEL
     }
     success {
       slackSend color: 'good', message: "*<${env.BUILD_URL}console|${JOB_NAME} passed>* ${GIT_COMMIT_SUMMARY}", channel: env.SLACK_CHANNEL

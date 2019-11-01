@@ -1,13 +1,49 @@
 #!/bin/bash
 set -e
 
-mkdir -p patches
+usage() {
+cat << EOF
+Usage: $0 [OPTIONS]
+Build a new Docker R image.
+Options:
+    -c, --use-cache Use layer cache when building a new image.
+    -g, --gpu       Build an image with GPU support.
+EOF
+}
 
-# Default behavior is to do everything from scratch.
-# The --use-cache option is useful if you're iterating on a broken build.
-if [[ "$1" ==  "--use-cache" ]]; then
-    docker build --rm -t kaggle/rstats-build .
-else
-    docker pull kaggle/rcran:latest
-    docker build --rm --no-cache -t kaggle/rstats-build .
-fi
+CACHE_FLAG='--no-cache'
+DOCKERFILE='Dockerfile'
+IMAGE_TAG='kaggle/rstats-build'
+NCPUS=$(nproc || echo 1)
+
+while :; do
+    case "$1" in 
+        -h|--help)
+            usage
+            exit
+            ;;
+        -c|--use-cache)
+            CACHE_FLAG=''
+            ;;
+        -g|--gpu)
+            IMAGE_TAG='kaggle/rstats-gpu-build'
+            DOCKERFILE='gpu.Dockerfile'
+            ;;
+        -?*)
+            usage
+            printf 'ERROR: Unknown option: %s\n' "$1" >&2
+            exit
+            ;;
+        *)            
+            break
+    esac
+
+    shift
+done
+
+readonly CACHE_FLAG
+readonly DOCKERFILE
+readonly IMAGE_TAG
+
+set -x
+docker build --rm --pull $CACHE_FLAG -t "$IMAGE_TAG" -f "$DOCKERFILE" --build-arg ncpus=$NCPUS .

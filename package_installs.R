@@ -1,27 +1,24 @@
 library(devtools)
-install_github("hadley/readr")
-install_github("jkrijthe/Rtsne")
-install_github("jennybc/gapminder")
-install_github("slowkow/ggrepel")
+
+# Install the lightGBM installer package
+install_github("Laurae2/lgbdl")
+lgbdl::lgb.dl(compiler = "gcc")
+
 install_github("hadley/ggplot2")    # ggthemes is built against the latest ggplot2
 install_github("jrnold/ggthemes")
-install_github("thomasp85/ggforce")
 install_github("thomasp85/ggraph")
-install_github("dgrtwo/gganimate")
+install_github("thomasp85/gganimate")
 install_github("BillPetti/baseballr")
-install_github("dahtah/imager")
-install_github("elbamos/largevis", ref="develop")  # Using development branch for now, see https://github.com/elbamos/largeVis/issues/40
+install_github("elbamos/largevis")  # The package was removed from R CRAN: https://cran.r-project.org/web/packages/largeVis/index.html
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
-install_github("Microsoft/LightGBM", subdir = "R-package")
-install_github("hrbrmstr/hrbrthemes")
-install_github('catboost/catboost', subdir = 'catboost/R-package')
+# install_github fails for catboost.
+# Following direct installation instructions instead: https://tech.yandex.com/catboost/doc/dg/installation/r-installation-binary-installation-docpage/
+install_url('https://github.com/catboost/catboost/releases/download/v0.12.1.1/catboost-R-Linux-0.12.1.1.tgz', args = c("--no-multiarch"))
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
-install_github("dselivanov/text2vec")
 install_github("dselivanov/LSHR")
-install_github("sinhrks/ggfortify")
 
 # install latest sparklyr and Spark (for local mode)
 install_github("rstudio/sparklyr")
@@ -39,11 +36,6 @@ install_github("mukul13/rword2vec")
 #Packages for Neurohacking in R coursera course
 install.packages("oro.nifti")
 install.packages("oro.dicom")
-devtools::install_github("muschellij2/fslr")
-devtools::install_github("stnava/ITKR")
-install_github("stnava/ANTsRCore")
-devtools::install_github("stnava/ANTsR")
-devtools::install_github("muschellij2/extrantsr")
 
 install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
   
@@ -59,3 +51,9 @@ install.packages("seewave")
 
 # ExPanDaR package for Exploratory Panel Data Analysis (code based and interactively)
 install.packages("ExPanDaR")
+
+# https://github.com/Kaggle/docker-rstats/issues/74
+install_github("thomasp85/patchwork")
+
+# https://github.com/Kaggle/docker-rstats/issues/73
+install.packages("topicmodels")
