@@ -43,6 +43,7 @@ test_that("imports", {
     Library("fslr")
     Library("imager")
     Library("hrbrthemes")
+    Library("ExPanDaR")
   }
 
   # expect no error to be thrown
