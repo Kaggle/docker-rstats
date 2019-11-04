@@ -91,3 +91,14 @@ docker run --rm -t --net=none \
     $ADDITONAL_OPTS \
     "$IMAGE_TAG" \
     /bin/bash -c "/input/testthat.R $TEST_FILE"
+
+# We have to run a completely new R session to test python 3.6 conda env due to the way
+# reticulate only allows you to set its env variable once.
+docker run --rm -t --net=none \
+    -e HOME=/tmp \
+    -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
+    -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
+    -w=/working \
+    $ADDITONAL_OPTS \
+    "$IMAGE_TAG" \
+    /bin/bash -c "/input/testthat_py36.R $TEST_FILE"

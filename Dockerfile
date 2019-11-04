@@ -36,7 +36,9 @@ RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libop
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j $ncpus USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
-    apt-get install -y libhdf5-dev
+    apt-get install -y libhdf5-dev && \
+    # Needed for "topicmodels" library
+    apt-get install -y libgsl-dev
 
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
@@ -59,7 +61,7 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
 # Keras sets up a virtualenv and installs tensorflow
 # in the WORKON_HOME directory, so choose an explicit location for it.
 ENV WORKON_HOME=/usr/local/share/.virtualenvs
-RUN pip install --user virtualenv && R -e 'keras::install_keras()'
+RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "1.15")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
@@ -78,11 +80,9 @@ RUN Rscript /tmp/install_iR.R
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
 ENV PYTHONDONTWRITEBYTECODE=1
-# keras::install_keras puts the new libraries inside a virtualenv called r-tensorflow. Importing the
-# library triggers a reinstall/rebuild unless the reticulate library gets a strong hint about
-# where to find it.
+# Tell reticulate where to find python
 # https://rstudio.github.io/reticulate/articles/versions.html
-ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-tensorflow/bin/python"
+ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-reticulate/bin/"
 
 # Install miniconda (for competitions time-series library)
 RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.12-Linux-x86_64.sh -O ~/miniconda.sh && \

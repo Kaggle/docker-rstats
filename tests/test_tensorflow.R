@@ -3,6 +3,8 @@ context("tensorflow")
 test_that("gpu imports", {
   check_gpu()
 
+  #TODO - update to TF2.0 compatible and fix potential CUDA issues (b/143642025)
+ 
   library(tensorflow)
   sess <- tf$Session()
   with(tf$device("/gpu:0"), {
