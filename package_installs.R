@@ -36,6 +36,7 @@ install_github("mukul13/rword2vec")
 #Packages for Neurohacking in R coursera course
 install.packages("oro.nifti")
 install.packages("oro.dicom")
+install.packages("fslr")
 
 install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
   
@@ -54,3 +55,6 @@ install_github("thomasp85/patchwork")
 
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
+
+# TODO(b/144846308) Remove once docker-rcran image installed this package properly.
+install.packages("hrbrthemes")

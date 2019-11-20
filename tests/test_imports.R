@@ -40,11 +40,9 @@ test_that("imports", {
     Library("fftw")
     Library("seewave")
     Library("lightgbm")
-    # TODO(b/144846502) Fix fslr package installation.
-    # Library("fslr")
+    Library("fslr")
     Library("imager")
-    # TODO(b/144846308) Fix hrbrthemes package installation.
-    # Library("hrbrthemes")
+    Library("hrbrthemes")
   }
 
   # expect no error to be thrown
