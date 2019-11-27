@@ -17,6 +17,7 @@ GET_USER_SECRET_ENDPONT = "/requests/GetUserSecretRequest"
 library(httr)
 TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, list(
   params = list(as_header = TRUE),
+  endpoint = oauth_endpoints("google"),
   initialize = function() {
   },
   can_refresh = function() {
@@ -43,4 +44,9 @@ TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, li
 ))
 
 library(bigrquery)
-set_access_cred(TokenBigQueryKernel$new())
+# A hack to allow users to use bigrquery directly. The "correct" way would be to use:
+# `bq_auth(scopes = NULL, token = TokenBigQueryKernel$new())`, but that would force auth immediately,
+# which would slow kernels starting and could cause errors on startup.
+auth <- getNamespace("bigrquery")$.auth
+auth$set_cred(TokenBigQueryKernel$new())
+auth$set_auth_active(TRUE)
