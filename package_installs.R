@@ -8,7 +8,6 @@ install_github("hadley/ggplot2")    # ggthemes is built against the latest ggplo
 install_github("jrnold/ggthemes")
 install_github("thomasp85/ggraph")
 install_github("thomasp85/gganimate")
-install_github("BillPetti/baseballr")
 install_github("elbamos/largevis")  # The package was removed from R CRAN: https://cran.r-project.org/web/packages/largeVis/index.html
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
