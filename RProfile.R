@@ -27,5 +27,6 @@ options(device = function() png(width = 900))
 options(jupyter.plot_mimetypes = "image/png")
 
 source("/kaggle/kaggle_bigquery.R")
+source("/kaggle/kaggle_secrets.R")
 # Ensure the file ends in a newline
 # https://yihui.name/en/2018/04/rprofile-trailing-newline/.
