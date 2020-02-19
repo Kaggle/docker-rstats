@@ -56,10 +56,7 @@ RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
 # Install GPU specific packages
 RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
     h2o4gpu \
-    bayesCL
-
-# Install the previous version of kmcudaR, the version 1.1.0 returns an error.
-RUN wget http://cran.r-project.org/src/contrib/Archive/kmcudaR/kmcudaR_1.0.0.tar.gz && \
-    CPATH=/usr/local/cuda-10.0/targets/x86_64-linux/include CUDA_HOME=/usr/local/cuda-10.0 R CMD INSTALL kmcudaR_1.0.0.tar.gz
+    bayesCL \
+    kmcudaR
 
 RUN R -e 'install.packages("gpuR", INSTALL_opts=c("--no-test-load"))'
