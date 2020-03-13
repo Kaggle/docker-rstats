@@ -33,8 +33,10 @@ RUN apt-get update && \
     export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
-    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.4.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j $ncpus USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+    # mxnet installation fails if roxygen2 is not properly installed.
+    R -e 'install.packages("roxygen2")' && \
+    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd mxnet && make -j $(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
     apt-get install -y libhdf5-dev && \
     # Needed for "topicmodels" library
