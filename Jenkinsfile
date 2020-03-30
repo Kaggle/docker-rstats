@@ -15,6 +15,8 @@ pipeline {
     GIT_COMMIT_AUTHOR = sh(returnStdout: true, script:"git log --format='%an' -n 1 HEAD").trim()
     GIT_COMMIT_SUMMARY = "`<https://github.com/Kaggle/docker-rstats/commit/${GIT_COMMIT}|${GIT_COMMIT_SHORT}>` ${GIT_COMMIT_SUBJECT} - ${GIT_COMMIT_AUTHOR}"
     SLACK_CHANNEL = sh(returnStdout: true, script: "if [[ \"${GIT_BRANCH}\" == \"master\" ]]; then echo \"#kernelops\"; else echo \"#builds\"; fi").trim()
+    // See b/152450512
+    GITHUB_PAT = credentials('github-pat')
   }
 
   stages {
