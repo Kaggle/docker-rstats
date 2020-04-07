@@ -1,4 +1,13 @@
-**Kaggle Kernels** allow users to run scripts against our competitions and datasets without having to download data or set up their environment. Here's [an example](https://www.kaggle.com/benhamner/bike-sharing-demand/bike-rentals-by-time-and-temperature):
+# docker-rstats
+
+[Kaggle Notebooks](https://www.kaggle.com/notebooks) allow users to run scripts against our competitions and datasets without having to download data or set up their environment. 
+
+Our R Docker images are stored on Google Container Registry at:
+
+* CPU-only: [gcr.io/kaggle-images/rstats](https://gcr.io/kaggle-images/rstats)
+* GPU: [gcr.io/kaggle-gpu-images/rstats](https://gcr.io/kaggle-gpu-images/rstats)
+
+Here's [an example](https://www.kaggle.com/benhamner/bike-sharing-demand/bike-rentals-by-time-and-temperature):
 
 ![example script](http://i.imgur.com/Hk703P7.png)
 
@@ -6,7 +15,7 @@ This is the Dockerfile (etc.) used for building the image that runs R scripts on
 
 ## Getting started
 
-To get started with this image, read our [guide](http://blog.kaggle.com/2016/02/05/how-to-get-started-with-data-science-in-containers/) to using it yourself, or browse [Kaggle Kernels](https://www.kaggle.com/kernels) for ideas.
+To get started with this image, read our [guide](http://blog.kaggle.com/2016/02/05/how-to-get-started-with-data-science-in-containers/) to using it yourself, or browse [Kaggle Notebooks](https://www.kaggle.com/notebooks) for ideas.
 
 ## Requesting new features
 
