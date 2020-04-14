@@ -1,4 +1,4 @@
-FROM gcr.io/kaggle-images/rcran:testing
+FROM gcr.io/kaggle-images/rcran
 ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
