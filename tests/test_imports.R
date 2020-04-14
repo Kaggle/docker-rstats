@@ -45,7 +45,7 @@ test_that("imports", {
     Library("hrbrthemes")
 
     # bioconductor
-    Library("EBImage")
+    Library("BiocGenerics")
     Library("EBImage")
     Library("rhdf5")
     Library("limma")

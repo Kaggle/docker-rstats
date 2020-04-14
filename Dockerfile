@@ -3,6 +3,20 @@ ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
+ADD kaggle/ /kaggle/
+# RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
+ENV R_HOME=/usr/local/lib/R
+ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
+ADD install_iR.R  /tmp/install_iR.R
+ADD bioconductor_installs.R /tmp/bioconductor_installs.R
+ADD package_installs.R /tmp/package_installs.R
+ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
+
+# Install kaggle libraries.
+RUN Rscript /tmp/package_installs.R
+RUN Rscript /tmp/bioconductor_installs.R
+RUN Rscript /tmp/install_iR.R
+
 RUN apt-get update && \
     apt-get install apt-transport-https && \
     /tmp/clean-layer.sh
@@ -44,20 +58,6 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
 # in the WORKON_HOME directory, so choose an explicit location for it.
 ENV WORKON_HOME=/usr/local/share/.virtualenvs
 RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "1.15")'
-
-# Install kaggle libraries.
-# Do this at the end to avoid rebuilding everything when any change is made.
-ADD kaggle/ /kaggle/
-# RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
-ENV R_HOME=/usr/local/lib/R
-ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
-ADD install_iR.R  /tmp/install_iR.R
-ADD bioconductor_installs.R /tmp/bioconductor_installs.R
-ADD package_installs.R /tmp/package_installs.R
-ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
-RUN Rscript /tmp/package_installs.R
-RUN Rscript /tmp/bioconductor_installs.R
-RUN Rscript /tmp/install_iR.R
 
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
