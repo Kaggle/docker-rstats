@@ -13,7 +13,7 @@ EOF
 
 CACHE_FLAG='--no-cache'
 DOCKERFILE='Dockerfile'
-IMAGE_TAG='kaggle/rstats-build:new'
+IMAGE_TAG='kaggle/rstats-build'
 NCPUS=$(nproc || echo 1)
 
 while :; do
