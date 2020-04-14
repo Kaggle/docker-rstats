@@ -41,3 +41,6 @@ install_github("thomasp85/patchwork")
 
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
+
+# TODO(b/144846308) Remove once docker-rcran image installed this package properly.
+install.packages("hrbrthemes")
