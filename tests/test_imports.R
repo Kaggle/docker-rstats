@@ -43,6 +43,13 @@ test_that("imports", {
     Library("fslr")
     Library("imager")
     Library("hrbrthemes")
+
+    # bioconductor
+    Library("EBImage")
+    Library("EBImage")
+    Library("rhdf5")
+    Library("limma")
+    Library("biOps")
   }
 
   # expect no error to be thrown
