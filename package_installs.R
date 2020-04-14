@@ -32,28 +32,12 @@ install.packages("openNLPmodels.en",
 install_github("davpinto/fastknn")
 install_github("mukul13/rword2vec")
 
-#Packages for Neurohacking in R coursera course
-install.packages("oro.nifti")
-install.packages("oro.dicom")
-install.packages("fslr")
-
-install.packages("h2o", type="source", repos=(c("http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R"))) # install the latest stable version of h2o
-  
-# An upgrade to BH broke rstan, which in turn broke prophet. https://github.com/stan-dev/rstan/issues/441
-install_version("BH", version="1.62.0-1")
-install.packages("rstan")
-install.packages("prophet")
-
 # These signal processing libraries are on CRAN, but they require apt-get dependences that are
 # handled in this image's Dockerfile.
 install.packages("fftw")
-install.packages("seewave")
 
 # https://github.com/Kaggle/docker-rstats/issues/74
 install_github("thomasp85/patchwork")
 
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
-
-# TODO(b/144846308) Remove once docker-rcran image installed this package properly.
-install.packages("hrbrthemes")

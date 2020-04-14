@@ -1,4 +1,4 @@
-FROM gcr.io/kaggle-images/rcran
+FROM gcr.io/kaggle-images/rcran:testing
 ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
@@ -7,34 +7,14 @@ RUN apt-get update && \
     apt-get install apt-transport-https && \
     /tmp/clean-layer.sh
 
-# libv8-dev is needed for package DiagrammR, which xgboost needs
 RUN apt-get update && \
     (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
-    patch && \
-    # data.table added here because rcran missed it, and xgboost needs it
-    # `ncpus` matches the number of CPU offered by the biggest machine available on GCB.
-    install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
-    DiagrammeR mefa gridSVG lattice rgeos rgdal Matrix rARPACK foreign prevR nnet rpart \
-    class imager Amelia \
-    # Packages necessary for /tmp/package_installs.R
-    MASS mgcv survival KernSmooth && \
-    # Rattle installation currently broken by missing "cairoDevice" error
-    # rattle \
-    # XGBoost gets special treatment because the nightlies are hard to build with devtools.
-    cd /usr/local/src && git clone --recursive https://github.com/dmlc/xgboost && \
-    cd xgboost && make -j $ncpus Rbuild && R CMD INSTALL xgboost_*.tar.gz && \
-    # Prereq for installing udunits2 package; see https://github.com/edzer/units
-    cd /usr/local/src && wget ftp://ftp.unidata.ucar.edu/pub/udunits/udunits-2.2.24.tar.gz && \
-    tar zxf udunits-2.2.24.tar.gz && cd udunits-2.2.24 && ./configure && make && make install && \
-    ldconfig && echo 'export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"' >> ~/.bashrc && \
-    export UDUNITS2_XML_PATH="/usr/local/share/udunits/udunits2.xml"
+    patch
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
-    # mxnet installation fails if roxygen2 is not properly installed.
-    R -e 'install.packages("roxygen2")' && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j $(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     # Needed for "h5" library
@@ -49,7 +29,6 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     # the latest version also has a regression on the NotebookApp.ip option
     # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
     pip install notebook==5.5.0 && \
-    R -e 'install.packages("IRkernel")' && \
     R -e 'IRkernel::installspec()' && \
     # Build pyzmq from source instead of using a pre-built binary.
     yes | pip uninstall pyzmq && \
