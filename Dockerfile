@@ -3,6 +3,12 @@ ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
+# Default to python3.7
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
+    update-alternatives --config python && \
+    apt install python3-pip -y && \
+    /tmp/clean-layer.sh
+
 RUN apt-get update && \
     apt-get install apt-transport-https && \
     /tmp/clean-layer.sh
@@ -12,7 +18,8 @@ RUN apt-get update && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
-    patch
+    patch && \
+    /tmp/clean-layer.sh
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
@@ -20,7 +27,8 @@ RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libop
     # Needed for "h5" library
     apt-get install -y libhdf5-dev && \
     # Needed for "topicmodels" library
-    apt-get install -y libgsl-dev
+    apt-get install -y libgsl-dev && \
+    /tmp/clean-layer.sh
 
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
@@ -37,7 +45,8 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     # Make sure Jupyter won't try to "migrate" its junk in a read-only container
     mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
-    touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
+    touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated && \
+    /tmp/clean-layer.sh
 
 # Tensorflow and Keras
 # Keras sets up a virtualenv and installs tensorflow
