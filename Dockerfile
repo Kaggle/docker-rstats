@@ -4,9 +4,10 @@ ARG ncpus=1
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Default to python3.7
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
+RUN apt-get update && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
     update-alternatives --config python && \
-    apt install python3-pip -y && \
+    apt install -y python3-pip python3-venv && \
     /tmp/clean-layer.sh
 
 RUN apt-get update && \
@@ -52,7 +53,7 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
 # Keras sets up a virtualenv and installs tensorflow
 # in the WORKON_HOME directory, so choose an explicit location for it.
 ENV WORKON_HOME=/usr/local/share/.virtualenvs
-RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "1.15")'
+RUN pip install --user virtualenv && R -e 'keras::install_keras()'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
