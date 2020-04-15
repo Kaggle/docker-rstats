@@ -74,7 +74,7 @@ mkdir -p /tmp/rstats-build/devshm
 mkdir -p /tmp/rstats-build/working
 
 # Check that nbconvert can run.
-docker run --name=nbconvert --read-only "$IMAGE_TAG" jupyter-nbconvert --help
+docker run --read-only "$IMAGE_TAG" jupyter-nbconvert --help
 
 # Check that Jupyter server can run; if it dies on startup, the `docker kill` command will throw an error
 docker run -d --name=jupyter_test_r --read-only --net=none \
