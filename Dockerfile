@@ -12,19 +12,16 @@ ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
 
-# Install bioconductor packages.
-RUN Rscript /tmp/bioconductor_installs.R
-
 RUN apt-get update && \
     apt-get install apt-transport-https && \
-    /tmp/clean-layer.sh
-
-RUN apt-get update && \
-    (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
+    apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
     patch
+
+# Install bioconductor packages.
+RUN Rscript /tmp/bioconductor_installs.R
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
