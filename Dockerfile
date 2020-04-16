@@ -87,4 +87,13 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.12-Linux-x86
 # Make a Python 3.6 env for time-series library with dependent packages
 RUN /opt/conda/bin/conda create -n py36 python=3.6 pandas numpy pycryptodome
 
+ARG GIT_COMMIT=unknown
+ARG BUILD_DATE=unknown
+
+LABEL git-commit=$GIT_COMMIT
+LABEL build-date=$BUILD_DATE
+
+# Find the current release git hash & build date inside the kernel editor.
+RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE" > /etc/build_date
+
 CMD ["R"]
