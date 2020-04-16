@@ -17,6 +17,8 @@ pipeline {
     SLACK_CHANNEL = sh(returnStdout: true, script: "if [[ \"${GIT_BRANCH}\" == \"master\" ]]; then echo \"#kernelops\"; else echo \"#builds\"; fi").trim()
     // See b/152450512
     GITHUB_PAT = credentials('github-pat')
+    PRETEST_TAG = sh(returnStdout: true, script: "if [[ \"${GIT_BRANCH}\" == \"master\" ]]; then echo \"ci-pretest\"; else echo \"${GIT_BRANCH}-pretest\"; fi").trim()
+    STAGING_TAG = sh(returnStdout: true, script: "if [[ \"${GIT_BRANCH}\" == \"master\" ]]; then echo \"staging\"; else echo \"${GIT_BRANCH}-staging\"; fi").trim()
   }
 
   stages {
@@ -26,16 +28,8 @@ pipeline {
           set -exo pipefail
 
           ./build | ts
-        '''
-      }
-    }
-
-    stage('Push CPU Pretest Image') {
-      steps {
-        sh '''#!/bin/bash
-          set -exo pipefail
           date
-          ./push ci-pretest
+          ./push ${PRETEST_TAG}
         '''
       }
     }
@@ -46,7 +40,7 @@ pipeline {
           set -exo pipefail
 
           date
-          ./test
+          ./test --image gcr.io/kaggle-images/rstats:${PRETEST_TAG}
         '''
       }
     }
@@ -57,7 +51,7 @@ pipeline {
           set -exo pipefail
 
           date
-          ./push staging
+          ./push ${STAGING_TAG}
         '''
       }
     }
@@ -74,18 +68,9 @@ pipeline {
           # will untag the previously built image which is safe to do. Builds for a single branch are performed
           # serially.
           docker image prune -f
-          ./build --gpu | ts
-        '''
-      }
-    }
-
-    stage('Push GPU Pretest Image') {
-      agent { label 'ephemeral-linux-gpu' }
-      steps {
-        sh '''#!/bin/bash
-          set -exo pipefail
+          ./build --gpu --base-image-tag ${STAGING_TAG} | ts
           date
-          ./push --gpu ci-pretest
+          ./push --gpu ${PRETEST_TAG}
         '''
       }
     }
@@ -96,7 +81,7 @@ pipeline {
         sh '''#!/bin/bash
           set -exo pipefail
           date
-          ./test --gpu
+          ./test --gpu --image gcr.io/kaggle-private-byod/rstats:${PRETEST_TAG}
         '''
       }
     }
@@ -107,7 +92,7 @@ pipeline {
         sh '''#!/bin/bash
           set -exo pipefail
           date
-          ./push --gpu staging
+          ./push --gpu ${STAGING_TAG}
         '''
       }
     }
