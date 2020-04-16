@@ -66,7 +66,6 @@ RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "1.
 
 # Install kaggle libraries.
 RUN Rscript /tmp/package_installs.R
-RUN Rscript /tmp/bioconductor_installs.R
 RUN Rscript /tmp/install_iR.R
 
 # Py3 handles a read-only environment fine, but Py2.7 needs
