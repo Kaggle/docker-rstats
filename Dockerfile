@@ -12,13 +12,21 @@ ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
 
+# Default to python3.7
+RUN apt-get update && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
+    update-alternatives --config python && \
+    apt install -y python3-pip python3-venv && \
+    /tmp/clean-layer.sh
+
 RUN apt-get update && \
     apt-get install apt-transport-https && \
     apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
-    patch
+    patch && \
+    /tmp/clean-layer.sh
 
 # Install bioconductor packages.
 RUN Rscript /tmp/bioconductor_installs.R
@@ -29,7 +37,8 @@ RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libop
     # Needed for "h5" library
     apt-get install -y libhdf5-dev && \
     # Needed for "topicmodels" library
-    apt-get install -y libgsl-dev
+    apt-get install -y libgsl-dev && \
+    /tmp/clean-layer.sh
 
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
@@ -46,7 +55,8 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     # Make sure Jupyter won't try to "migrate" its junk in a read-only container
     mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
-    touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated
+    touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated && \
+    /tmp/clean-layer.sh
 
 # Tensorflow and Keras
 # Keras sets up a virtualenv and installs tensorflow
