@@ -1,4 +1,6 @@
-FROM gcr.io/kaggle-images/rcran
+ARG BASE_TAG=latest
+
+FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
