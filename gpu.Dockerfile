@@ -1,5 +1,6 @@
+ARG BASE_TAG=staging
 FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu16.04 AS nvidia
-FROM gcr.io/kaggle-images/rstats:staging
+FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
