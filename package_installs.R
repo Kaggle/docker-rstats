@@ -1,4 +1,6 @@
 library(devtools)
+options(repos = c("CRAN" = "http://cran.us.r-project.org"))
+options(Ncpus = parallel::detectCores())
 
 # Install the lightGBM installer package
 install_github("Laurae2/lgbdl")

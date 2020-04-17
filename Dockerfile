@@ -14,10 +14,7 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \
-    /tmp/clean-layer.sh
-
-RUN apt-get update && \
-    (echo N; echo N) | apt-get install -y -f r-cran-rgtk2 && \
+    apt-get install -y -f r-cran-rgtk2 && \
     apt-get install -y -f libv8-dev libgeos-dev libgdal-dev libproj-dev libsndfile1-dev \
     libtiff5-dev fftw3 fftw3-dev libfftw3-dev libjpeg-dev libhdf4-0-alt libhdf4-alt-dev \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
@@ -67,9 +64,10 @@ ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
-RUN Rscript /tmp/package_installs.R
-RUN Rscript /tmp/bioconductor_installs.R
-RUN Rscript /tmp/install_iR.R
+# Install with `--vanilla` flag to avoid conflict. https://support.bioconductor.org/p/57187/
+RUN Rscript --vanilla /tmp/package_installs.R
+RUN Rscript --vanilla /tmp/bioconductor_installs.R
+RUN Rscript --vanilla /tmp/install_iR.R
 
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
