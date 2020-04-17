@@ -64,6 +64,7 @@ ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
+# Install with `--vanilla` flag to avoid conflict. https://support.bioconductor.org/p/57187/
 RUN Rscript --vanilla /tmp/package_installs.R
 RUN Rscript --vanilla /tmp/bioconductor_installs.R
 RUN Rscript --vanilla /tmp/install_iR.R
