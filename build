@@ -14,7 +14,7 @@ EOF
 
 CACHE_FLAG='--no-cache'
 DOCKERFILE='Dockerfile'
-IMAGE_TAG='kaggle/rstats-build'
+IMAGE_TAG='kaggle/rstats-build:temp'
 NCPUS=$(nproc || echo 1)
 BUILD_ARGS=''
 

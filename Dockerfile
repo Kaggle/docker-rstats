@@ -5,14 +5,8 @@ ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-ADD kaggle/ /kaggle/
-# RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
-ENV R_HOME=/usr/local/lib/R
-ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
-ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
-ADD package_installs.R /tmp/package_installs.R
-ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
+RUN Rscript /tmp/bioconductor_installs.R
 
 # Default to python3.7
 RUN apt-get update && \
@@ -67,7 +61,16 @@ ENV WORKON_HOME=/usr/local/share/.virtualenvs
 RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "1.15")'
 
 # Install kaggle libraries.
+# Do this at the end to avoid rebuilding everything when any change is made.
+ADD kaggle/ /kaggle/
+# RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
+ENV R_HOME=/usr/local/lib/R
+ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
+ADD install_iR.R  /tmp/install_iR.R
+ADD package_installs.R /tmp/package_installs.R
+ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
 RUN Rscript /tmp/package_installs.R
+RUN Rscript /tmp/bioconductor_installs.R
 RUN Rscript /tmp/install_iR.R
 
 # Py3 handles a read-only environment fine, but Py2.7 needs
