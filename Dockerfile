@@ -5,9 +5,6 @@ ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-ADD bioconductor_installs.R /tmp/bioconductor_installs.R
-RUN Rscript /tmp/bioconductor_installs.R
-
 # Default to python3.7
 RUN apt-get update && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
@@ -23,9 +20,6 @@ RUN apt-get update && \
     libhdf5-dev libx11-dev cmake libglu1-mesa-dev libgtk2.0-dev librsvg2-dev libxt-dev \
     patch && \
     /tmp/clean-layer.sh
-
-# Install bioconductor packages.
-RUN Rscript /tmp/bioconductor_installs.R
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
@@ -67,11 +61,12 @@ ADD kaggle/ /kaggle/
 ENV R_HOME=/usr/local/lib/R
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 ADD install_iR.R  /tmp/install_iR.R
+ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
-RUN Rscript /tmp/package_installs.R
-RUN Rscript /tmp/bioconductor_installs.R
-RUN Rscript /tmp/install_iR.R
+RUN Rscript --vanilla /tmp/package_installs.R
+RUN Rscript --vanilla /tmp/bioconductor_installs.R
+RUN Rscript --vanilla /tmp/install_iR.R
 
 # Py3 handles a read-only environment fine, but Py2.7 needs
 # help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
@@ -88,5 +83,14 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.12-Linux-x86
 
 # Make a Python 3.6 env for time-series library with dependent packages
 RUN /opt/conda/bin/conda create -n py36 python=3.6 pandas numpy pycryptodome
+
+ARG GIT_COMMIT=unknown
+ARG BUILD_DATE=unknown
+
+LABEL git-commit=$GIT_COMMIT
+LABEL build-date=$BUILD_DATE
+
+# Find the current release git hash & build date inside the kernel editor.
+RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE" > /etc/build_date
 
 CMD ["R"]
