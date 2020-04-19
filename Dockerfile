@@ -33,6 +33,8 @@ RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libop
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev && \
     pip install jupyter pycurl && \
+    # Install older tornado - https://github.com/jupyter/notebook/issues/4437
+    pip install "tornado<6" && \
     # to avoid breaking UI change, pin the jupyter notebook package
     # the latest version also has a regression on the NotebookApp.ip option
     # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
