@@ -40,6 +40,7 @@ test_that("imports", {
     Library("scales")
     Library("seewave")
     Library("stringr")
+    Library("tesseract")
     Library("tidyr")
     Library("xgboost")
     Library("zoo")

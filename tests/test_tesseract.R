@@ -1,7 +1,7 @@
 context("tesseract")
 
 test_that("ocr", {
-  library(tesseract)
+	library(tesseract)
 	eng <- tesseract("eng")
 	fpath <- file.path('/input/tests/data/testocr.png')
 	text <- tesseract::ocr(fpath, engine = eng)

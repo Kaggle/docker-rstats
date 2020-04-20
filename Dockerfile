@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libop
     apt-get install -y libhdf5-dev && \
     # Needed for "topicmodels" library
     apt-get install -y libgsl-dev && \
+    # Needed for "tesseract" library
+    apt-get install -y libpoppler-cpp-dev libtesseract-dev tesseract-ocr-eng && \
     /tmp/clean-layer.sh
 
 RUN apt-get install -y libzmq3-dev python-pip default-jdk && \

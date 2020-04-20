@@ -43,3 +43,5 @@ install_github("thomasp85/patchwork")
 
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
+
+install.packages("tesseract")
