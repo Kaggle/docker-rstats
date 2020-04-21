@@ -26,3 +26,24 @@ test_that("model training", {
 
     expect_is(history, "keras_training_history")
 })
+
+test_that("flow_images_from_dataframe", {
+    library(keras)
+    library(readr)
+
+    base_dir <- '/input/tests/data'
+    test_labels <- read_csv("/input/tests/data/sample_submission.csv")
+
+    test_labels$filename <- paste0(test_labels$id_code, ".png")
+
+    pred <- flow_images_from_dataframe(
+        dataframe = test_labels,
+        x_col = "filename",
+        y_col = NULL,
+        directory = base_dir,
+        shuffle = FALSE,
+        class_mode = NULL,
+        target_size = c(224, 224))
+
+    expect_is(pred, "keras_preprocessing.image.dataframe_iterator.DataFrameIterator")
+})
