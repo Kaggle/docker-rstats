@@ -73,22 +73,6 @@ RUN Rscript --vanilla /tmp/package_installs.R
 RUN Rscript --vanilla /tmp/bioconductor_installs.R
 RUN Rscript --vanilla /tmp/install_iR.R
 
-# Py3 handles a read-only environment fine, but Py2.7 needs
-# help https://docs.python.org/2/using/cmdline.html#envvar-PYTHONDONTWRITEBYTECODE
-ENV PYTHONDONTWRITEBYTECODE=1
-# Tell reticulate where to find python
-# https://rstudio.github.io/reticulate/articles/versions.html
-ENV RETICULATE_PYTHON="/usr/local/share/.virtualenvs/r-reticulate/bin/"
-
-# Install miniconda (for competitions time-series library)
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.12-Linux-x86_64.sh -O ~/miniconda.sh && \
-    /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-    rm ~/miniconda.sh && \
-    /opt/conda/bin/conda clean -tipsy
-
-# Make a Python 3.6 env for time-series library with dependent packages
-RUN /opt/conda/bin/conda create -n py36 python=3.6 pandas numpy pycryptodome
-
 ARG GIT_COMMIT=unknown
 ARG BUILD_DATE=unknown
 
