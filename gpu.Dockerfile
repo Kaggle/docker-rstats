@@ -42,6 +42,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
+# Hack to fix R trying to use CUDA in `/usr/lib/x86_64-linux-gnu` directory instead
+# of `/usr/local/nvidia/lib64` (b/152401083).
+# For some reason, the CUDA file `libcuda.so.418.67` in the former directory is empty.
+# R's ldpaths modifies LD_LIBRARY_PATH on start by adding `/usr/lib/x86_64-linux-gnu` upfront.
+RUN ls -d /usr/lib/x86_64-linux-gnu/* | egrep '(libcuda|libnvidia)' | xargs rm
+
 ENV CUDA_HOME=/usr/local/cuda
 
 # Install tensorflow with GPU support
