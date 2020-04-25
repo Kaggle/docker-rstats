@@ -27,7 +27,6 @@ test_that("imports", {
     Library("mime")
     Library("munsell")
     Library("plyr")
-    Library("prophet")
     Library("proto")
     Library("randomForest")
     Library("RColorBrewer")
