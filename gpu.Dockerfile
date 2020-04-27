@@ -44,7 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcudnn7-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libnccl2=$NCCL_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libnccl-dev=$NCCL_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
-    ln -s /usr/local/cuda-10.0 /usr/local/cuda && \
+    ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
