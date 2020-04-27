@@ -1,0 +1,24 @@
+: ${JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64}
+: ${R_JAVA_LD_LIBRARY_PATH=${JAVA_HOME}/lib/server}
+if test -n "/usr/local/lib"; then
+: ${R_LD_LIBRARY_PATH=${R_HOME}/lib:/usr/local/lib}
+else
+: ${R_LD_LIBRARY_PATH=${R_HOME}/lib}
+fi
+if test -n "${R_JAVA_LD_LIBRARY_PATH}"; then
+  R_LD_LIBRARY_PATH="${R_LD_LIBRARY_PATH}:${R_JAVA_LD_LIBRARY_PATH}"
+fi
+## This is DYLD_FALLBACK_LIBRARY_PATH on Darwin (macOS) and
+## LD_LIBRARY_PATH elsewhere.
+## However, on macOS >=10.11 (if SIP is enabled, the default), the
+## environment value will not be passed to a script such as R.sh, so
+## would not seen here.
+if test -z "${LD_LIBRARY_PATH}"; then
+  LD_LIBRARY_PATH="${R_LD_LIBRARY_PATH}"
+else
+  LD_LIBRARY_PATH="${R_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}"
+fi
+if test -n "/usr/lib/x86_64-linux-gnu"; then
+: ${LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib/x86_64-linux-gnu}
+fi
+export LD_LIBRARY_PATH
