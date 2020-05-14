@@ -50,6 +50,8 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated && \
+    # papermill can replace nbconvert for executing notebooks
+    pip install papermill && \
     /tmp/clean-layer.sh
 
 # Tensorflow and Keras
