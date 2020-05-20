@@ -45,18 +45,6 @@ pipeline {
       }
     }
 
-    stage('Push CPU Image') {
-      steps {
-        sh '''#!/bin/bash
-          set -exo pipefail
-
-          date
-          docker pull gcr.io/kaggle-images/rstats:${PRETEST_TAG}
-          ./push --source-image gcr.io/kaggle-images/rstats:${PRETEST_TAG} ${STAGING_TAG}
-        '''
-      }
-    }
-
     stage('Docker GPU Build') {
       agent { label 'ephemeral-linux-gpu' }
       steps {
@@ -69,7 +57,7 @@ pipeline {
           # will untag the previously built image which is safe to do. Builds for a single branch are performed
           # serially.
           docker image prune -f
-          ./build --gpu --base-image-tag ${STAGING_TAG} | ts
+          ./build --gpu --base-image-tag ${PRETEST_TAG} | ts
           date
           ./push --gpu ${PRETEST_TAG}
         '''
@@ -87,14 +75,13 @@ pipeline {
       }
     }
 
-    stage('Push GPU Image') {
-      agent { label 'ephemeral-linux-gpu' }
+    stage('Label CPU/GPU Staging Images') {
       steps {
         sh '''#!/bin/bash
           set -exo pipefail
-          date
-          docker pull gcr.io/kaggle-private-byod/rstats:${PRETEST_TAG}
-          ./push --source-image gcr.io/kaggle-private-byod/rstats:${PRETEST_TAG} --gpu ${STAGING_TAG}
+
+          gcloud container images add-tag gcr.io/kaggle-images/rstats:${PRETEST_TAG} gcr.io/kaggle-images/rstats:${STAGING_TAG}
+          gcloud container images add-tag gcr.io/kaggle-private-byod/rstats:${PRETEST_TAG} gcr.io/kaggle-private-byod/rstats:${STAGING_TAG}
         '''
       }
     }
