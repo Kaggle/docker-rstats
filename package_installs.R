@@ -4,7 +4,7 @@ options(Ncpus = parallel::detectCores())
 
 # Install the lightGBM installer package
 install_github("Laurae2/lgbdl")
-lgbdl::lgb.dl(compiler = "gcc")
+lgbdl::lgb.dl(compiler = "gcc", commit = "tags/v2.3.1")
 
 install_github("hadley/ggplot2")    # ggthemes is built against the latest ggplot2
 install_github("jrnold/ggthemes")
