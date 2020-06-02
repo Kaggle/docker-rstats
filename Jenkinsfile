@@ -75,6 +75,26 @@ pipeline {
       }
     }
 
+    stage('Package Versions') {
+      parallel {
+        stage('CPU Diff') {
+          steps {
+            sh '''#!/bin/bash
+            ./diff
+          '''
+          }
+        }
+        stage('GPU Diff') {
+          agent { label 'ephemeral-linux-gpu' }
+          steps {
+            sh '''#!/bin/bash
+            ./diff --gpu
+          '''
+          }
+        }
+      }
+    }
+
     stage('Label CPU/GPU Staging Images') {
       steps {
         sh '''#!/bin/bash
