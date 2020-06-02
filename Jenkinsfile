@@ -80,7 +80,10 @@ pipeline {
         stage('CPU Diff') {
           steps {
             sh '''#!/bin/bash
-            ./diff
+            set -exo pipefail
+
+            docker pull gcr.io/kaggle-images/rstats:${PRETEST_TAG}
+            ./diff --target gcr.io/kaggle-images/rstats:${PRETEST_TAG}
           '''
           }
         }
@@ -88,7 +91,10 @@ pipeline {
           agent { label 'ephemeral-linux-gpu' }
           steps {
             sh '''#!/bin/bash
-            ./diff --gpu
+            set -exo pipefail
+            
+            docker pull gcr.io/kaggle-private-byod/rstats:${PRETEST_TAG}
+            ./diff --gpu --target gcr.io/kaggle-private-byod/rstats:${PRETEST_TAG}
           '''
           }
         }
