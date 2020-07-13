@@ -15,7 +15,7 @@ install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
 # install_github fails for catboost.
 # Following direct installation instructions instead: https://tech.yandex.com/catboost/doc/dg/installation/r-installation-binary-installation-docpage/
-install_url('https://github.com/catboost/catboost/releases/download/v0.12.1.1/catboost-R-Linux-0.12.1.1.tgz', args = c("--no-multiarch"))
+install_url('https://github.com/catboost/catboost/releases/download/v0.23.2/catboost-R-Linux-0.23.2.tgz', args = c("--no-multiarch"))
 install_github("sassalley/hexmapr")
 install_github("hadley/multidplyr")
 install_github("dselivanov/LSHR")
