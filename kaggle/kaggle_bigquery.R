@@ -27,8 +27,15 @@ TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, li
     if (KAGGLE_USER_SECRETS_TOKEN == '') {
       stop("Expected KAGGLE_USER_SECRETS_TOKEN environment variable to be present.", call. = FALSE)
     }
-    request_body <- list(JWE = KAGGLE_USER_SECRETS_TOKEN, Target = 1)
-    response <- POST(paste0(KAGGLE_BASE_URL, GET_USER_SECRET_ENDPONT), body = request_body, encode = "json")
+    request_body <- list(Target = 1)
+    auth_header <- paste0("Bearer ", KAGGLE_USER_SECRETS_TOKEN)
+    headers <- add_headers(c("X-Kaggle-Authorization" = auth_header))
+    response <- POST(paste0(KAGGLE_BASE_URL, GET_USER_SECRET_ENDPONT),
+                     headers,
+                     # Reset the cookies on each request, since the server expects none.
+                     handle = handle(''),
+                     body = request_body,
+                     encode = "json")
     if (http_error(response) || !identical(content(response)$wasSuccessful, TRUE)) {
       err <- paste("Unable to refresh token. Please ensure you have a connected BigQuery account. Error: ",
                         paste(content(response, "text", encoding = 'utf-8')))
