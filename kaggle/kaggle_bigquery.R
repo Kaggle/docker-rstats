@@ -10,7 +10,7 @@
 
 KAGGLE_USER_SECRETS_TOKEN <- Sys.getenv("KAGGLE_USER_SECRETS_TOKEN")
 KAGGLE_BASE_URL <- Sys.getenv("KAGGLE_URL_BASE")
-GET_USER_SECRET_ENDPONT = "/requests/GetUserSecretRequest"
+GET_USER_SECRET_ENDPOINT = "/requests/GetUserSecretRequest"
 
 # We create a Token2.0 Credential object (from httr library) and use bigrquery's set_access_cred
 # to override the interactive authentication (https://github.com/r-dbi/bigrquery/blob/master/R/auth.R).
@@ -30,7 +30,7 @@ TokenBigQueryKernel <- R6::R6Class("TokenBigQueryKernel", inherit = Token2.0, li
     request_body <- list(Target = 1)
     auth_header <- paste0("Bearer ", KAGGLE_USER_SECRETS_TOKEN)
     headers <- add_headers(c("X-Kaggle-Authorization" = auth_header))
-    response <- POST(paste0(KAGGLE_BASE_URL, GET_USER_SECRET_ENDPONT),
+    response <- POST(paste0(KAGGLE_BASE_URL, GET_USER_SECRET_ENDPOINT),
                      headers,
                      # Reset the cookies on each request, since the server expects none.
                      handle = handle(''),

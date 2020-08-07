@@ -8,7 +8,7 @@
 get_user_secret <- function(label) {
     KAGGLE_USER_SECRETS_TOKEN <- Sys.getenv("KAGGLE_USER_SECRETS_TOKEN")
     KAGGLE_BASE_URL <- Sys.getenv("KAGGLE_URL_BASE")
-    GET_USER_SECRET_BY_LABEL_ENDPONT = "/requests/GetUserSecretByLabelRequest"
+    GET_USER_SECRET_BY_LABEL_ENDPOINT = "/requests/GetUserSecretByLabelRequest"
 
     if (KAGGLE_USER_SECRETS_TOKEN == '') {
       stop("Expected KAGGLE_USER_SECRETS_TOKEN environment variable to be present.", call. = FALSE)
@@ -17,7 +17,7 @@ get_user_secret <- function(label) {
     auth_header <- paste0("Bearer ", KAGGLE_USER_SECRETS_TOKEN)
     headers <- add_headers(c("X-Kaggle-Authorization" = auth_header))
     response <- POST(
-      paste0(KAGGLE_BASE_URL,GET_USER_SECRET_BY_LABEL_ENDPONT),
+      paste0(KAGGLE_BASE_URL, GET_USER_SECRET_BY_LABEL_ENDPOINT),
       headers,
       # Reset the cookies on each request, since the server expects none.
       handle = handle(''),
