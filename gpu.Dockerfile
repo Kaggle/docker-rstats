@@ -69,6 +69,4 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
     h2o4gpu \
     kmcudaR
 
-RUN R -e 'install.packages("gpuR", INSTALL_opts=c("--no-test-load"))'
-
 CMD ["R"]
