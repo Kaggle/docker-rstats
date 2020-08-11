@@ -66,9 +66,6 @@ RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
 
 # Install GPU specific packages
 RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
-    h2o4gpu \
-    kmcudaR
-
-RUN R -e 'install.packages("gpuR", INSTALL_opts=c("--no-test-load"))'
+    h2o4gpu
 
 CMD ["R"]
