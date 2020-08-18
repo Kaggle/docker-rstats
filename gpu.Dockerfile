@@ -54,6 +54,9 @@ ENV CUDA_HOME=/usr/local/cuda
 # Instead, this version of ldpaths adds it at the end.
 ADD ldpaths $R_HOME/etc/ldpaths
 
+# rm cache
+RUN rm -rf .nv
+
 # Install tensorflow with GPU support
 RUN R -e 'keras::install_keras(tensorflow = "2.3-gpu")' && \
     rm -rf /tmp/tensorflow_gpu && \
