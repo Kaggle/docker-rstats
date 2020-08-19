@@ -15,7 +15,7 @@ ENV CUDA_MINOR_VERSION=1
 ENV CUDA_PATCH_VERSION=243
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION=$CUDA_VERSION-1
-ENV CUDNN_VERSION=7.6.4.38
+ENV CUDNN_VERSION=7.6.5.32
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -30,6 +30,8 @@ ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1"
 RUN apt-get update && apt-get install -y --no-install-recommends \
+      libcublas10=10.2.1.243-1 \ 
+      libcublas-dev=10.2.1.243-1 \
       cuda-cudart-$CUDA_PKG_VERSION \
       cuda-cudart-dev-$CUDA_PKG_VERSION \
       cuda-libraries-$CUDA_PKG_VERSION \
