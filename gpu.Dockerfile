@@ -30,8 +30,6 @@ ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 ENV NVIDIA_REQUIRE_CUDA="cuda>=10.1"
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      libcublas10=10.2.1.243-1 \ 
-      libcublas-dev=10.2.1.243-1 \
       cuda-cudart-$CUDA_PKG_VERSION \
       cuda-cudart-dev-$CUDA_PKG_VERSION \
       cuda-libraries-$CUDA_PKG_VERSION \
@@ -43,6 +41,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcudnn7-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION  \
       libnccl2=2.5.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libnccl-dev=2.5.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
+      libcublas10=10.2.1.243-1 \ 
+      libcublas-dev=10.2.1.243-1 \
     ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
