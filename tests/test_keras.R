@@ -2,7 +2,8 @@ context("keras")
 
 test_that("model training", {
     library(keras)
-
+    physical_devices = tensorflow::tf$config$list_physical_devices('GPU')
+    tensorflow::tf$config$experimental$set_memory_growth(physical_devices[[1]],T)
     x_train <- matrix(rnorm(100 * 10), nrow = 100)
     y_train <- to_categorical(matrix(sample(0:2, 100, TRUE), ncol = 1), 3)
 
@@ -29,7 +30,8 @@ test_that("model training", {
 
 test_that("CNN model training", {
     library(keras)
-
+    physical_devices = tensorflow::tf$config$list_physical_devices('GPU')
+    tensorflow::tf$config$experimental$set_memory_growth(physical_devices[[1]],T)
     # Preprocess data
     train.label<- to_categorical(matrix(sample(0:9, 100, TRUE), ncol = 1), 10)
     train.feature<- matrix(sample(0:255, 28 * 28 * 100, TRUE), nrow = 100)
