@@ -6,10 +6,6 @@ options(Ncpus = parallel::detectCores())
 install_github("Laurae2/lgbdl")
 lgbdl::lgb.dl(compiler = "gcc", commit = "tags/v2.3.1")
 
-install_github("hadley/ggplot2")    # ggthemes is built against the latest ggplot2
-install_github("jrnold/ggthemes")
-install_github("thomasp85/ggraph")
-install_github("thomasp85/gganimate")
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
 install_github("rstudio/leaflet")
