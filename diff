@@ -78,7 +78,7 @@ if [[ "$BASE_IMAGE_TAG" == "gcr.io/"* ]]; then
     docker pull "$BASE_IMAGE_TAG"
 fi
 
-CMDS=("Rscript /tools/r_list_versions.R | sort" 'cat /etc/os-release | grep -oP "PRETTY_NAME=\"\K([^\"]*)"' "uname -r" "dpkg --list | awk '{print \$2\"==\"\$3}'")
+CMDS=("Rscript /tools/r_list_versions.R | sort" "pip freeze" 'cat /etc/os-release | grep -oP "PRETTY_NAME=\"\K([^\"]*)"' "uname -r" "dpkg --list | awk '{print \$2\"==\"\$3}'")
 for cmd in "${CMDS[@]}"; do
     echo "== Comparing $cmd =="
     diff --suppress-common-lines --side-by-side \
