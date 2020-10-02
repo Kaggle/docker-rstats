@@ -70,3 +70,5 @@ Downloading GitHub repo nerdcha/coolstuff@master
 
 If that's all working as expected, then you can add `apt-get install libcool-dev` to the end of the [`Dockerfile`](https://github.com/Kaggle/docker-rstats/blob/master/Dockerfile), and `install_github("nerdcha/coolstuff")` to `package_installs.R`.
 
+For further more information:
+https://docs.ansible.com/
