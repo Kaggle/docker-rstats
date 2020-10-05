@@ -40,3 +40,6 @@ install_github("thomasp85/patchwork")
 install.packages("topicmodels")
 
 install.packages("tesseract")
+
+# Torch: at the first package load additional software will be installed.
+library(torch)

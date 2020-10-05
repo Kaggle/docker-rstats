@@ -72,4 +72,7 @@ RUN apt-get install -y --no-install-recommends ocl-icd-opencl-dev && \
 RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpus $ncpus --repo http://cran.rstudio.com \
     h2o4gpu
 
+# Torch: at the first package load additional software will be installed.
+RUN R -e 'library(torch)'
+
 CMD ["R"]

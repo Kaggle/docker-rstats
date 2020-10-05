@@ -1,4 +1,4 @@
-context("tensorflow")
+context("torch")
 
 test_that("cpu imports", {
   library(torch)
@@ -15,3 +15,4 @@ test_that("gpu imports", {
   y <- torch_tensor(x, dtype = torch_float64())
   expect_equal(x, y)
 })
+
