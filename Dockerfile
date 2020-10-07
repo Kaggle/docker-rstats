@@ -41,6 +41,8 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     # the latest version also has a regression on the NotebookApp.ip option
     # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
     pip install notebook==5.5.0 && \
+    # Pin nbconvert b/170301227
+    pip install nbconvert=5.6.1 && \
     R -e 'IRkernel::installspec()' && \
     # Build pyzmq from source instead of using a pre-built binary.
     yes | pip uninstall pyzmq && \
