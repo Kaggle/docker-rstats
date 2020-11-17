@@ -4,7 +4,7 @@ options(Ncpus = parallel::detectCores())
 
 # Install the lightGBM installer package
 install_github("Laurae2/lgbdl")
-lgbdl::lgb.dl(compiler = "gcc", commit = "tags/v2.3.1")
+lgbdl::lgb.dl(compiler = "gcc")
 
 install_github("dgrtwo/widyr")
 install_github("ellisp/forecastxgb-r-package/pkg")
