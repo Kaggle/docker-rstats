@@ -8,6 +8,7 @@
 get_user_secret <- function(label) {
     KAGGLE_USER_SECRETS_TOKEN <- Sys.getenv("KAGGLE_USER_SECRETS_TOKEN")
     KAGGLE_BASE_URL <- Sys.getenv("KAGGLE_URL_BASE")
+    KAGGLE_IAP_TOKEN <- Sys.getenv("KAGGLE_IAP_TOKEN")
     GET_USER_SECRET_BY_LABEL_ENDPOINT = "/requests/GetUserSecretByLabelRequest"
 
     if (KAGGLE_USER_SECRETS_TOKEN == '') {
@@ -15,7 +16,12 @@ get_user_secret <- function(label) {
     }
     request_body <- list(Label = label)
     auth_header <- paste0("Bearer ", KAGGLE_USER_SECRETS_TOKEN)
-    headers <- add_headers(c("X-Kaggle-Authorization" = auth_header))
+    if (KAGGLE_IAP_TOKEN != '') {
+        iap_auth_header <- paste0("Bearer ", KAGGLE_IAP_TOKEN)
+        headers <- add_headers(c("X-Kaggle-Authorization" = auth_header, "Authorization" = iap_auth_header))
+    } else {
+        headers <- add_headers(c("X-Kaggle-Authorization" = auth_header))
+    }
     response <- POST(
       paste0(KAGGLE_BASE_URL, GET_USER_SECRET_BY_LABEL_ENDPOINT),
       headers,
