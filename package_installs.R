@@ -43,3 +43,4 @@ install.packages("tesseract")
 
 # Torch: at the first package load additional software will be installed.
 library(torch)
+install_torch(reinstall = TRUE)

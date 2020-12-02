@@ -73,6 +73,6 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
     h2o4gpu
 
 # Torch: at the first package load additional software will be installed.
-RUN R -e 'library(torch)'
+RUN R -e 'library(torch); install_torch(reinstall = TRUE)'
 
 CMD ["R"]
