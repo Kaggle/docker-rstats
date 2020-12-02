@@ -4,7 +4,7 @@ test_that("cpu imports", {
   library(torch)
   x <- array(runif(8), dim = c(2, 2, 2))
   y <- torch_tensor(x, dtype = torch_float64())
-  expect_equal(x, y)
+  expect_identical(x, as_array(y))
 })
 
 test_that("gpu imports", {
@@ -13,6 +13,6 @@ test_that("gpu imports", {
   library(torch)
   x <- array(runif(8), dim = c(2, 2, 2))
   y <- torch_tensor(x, dtype = torch_float64())
-  expect_equal(x, y)
+  expect_identical(x, as_array(y))
 })
 
