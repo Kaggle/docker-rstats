@@ -41,6 +41,7 @@ install.packages("topicmodels")
 
 install.packages("tesseract")
 
-# Torch: at the first package load additional software will be installed.
+# Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
+# without internet (competitions for example).
 library(torch)
 install_torch(reinstall = TRUE)
