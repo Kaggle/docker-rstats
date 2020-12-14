@@ -40,3 +40,4 @@ install_github("thomasp85/patchwork")
 install.packages("topicmodels")
 
 install.packages("tesseract")
+install.packages("av")
