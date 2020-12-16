@@ -8,5 +8,7 @@ BiocManager::install("EBImage", ask=FALSE)
 BiocManager::install("rhdf5", ask=FALSE)
 BiocManager::install("limma", ask=FALSE)
 
+if("devtools" %in% rownames(installed.packages()) == FALSE) {install.packages("devtools")}
 library(devtools)
+
 install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz", quiet=TRUE)
