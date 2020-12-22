@@ -22,10 +22,14 @@ RUN apt-get update && \
     /tmp/clean-layer.sh
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
-    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
+    /tmp/clean-layer.sh
+
+RUN cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j $(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
-    # Needed for "h5" library
-    apt-get install -y libhdf5-dev && \
+    /tmp/clean-layer.sh
+
+# Needed for "h5" library
+RUN apt-get install -y libhdf5-dev && \
     # Needed for "topicmodels" library
     apt-get install -y libgsl-dev && \
     # Needed for "tesseract" library
