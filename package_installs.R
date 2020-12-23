@@ -45,3 +45,6 @@ install.packages("tesseract")
 # without internet (competitions for example).
 library(torch)
 install_torch(reinstall = TRUE)
+
+# The R Keras package must be reinstalled after installing it in the python virtualenv.
+install.packages("keras")
