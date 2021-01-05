@@ -1,7 +1,6 @@
 ARG BASE_TAG=latest
 
 FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
-ARG ncpus=1
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
@@ -23,9 +22,11 @@ RUN apt-get update && \
 
 RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j $(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+    cd mxnet && make -j$(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+    /tmp/clean-layer.sh
+
     # Needed for "h5" library
-    apt-get install -y libhdf5-dev && \
+RUN apt-get install -y libhdf5-dev && \
     # Needed for "topicmodels" library
     apt-get install -y libgsl-dev && \
     # Needed for "tesseract" library

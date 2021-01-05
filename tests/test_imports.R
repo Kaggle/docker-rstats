@@ -46,7 +46,6 @@ test_that("imports", {
 
     # bioconductor
     Library("BiocGenerics")
-    Library("biOps")
     Library("EBImage")
     Library("limma")
     Library("rhdf5")

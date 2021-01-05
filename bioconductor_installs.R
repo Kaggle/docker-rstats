@@ -1,17 +1,15 @@
 options(repos = c("CRAN" = "http://cran.us.r-project.org"))
 options(Ncpus = parallel::detectCores())
 
-install.packages("devtools")
+if("devtools" %in% rownames(installed.packages()) == FALSE)
+	install.packages("devtools")
 library(devtools)
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-BiocManager::install(update=TRUE, ask=FALSE)
-
-BiocManager::install("BiocGenerics", ask=FALSE)
-BiocManager::install("EBImage", ask=FALSE)
-BiocManager::install("rhdf5", ask=FALSE)
-BiocManager::install("limma", ask=FALSE)
-
-install_url("http://cran.r-project.org/src/contrib/Archive/biOps/biOps_0.2.2.tar.gz", quiet=TRUE)
+BiocManager::install(update=FALSE, ask=FALSE)
+BiocManager::install("BiocGenerics", update=FALSE, ask=FALSE)
+BiocManager::install("EBImage", update=FALSE, ask=FALSE)
+BiocManager::install("rhdf5", update=FALSE, ask=FALSE)
+BiocManager::install("limma", update=FALSE, ask=FALSE)
