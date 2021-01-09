@@ -48,3 +48,6 @@ install_torch(reinstall = TRUE)
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install.packages("keras")
+
+# install timereg mainly for the qcut() function which bins observations by quantile - see https://cran.r-project.org/web/packages/timereg/timereg.pdf
+install.packages("timereg")
