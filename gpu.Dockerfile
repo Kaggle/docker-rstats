@@ -76,4 +76,7 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 # without internet (competitions for example). It will detect CUDA and install the proper version.
 RUN R -e 'library(torch); install_torch(reinstall = TRUE)'
 
+# Fastai GPU version.
+RUN R -e 'library(fastai); install_fastai(gpu = TRUE)'
+
 CMD ["R"]

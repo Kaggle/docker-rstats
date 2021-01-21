@@ -48,3 +48,6 @@ install_torch(reinstall = TRUE)
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install.packages("keras")
+
+install_github("henry090/fastai")
+install_fastai(gpu = FALSE, overwrite = FALSE)
