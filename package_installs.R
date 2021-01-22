@@ -50,4 +50,5 @@ install_torch(reinstall = TRUE)
 install.packages("keras")
 
 install_github("henry090/fastai")
+library(fastai)
 install_fastai(gpu = FALSE, overwrite = FALSE)
