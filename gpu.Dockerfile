@@ -10,12 +10,12 @@ COPY --from=nvidia /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/
 COPY --from=nvidia /etc/apt/sources.list.d/nvidia-ml.list /etc/apt/sources.list.d/
 COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
-ENV CUDA_MAJOR_VERSION=10
-ENV CUDA_MINOR_VERSION=2
-ENV CUDA_PATCH_VERSION=89
+ENV CUDA_MAJOR_VERSION=11
+ENV CUDA_MINOR_VERSION=0
+ENV CUDA_PATCH_VERSION=3
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION=$CUDA_VERSION-1
-ENV CUDNN_VERSION=7.6.5.32
+ENV CUDNN_VERSION=8.0.2
 ENV CUBLAS_VERSION=10.2.1.243
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
