@@ -54,7 +54,7 @@ done
 
 BUILD_ARGS+=" --build-arg ncpus=$NCPUS"
 BUILD_ARGS+=" --build-arg GIT_COMMIT=$(git rev-parse HEAD)"
-BUILD_ARGS+=" --build-arg BUILD_DATE=$(date '+%Y%m%d-%H%M%S')"
+BUILD_ARGS+=" --build-arg BUILD_DATE_RSTATS=$(date '+%Y%m%d-%H%M%S')"
 
 readonly CACHE_FLAG
 readonly DOCKERFILE
