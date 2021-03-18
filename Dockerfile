@@ -86,5 +86,8 @@ LABEL build-date=$BUILD_DATE
 
 # Find the current release git hash & build date inside the kernel editor.
 RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE" > /etc/build_date
+RUN echo "Hello Philmod"
+RUN echo "$BUILD_DATE"
+RUN cat /etc/build_date
 
 CMD ["R"]
