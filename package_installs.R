@@ -48,3 +48,9 @@ install_torch(reinstall = TRUE)
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install.packages("keras")
+
+# In order to run tifffile with dependence imagecodecs, these two python packages have to be installed to 
+# work with reticulate import. Using import_from_path, after downloading those wheels (.whl) dont work,
+# since imagecodecs is a dependence 
+py_install("imagecodecs")
+py_install("tifffile")
