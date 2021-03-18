@@ -79,15 +79,12 @@ RUN Rscript --vanilla /tmp/bioconductor_installs.R
 RUN Rscript --vanilla /tmp/install_iR.R
 
 ARG GIT_COMMIT=unknown
-ARG BUILD_DATE=unknown
+ARG BUILD_DATE_RSTATS=unknown
 
 LABEL git-commit=$GIT_COMMIT
-LABEL build-date=$BUILD_DATE
+LABEL build-date=$BUILD_DATE_RSTATS
 
 # Find the current release git hash & build date inside the kernel editor.
-RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE" > /etc/build_date
-RUN echo "Hello Philmod"
-RUN echo "$BUILD_DATE"
-RUN cat /etc/build_date
+RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE_RSTATS" > /etc/build_date
 
 CMD ["R"]
