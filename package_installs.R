@@ -39,6 +39,8 @@ install_github("thomasp85/patchwork")
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
 
+install.packages("terra")
+
 install.packages("tesseract")
 
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
