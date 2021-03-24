@@ -52,5 +52,6 @@ install.packages("keras")
 # In order to run tifffile with dependence imagecodecs, these two python packages have to be installed to 
 # work with reticulate import. Using import_from_path, after downloading those wheels (.whl) dont work,
 # since imagecodecs is a dependence 
+library(reticulate)
 py_install("imagecodecs")
 py_install("tifffile")
