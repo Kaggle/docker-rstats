@@ -48,3 +48,7 @@ install_torch(reinstall = TRUE)
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install.packages("keras")
+
+
+#R interface to useful extra functionality for TensorFlow 2.x by SIG-addons
+devtools::install_github('henry090/tfaddons')
