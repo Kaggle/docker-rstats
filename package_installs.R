@@ -1,7 +1,11 @@
 library(devtools)
 options(repos = c("CRAN" = "http://cran.us.r-project.org"))
 options(Ncpus = parallel::detectCores())
-options(download.file.method = "libcurl") # https://stackoverflow.com/questions/45061272/r-and-ssl-curl-on-ubuntu-linux-failed-ssl-connect-in-r-but-works-in-curl
+
+# Set download method, to avoid the default behavior of using
+# R's internal HTTP implementation, which doesn't support HTTPS connections.
+# https://stackoverflow.com/questions/45061272/r-and-ssl-curl-on-ubuntu-linux-failed-ssl-connect-in-r-but-works-in-curl
+options(download.file.method = "libcurl")
 
 # Install the lightGBM installer package
 install_github("Laurae2/lgbdl")
