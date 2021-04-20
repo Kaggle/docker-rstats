@@ -13,8 +13,8 @@ test_that("nbconvert to notebook", {
 
 test_that("nbconvert to html", {
 	expect_error({
-		results <- system("jupyter nbconvert --to html --output \"__results__.html\" --template /opt/kaggle/nbconvert-extensions.tpl --Exporter.preprocessors=[\\\"nbconvert.preprocessors.ExtractOutputPreprocessor\\\"] \"/input/tests/data/notebook.ipynb\"",
+		results <- system("jupyter nbconvert --to html --stdout --template /opt/kaggle/nbconvert-extensions.tpl --Exporter.preprocessors=[\\\"nbconvert.preprocessors.ExtractOutputPreprocessor\\\"] \"/input/tests/data/notebook.ipynb\"",
 			intern = TRUE)
-		expect_match(results, "Hello World")
+		expect_match(toString(results), ".*>999<.*")  # [...] <span class="n">x</span> <span class="o">&lt;-</span> <span class="m">999</span> [...]
     }, NA) # expect no error to be thrown
 })
