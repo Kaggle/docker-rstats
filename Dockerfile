@@ -1,4 +1,4 @@
-ARG BASE_TAG=latest
+ARG BASE_TAG=r4
 
 FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
