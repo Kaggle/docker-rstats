@@ -20,7 +20,7 @@ RUN apt-get update && \
     patch libgit2-dev && \
     /tmp/clean-layer.sh
 
-RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
+RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev python3-opencv && \
     cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && make -j$(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
     /tmp/clean-layer.sh
