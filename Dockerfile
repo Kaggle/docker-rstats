@@ -6,7 +6,7 @@ ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Default to python3.7
 RUN apt-get update && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
     update-alternatives --config python && \
     apt install -y python3-pip python3-venv && \
     /tmp/clean-layer.sh
