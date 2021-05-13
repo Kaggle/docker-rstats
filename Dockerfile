@@ -20,9 +20,9 @@ RUN apt-get update && \
     patch libgit2-dev && \
     /tmp/clean-layer.sh
 
-RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev python3-opencv && \
-    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j$(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+RUN apt-get update && apt-get install -y build-essential git ninja-build ccache  libatlas-base-dev libopenblas-dev libopencv-dev python3-opencv && \
+    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.8.x https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd mxnet && cp config/linux.cmake config.cmake && rm -rf build && mkdir -p build && cd build && cmake .. && cmake --build . --parallel $(nproc) && make -f R-package/Makefile rpkg && \
     /tmp/clean-layer.sh
 
     # Needed for "h5" library
