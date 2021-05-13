@@ -34,7 +34,7 @@ RUN apt-get install -y libhdf5-dev && \
     apt-get install -y libpoppler-cpp-dev libtesseract-dev tesseract-ocr-eng && \
     /tmp/clean-layer.sh
 
-RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
+RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
