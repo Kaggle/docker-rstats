@@ -57,11 +57,15 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
     pip install papermill && \
     /tmp/clean-layer.sh
 
+# Miniconda
+RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
+    bash -x mconda-install.sh -b -p miniconda && \
+    rm mconda-install.sh && \
+    /tmp/clean-layer.sh
+
 # Tensorflow and Keras
-# Keras sets up a virtualenv and installs tensorflow
-# in the WORKON_HOME directory, so choose an explicit location for it.
-ENV WORKON_HOME=/usr/local/share/.virtualenvs
-RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"))'
+RUN conda activate r-reticulate && \
+    R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
