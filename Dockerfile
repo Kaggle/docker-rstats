@@ -64,8 +64,7 @@ RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
     /tmp/clean-layer.sh
 
 # Tensorflow and Keras
-RUN conda activate r-reticulate && \
-    R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
+RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
