@@ -21,7 +21,7 @@ RUN apt-get update && \
     /tmp/clean-layer.sh
 
 RUN apt-get update && apt-get install -y build-essential git ninja-build ccache  libatlas-base-dev libopenblas-dev libopencv-dev python3-opencv && \
-    cd /usr/local/opt && git clone --recursive --depth=1 --branch v1.8.x https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd /usr/local/share && git clone --recursive --depth=1 --branch v1.8.x https://github.com/apache/incubator-mxnet.git mxnet && \
     cd mxnet && cp config/linux.cmake config.cmake && rm -rf build && \
     mkdir -p build && cd build && cmake .. && cmake --build . --parallel $(nproc) && \
     cd .. && make -f R-package/Makefile rpkg && \
