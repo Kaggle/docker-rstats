@@ -6,7 +6,7 @@ ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Default to python3.7
 RUN apt-get update && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
     update-alternatives --config python && \
     apt install -y python3-pip python3-venv && \
     /tmp/clean-layer.sh
@@ -20,9 +20,11 @@ RUN apt-get update && \
     patch libgit2-dev && \
     /tmp/clean-layer.sh
 
-RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
-    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j$(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+RUN apt-get update && apt-get install -y build-essential git ninja-build ccache  libatlas-base-dev libopenblas-dev libopencv-dev python3-opencv && \
+    cd /usr/local/share && git clone --recursive --depth=1 --branch v1.8.x https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd mxnet && cp config/linux.cmake config.cmake && rm -rf build && \
+    mkdir -p build && cd build && cmake .. && cmake --build . --parallel $(nproc) && \
+    cd .. && make -f R-package/Makefile rpkg && \
     /tmp/clean-layer.sh
 
     # Needed for "h5" library
@@ -33,7 +35,7 @@ RUN apt-get install -y libhdf5-dev && \
     apt-get install -y libpoppler-cpp-dev libtesseract-dev tesseract-ocr-eng && \
     /tmp/clean-layer.sh
 
-RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
+RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
@@ -56,11 +58,14 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     pip install papermill && \
     /tmp/clean-layer.sh
 
+# Miniconda
+RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
+    bash -x mconda-install.sh -b -p miniconda && \
+    rm mconda-install.sh && \
+    /tmp/clean-layer.sh
+
 # Tensorflow and Keras
-# Keras sets up a virtualenv and installs tensorflow
-# in the WORKON_HOME directory, so choose an explicit location for it.
-ENV WORKON_HOME=/usr/local/share/.virtualenvs
-RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"))'
+RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.

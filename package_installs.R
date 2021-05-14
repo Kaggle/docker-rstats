@@ -46,6 +46,10 @@ install.packages("topicmodels")
 
 install.packages("tesseract")
 
+# Try to reinstall igraph and imager her until fixed in rcran.
+install.packages("igraph")
+install.packages("imager")
+
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example).
 library(torch)
