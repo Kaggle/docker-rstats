@@ -10,3 +10,13 @@ test_that("papermill exists", {
 		expect_equal(json$cells[[1]]$outputs[[1]]$text[[1]], "[1] 999\n")
     }, NA) # expect no error to be thrown
 })
+
+test_that("python papermill exists", {
+	expect_error({
+		library(jsonlite)
+
+		results <- system("python -c 'import sys;import papermill as pm; print(pm.__version__)'",
+			intern = TRUE)
+		print(results)
+    }, NA) # expect no error to be thrown
+})
