@@ -10,7 +10,6 @@ RUN apt-get update && \
     update-alternatives --config python && \
     apt install -y python3-pip python3-venv && \
     /tmp/clean-layer.sh
-RUN ln -sf /usr/bin/python3.8 /usr/bin/python
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \
@@ -83,6 +82,8 @@ ADD kaggle/template_conf.json /opt/kaggle/conf.json
 RUN Rscript --vanilla /tmp/package_installs.R
 RUN Rscript --vanilla /tmp/bioconductor_installs.R
 RUN Rscript --vanilla /tmp/install_iR.R
+
+RUN ln -sf /usr/bin/python3.8 /usr/bin/python
 
 ARG GIT_COMMIT=unknown
 ARG BUILD_DATE_RSTATS=unknown
