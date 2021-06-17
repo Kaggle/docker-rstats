@@ -4,12 +4,13 @@ FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.7
+# Default to python3.8
 RUN apt-get update && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
     update-alternatives --config python && \
     apt install -y python3-pip python3-venv && \
     /tmp/clean-layer.sh
+RUN ln -sf /usr/bin/python3.8 /usr/bin/python
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \

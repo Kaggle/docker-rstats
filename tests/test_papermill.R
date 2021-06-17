@@ -13,10 +13,8 @@ test_that("papermill exists", {
 
 test_that("python papermill exists", {
 	expect_error({
-		library(jsonlite)
-
-		results <- system("python -c 'import sys;import papermill as pm; print(pm.__version__)'",
+		res <- system("python -c 'import sys;import papermill as pm; print(pm.__version__)'",
 			intern = TRUE)
-		print(results)
-    }, NA) # expect no error to be thrown
+		expect_match(res, "\\d\\.\\d\\.\\d")
+    }, NA)
 })
