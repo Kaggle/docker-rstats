@@ -14,6 +14,13 @@ RUN apt-get update && \
 RUN apt purge -y python2.7-minimal
 RUN ln -sf /usr/bin/python3.8 /usr/bin/python
 
+# Miniconda
+RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
+    bash -x mconda-install.sh -b -p miniconda && \
+    rm mconda-install.sh && \
+    /tmp/clean-layer.sh
+ENV PATH=/miniconda/bin:${PATH}
+
 RUN apt-get update && \
     apt-get install apt-transport-https && \
     apt-get install -y -f r-cran-rgtk2 && \
@@ -37,13 +44,6 @@ RUN apt-get install -y libhdf5-dev && \
     # Needed for "tesseract" library
     apt-get install -y libpoppler-cpp-dev libtesseract-dev tesseract-ocr-eng && \
     /tmp/clean-layer.sh
-
-# Miniconda
-RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
-    bash -x mconda-install.sh -b -p miniconda && \
-    rm mconda-install.sh && \
-    /tmp/clean-layer.sh
-ENV PATH=/miniconda/bin:${PATH}
 
 RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
