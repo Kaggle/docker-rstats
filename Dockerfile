@@ -38,6 +38,13 @@ RUN apt-get install -y libhdf5-dev && \
     apt-get install -y libpoppler-cpp-dev libtesseract-dev tesseract-ocr-eng && \
     /tmp/clean-layer.sh
 
+# Miniconda
+RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
+    bash -x mconda-install.sh -b -p miniconda && \
+    rm mconda-install.sh && \
+    /tmp/clean-layer.sh
+ENV PATH=/miniconda/bin:${PATH}
+
 RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
@@ -60,13 +67,6 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
     # papermill can replace nbconvert for executing notebooks
     pip install papermill && \
     /tmp/clean-layer.sh
-
-# Miniconda
-RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
-    bash -x mconda-install.sh -b -p miniconda && \
-    rm mconda-install.sh && \
-    /tmp/clean-layer.sh
-ENV PATH=/miniconda/bin:${PATH}
 
 # Tensorflow and Keras
 RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
