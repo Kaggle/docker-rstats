@@ -13,6 +13,7 @@ test_that("papermill exists", {
 
 test_that("python papermill exists", {
 	expect_error({
+		system("python --version")
 		res <- system("python -c 'import sys;import papermill as pm; print(pm.__version__)'",
 			intern = TRUE)
 		expect_match(res, "\\d\\.\\d\\.\\d")
