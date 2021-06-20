@@ -1,5 +1,8 @@
 options(repos = list(CRAN = "http://cran.rstudio.com/"))
 
+old_path <- Sys.getenv("PATH")
+Sys.setenv(PATH = paste(old_path, "/miniconda/bin", sep = ":"))
+
 options(device = function() png(width = 900))
 
 # Suppressing package startup messages in package loads

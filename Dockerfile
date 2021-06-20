@@ -21,6 +21,12 @@ RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
     /tmp/clean-layer.sh
 ENV PATH=/miniconda/bin:${PATH}
 
+# R configuration.
+# Including the path for conda.
+ADD kaggle/ /kaggle/
+ENV R_HOME=/usr/local/lib/R
+ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
+
 RUN apt-get update && \
     apt-get install apt-transport-https && \
     apt-get install -y -f r-cran-rgtk2 && \
@@ -72,10 +78,6 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
 RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
-# Do this at the end to avoid rebuilding everything when any change is made.
-ADD kaggle/ /kaggle/
-# RProfile sources files from /kaggle/ so ensure this runs after ADDing it.
-ENV R_HOME=/usr/local/lib/R
 ADD RProfile.R /usr/local/lib/R/etc/Rprofile.site
 ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
