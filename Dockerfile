@@ -53,6 +53,7 @@ RUN apt-get install -y libhdf5-dev && \
 
 RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
+    conda install -c conda-forge -y pip notebook nb_conda_kernels && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
@@ -65,7 +66,7 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
     # Build pyzmq from source instead of using a pre-built binary.
     yes | pip uninstall pyzmq && \
     pip install pyzmq --no-binary pyzmq && \
-    cp -r /root/.local/share/jupyter/kernels/ir /usr/local/share/jupyter/kernels && \
+    # cp -r /root/.local/share/jupyter/kernels/ir /usr/local/share/jupyter/kernels && \
     # Make sure Jupyter won't try to "migrate" its junk in a read-only container
     mkdir -p /root/.jupyter/kernels && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
