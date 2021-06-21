@@ -4,12 +4,15 @@ FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.7
+# Default to python3.8
 RUN apt-get update && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
     update-alternatives --config python && \
     apt install -y python3-pip python3-venv && \
     /tmp/clean-layer.sh
+
+RUN apt purge -y python2.7-minimal
+RUN ln -sf /usr/bin/python3.8 /usr/bin/python
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \
@@ -63,6 +66,7 @@ RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
     bash -x mconda-install.sh -b -p miniconda && \
     rm mconda-install.sh && \
     /tmp/clean-layer.sh
+ENV PATH=/miniconda/bin:${PATH}
 
 # Tensorflow and Keras
 RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
