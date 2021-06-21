@@ -53,7 +53,7 @@ RUN apt-get install -y libhdf5-dev && \
 
 RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
-    conda install -c conda-forge -y pip r_env r-irkernel \
+    conda install -c conda-forge -y pip r-irkernel \
       notebook=5.5.0 nb_conda_kernels nbconvert && \
     conda install -c conda-forge jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
