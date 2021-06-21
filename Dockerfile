@@ -66,7 +66,6 @@ RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
     bash -x mconda-install.sh -b -p miniconda && \
     rm mconda-install.sh && \
     /tmp/clean-layer.sh
-ENV PATH=${PATH}:/miniconda/bin
 
 # Tensorflow and Keras
 RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
