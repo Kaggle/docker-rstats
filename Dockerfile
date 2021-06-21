@@ -53,15 +53,16 @@ RUN apt-get install -y libhdf5-dev && \
 
 RUN apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
-    conda install -c conda-forge -y pip notebook nb_conda_kernels && \
-    pip install jupyter pycurl && \
+    conda install -c conda-forge -y pip r_env r-irkernel \
+      notebook=5.5.0 nb_conda_kernels nbconvert && \
+    conda install -c conda-forge jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
-    pip install "tornado<6" && \
+    conda install -c conda-forge "tornado<6" && \
     # to avoid breaking UI change, pin the jupyter notebook package
     # the latest version also has a regression on the NotebookApp.ip option
     # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
-    pip install notebook==5.5.0 && \
-    pip install nbconvert && \
+    # pip install notebook==5.5.0 && \
+    # pip install nbconvert && \
     R -e 'IRkernel::installspec()' && \
     # Build pyzmq from source instead of using a pre-built binary.
     yes | pip uninstall pyzmq && \
@@ -72,7 +73,7 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
     cp -r /root/.local/share/jupyter/kernels/ir /root/.jupyter/kernels && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated && \
     # papermill can replace nbconvert for executing notebooks
-    pip install papermill && \
+    conda install -c conda-forge papermill && \
     /tmp/clean-layer.sh
 
 # Tensorflow and Keras
