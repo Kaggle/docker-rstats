@@ -4,12 +4,10 @@ FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.7
-RUN apt-get update && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
-    update-alternatives --config python && \
-    apt install -y python3-pip python3-venv && \
-    /tmp/clean-layer.sh
+# Default to python3.8
+RUN ln -sf /usr/bin/python3.8 /usr/bin/python
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python get-pip.py
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \
@@ -36,7 +34,7 @@ RUN apt-get install -y libhdf5-dev && \
     /tmp/clean-layer.sh
 
 RUN apt-get install -y libzmq3-dev default-jdk && \
-    apt-get install -y python-dev libcurl4-openssl-dev libssl-dev && \
+    apt-get install -y python3.8-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
