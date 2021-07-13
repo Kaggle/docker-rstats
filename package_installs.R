@@ -57,3 +57,6 @@ install_torch(reinstall = TRUE)
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install_version("keras", version = "2.3.0.0", ask=FALSE)
+
+# NNS - Nonlinear Nonparametric Statistics and models - https://github.com/cran/NNS
+install.packages("NNS")
