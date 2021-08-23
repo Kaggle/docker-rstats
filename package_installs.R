@@ -57,3 +57,6 @@ install_torch(reinstall = TRUE)
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install_version("keras", version = "2.3.0.0", ask=FALSE)
+
+# https://github.com/mrdwab/mrdwabmisc
+install_github("mrdwab/mrdwabmisc")
