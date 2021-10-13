@@ -4,12 +4,10 @@ FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.7
-RUN apt-get update && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
-    update-alternatives --config python && \
-    apt install -y python3-pip python3-venv && \
-    /tmp/clean-layer.sh
+# Default to python3.8
+RUN ln -sf /usr/bin/python3.8 /usr/bin/python
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python get-pip.py
 
 RUN apt-get update && \
     apt-get install apt-transport-https && \
@@ -20,9 +18,11 @@ RUN apt-get update && \
     patch libgit2-dev && \
     /tmp/clean-layer.sh
 
-RUN apt-get update && apt-get install -y libatlas-base-dev libopenblas-dev libopencv-dev && \
-    cd /usr/local/src && git clone --recursive --depth=1 --branch v1.6.x https://github.com/apache/incubator-mxnet.git mxnet && \
-    cd mxnet && make -j$(nproc) USE_OPENCV=1 USE_BLAS=openblas && make rpkg && \
+RUN apt-get update && apt-get install -y build-essential git ninja-build ccache  libatlas-base-dev libopenblas-dev libopencv-dev python3-opencv && \
+    cd /usr/local/share && git clone --recursive --depth=1 --branch v1.8.x https://github.com/apache/incubator-mxnet.git mxnet && \
+    cd mxnet && cp config/linux.cmake config.cmake && rm -rf build && \
+    mkdir -p build && cd build && cmake .. && cmake --build . --parallel $(nproc) && \
+    cd .. && make -f R-package/Makefile rpkg && \
     /tmp/clean-layer.sh
 
     # Needed for "h5" library
@@ -33,8 +33,8 @@ RUN apt-get install -y libhdf5-dev && \
     apt-get install -y libpoppler-cpp-dev libtesseract-dev tesseract-ocr-eng && \
     /tmp/clean-layer.sh
 
-RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
-    apt-get install -y python-dev libcurl4-openssl-dev && \
+RUN apt-get install -y libzmq3-dev default-jdk && \
+    apt-get install -y python3.8-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
@@ -42,8 +42,7 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     # the latest version also has a regression on the NotebookApp.ip option
     # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
     pip install notebook==5.5.0 && \
-    # Pin nbconvert b/170301227
-    pip install nbconvert==5.6.1 && \
+    pip install nbconvert && \
     R -e 'IRkernel::installspec()' && \
     # Build pyzmq from source instead of using a pre-built binary.
     yes | pip uninstall pyzmq && \
@@ -57,11 +56,14 @@ RUN apt-get install -y libzmq3-dev python-pip default-jdk && \
     pip install papermill && \
     /tmp/clean-layer.sh
 
+# Miniconda
+RUN curl -sL https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -o mconda-install.sh && \
+    bash -x mconda-install.sh -b -p miniconda && \
+    rm mconda-install.sh && \
+    /tmp/clean-layer.sh
+
 # Tensorflow and Keras
-# Keras sets up a virtualenv and installs tensorflow
-# in the WORKON_HOME directory, so choose an explicit location for it.
-ENV WORKON_HOME=/usr/local/share/.virtualenvs
-RUN pip install --user virtualenv && R -e 'keras::install_keras(tensorflow = "2.4", extra_packages = c("pandas", "numpy", "pycryptodome"))'
+RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
@@ -73,18 +75,19 @@ ADD install_iR.R  /tmp/install_iR.R
 ADD bioconductor_installs.R /tmp/bioconductor_installs.R
 ADD package_installs.R /tmp/package_installs.R
 ADD nbconvert-extensions.tpl /opt/kaggle/nbconvert-extensions.tpl
+ADD kaggle/template_conf.json /opt/kaggle/conf.json
 # Install with `--vanilla` flag to avoid conflict. https://support.bioconductor.org/p/57187/
 RUN Rscript --vanilla /tmp/package_installs.R
 RUN Rscript --vanilla /tmp/bioconductor_installs.R
 RUN Rscript --vanilla /tmp/install_iR.R
 
 ARG GIT_COMMIT=unknown
-ARG BUILD_DATE=unknown
+ARG BUILD_DATE_RSTATS=unknown
 
 LABEL git-commit=$GIT_COMMIT
-LABEL build-date=$BUILD_DATE
+LABEL build-date=$BUILD_DATE_RSTATS
 
 # Find the current release git hash & build date inside the kernel editor.
-RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE" > /etc/build_date
+RUN echo "$GIT_COMMIT" > /etc/git_commit && echo "$BUILD_DATE_RSTATS" > /etc/build_date
 
 CMD ["R"]

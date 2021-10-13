@@ -1,6 +1,14 @@
 context("tensorflow")
 
-test_that("gpu imports", {
+test_that("check gpu device", {
+  check_gpu()
+ 
+  library(tensorflow)
+  gpus = tf$config$experimental$list_physical_devices('GPU')
+  expect_equal(length(gpus), 1)
+})
+
+test_that("tensorflow with gpu", {
   check_gpu()
  
   library(tensorflow)
@@ -8,6 +16,4 @@ test_that("gpu imports", {
       const <- tf$constant(42)
       expect_equal(42, as.integer(const))
   })
-
-  expect_true(TRUE)
 })
