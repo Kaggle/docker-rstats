@@ -77,6 +77,6 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 RUN R -e 'library(torch); install_torch(reinstall = TRUE)'
 
 # Fastai GPU version.
-RUN R -e 'library(fastai); install_fastai(gpu = TRUE)'
+RUN R -e 'fastai::install_fastai(gpu = TRUE, cuda_version = \'10\', overwrite = FALSE)'
 
 CMD ["R"]

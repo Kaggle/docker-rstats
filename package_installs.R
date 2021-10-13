@@ -61,6 +61,5 @@ install_version("keras", version = "2.3.0.0", ask=FALSE)
 # Fastai
 reticulate::install_miniconda()
 reticulate::py_config()
-install_github("henry090/fastai", quiet=TRUE)
-library(fastai)
-install_fastai(gpu = FALSE, overwrite = FALSE)
+install_github("eagerai/fastai", quiet=TRUE)
+fastai::install_fastai(gpu = FALSE, overwrite = FALSE)
