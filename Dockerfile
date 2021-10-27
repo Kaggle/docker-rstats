@@ -61,8 +61,6 @@ RUN R -e 'reticulate::install_miniconda()'
 ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
 
 # Tensorflow and Keras
-RUN R -e 'devtools::install_version("keras", version = "2.3.0.0")'
-RUN R -e 'devtools::install_version("tensorflow", version = "2.4.0")' # 2.3 is not available on rcran
 RUN R -e 'keras::install_keras(tensorflow = "2.3", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
