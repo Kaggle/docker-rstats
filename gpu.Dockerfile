@@ -14,9 +14,8 @@ ENV CUDA_MAJOR_VERSION=11
 ENV CUDA_MINOR_VERSION=2
 ENV CUDA_PATCH_VERSION=152
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
-ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-${CUDA_MINOR_VERSION}_$CUDA_VERSION-1
+ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
 ENV CUDNN_VERSION=8.1.1.33
-ENV CUBLAS_VERSION=11.2.1.74
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -41,10 +40,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       cuda-command-line-tools-$CUDA_PKG_VERSION \
       libcudnn8=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libcudnn8-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libcublas11=$CUBLAS_VERSION-1 \
-      libcublas-dev=$CUBLAS_VERSION-1 \
-      libnccl2=2.9.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libnccl-dev=2.9.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
+      libcublas-$CUDA_PKG_VERSION \
+      libcublas-dev-$CUDA_PKG_VERSION \
+      libnccl2=2.8.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libnccl-dev=2.8.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
