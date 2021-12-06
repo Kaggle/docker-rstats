@@ -41,6 +41,10 @@ install.packages("fftw")
 # https://github.com/Kaggle/docker-rstats/issues/74
 install_github("thomasp85/patchwork")
 
+#The following package aims to help users write openCL code with little or no effort. 
+#It is able to compile an user-defined R function and run it on a device such as a CPU or a GPU.
+install_github("Jiefei-Wang/gpuMagic")
+
 # https://github.com/Kaggle/docker-rstats/issues/73
 install.packages("topicmodels")
 
