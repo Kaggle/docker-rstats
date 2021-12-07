@@ -14,7 +14,7 @@ ENV CUDA_MAJOR_VERSION=11
 ENV CUDA_MINOR_VERSION=0
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
-ENV CUDNN_VERSION=8.2.1.32
+ENV CUDNN_VERSION=8.0.5.39
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -48,6 +48,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
+
+RUN ln -s /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.10 /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.11
 
 # Hack to fix R trying to use CUDA in `/usr/lib/x86_64-linux-gnu` directory instead
 # of `/usr/local/nvidia/lib64` (b/152401083).
