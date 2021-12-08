@@ -1,5 +1,5 @@
 ARG BASE_TAG=staging
-FROM nvidia/cuda:11.0.3-cudnn8-devel-ubuntu18.04 AS nvidia
+FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu18.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
@@ -11,10 +11,11 @@ COPY --from=nvidia /etc/apt/sources.list.d/nvidia-ml.list /etc/apt/sources.list.
 COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
 ENV CUDA_MAJOR_VERSION=11
-ENV CUDA_MINOR_VERSION=0
+ENV CUDA_MINOR_VERSION=3
+ENV CUDA_PATCH_VERSION=1
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
-ENV CUDNN_VERSION=8.0.5.39
+ENV CUDNN_VERSION=8.2.1.32
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -41,15 +42,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcudnn8-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libcublas-$CUDA_PKG_VERSION \
       libcublas-dev-$CUDA_PKG_VERSION \
-      libnccl2=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libnccl-dev=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
+      libnccl2=2.9.9-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libnccl-dev=2.9.9-1-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
 
-RUN ln -s /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.10 /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.11
+# RUN ln -s /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.10 /usr/local/cuda-11.0/targets/x86_64-linux/lib/libcusolver.so.11
 
 # Hack to fix R trying to use CUDA in `/usr/lib/x86_64-linux-gnu` directory instead
 # of `/usr/local/nvidia/lib64` (b/152401083).
