@@ -13,6 +13,7 @@ COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 ENV CUDA_MAJOR_VERSION=11
 ENV CUDA_MINOR_VERSION=3
 ENV CUDA_PATCH_VERSION=1
+# This environment variable is used to detect which unit tests to run. Do not remove.
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
 ENV CUDNN_VERSION=8.2.1.32
@@ -43,7 +44,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcublas-$CUDA_PKG_VERSION \
       libcublas-dev-$CUDA_PKG_VERSION \
       libnccl2=2.9.9-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libnccl-dev=2.9.9-1-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
+      libnccl-dev=2.9.9-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
