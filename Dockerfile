@@ -38,10 +38,7 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
-    # to avoid breaking UI change, pin the jupyter notebook package
-    # the latest version also has a regression on the NotebookApp.ip option
-    # see: https://www.google.com/url?q=https://github.com/jupyter/notebook/issues/3946&sa=D&usg=AFQjCNFieP7srXVWqX8PDetXGfhyxRmO4Q
-    pip install notebook==5.5.0 && \
+    pip install notebook && \
     pip install nbconvert && \
     R -e 'IRkernel::installspec()' && \
     # Build pyzmq from source instead of using a pre-built binary.
