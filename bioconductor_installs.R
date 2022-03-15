@@ -10,6 +10,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE))
 
 BiocManager::install(update=FALSE, ask=FALSE)
 BiocManager::install("BiocGenerics", update=FALSE, ask=FALSE)
+install_version("locfit", version = "1.5.9.4", ask=FALSE)
 BiocManager::install("EBImage", update=FALSE, ask=FALSE)
 BiocManager::install("rhdf5", update=FALSE, ask=FALSE)
 BiocManager::install("limma", update=FALSE, ask=FALSE)

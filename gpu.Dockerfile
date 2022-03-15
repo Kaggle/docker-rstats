@@ -71,7 +71,8 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example). It will detect CUDA and install the proper version.
-RUN R -e 'install.packages("torch")'
+# TODO(b/224540778) Unpin Torch.
+RUN R -e 'library(devtools); install_version("torch", version = "0.6.0", ask=FALSE)'
 RUN R -e 'library(torch); install_torch(reinstall = TRUE)'
 
 CMD ["R"]
