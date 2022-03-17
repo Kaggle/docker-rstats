@@ -52,6 +52,8 @@ install.packages("imager")
 
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example).
+# TODO(b/224540778) Unpin Torch.
+install_version("torch", version = "0.6.0", ask=FALSE)
 library(torch)
 install_torch(reinstall = TRUE)
 
