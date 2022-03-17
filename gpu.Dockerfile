@@ -47,6 +47,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libnccl-dev=2.5.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
     ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
+    # TODO: remove this hack when we move past tensorflow 2.3
+    # https://github.com/tensorflow/tensorflow/issues/38578#issuecomment-760175854
+    ln -sf /usr/local/cuda/lib64/libcudart.so.10.2 /usr/local/cuda/lib64/libcudart.so.10.1 && \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
