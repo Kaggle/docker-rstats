@@ -44,7 +44,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcublas-dev-$CUDA_PKG_VERSION \
       libnccl2=2.8.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libnccl-dev=2.8.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
-    ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
