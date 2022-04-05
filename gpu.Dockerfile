@@ -1,5 +1,5 @@
 ARG BASE_TAG=staging
-FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu18.04 AS nvidia
+FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
@@ -11,11 +11,11 @@ COPY --from=nvidia /etc/apt/sources.list.d/nvidia-ml.list /etc/apt/sources.list.
 COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
 ENV CUDA_MAJOR_VERSION=11
-ENV CUDA_MINOR_VERSION=2
+ENV CUDA_MINOR_VERSION=4
 ENV CUDA_PATCH_VERSION=2
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
-ENV CUDNN_VERSION=8.1.1.33
+ENV CUDNN_VERSION=8.2.4.15
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -42,8 +42,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcudnn8-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libcublas-$CUDA_PKG_VERSION \
       libcublas-dev-$CUDA_PKG_VERSION \
-      libnccl2=2.8.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libnccl-dev=2.8.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
+      libnccl2=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libnccl-dev=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
