@@ -82,7 +82,7 @@ test_that("CNN model training", {
     datagen %>% fit_image_data_generator(train.feature)
 
     history <- model %>%
-        fit_generator(
+        fit(
             flow_images_from_data(train.feature, train.label, datagen, batch_size = 10),
             steps_per_epoch = nrow(train.feature) / 10,
             epochs = 1)
