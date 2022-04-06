@@ -54,7 +54,7 @@ install.packages("imager")
 # without internet (competitions for example).
 install.packages("torch")
 library(torch)
-install_torch(reinstall = TRUE)
+install_torch()
 
 # The R Keras package must be reinstalled after installing it in the python virtualenv.
 install_version("keras", version = "2.6.0.0", ask=FALSE)

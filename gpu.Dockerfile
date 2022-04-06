@@ -73,6 +73,6 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 # Make Torch think we use CUDA 11.3 (https://github.com/mlverse/torch/issues/807)
 ENV CUDA=11.3
 RUN R -e 'install.packages("torch")'
-RUN R -e 'library(torch); install_torch(reinstall = TRUE)'
+RUN R -e 'library(torch); install_torch()'
 
 CMD ["R"]
