@@ -52,6 +52,7 @@ install.packages("imager")
 
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example).
+install.packages("torch")
 library(torch)
 install_torch(reinstall = TRUE)
 
