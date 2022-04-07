@@ -87,8 +87,12 @@ docker kill jupyter_test_r && docker rm jupyter_test_r
 docker run --rm --name=papermill_test_r --read-only --net=none \
     "$IMAGE_TAG" python -c 'import sys;import papermill as pm; print(pm.__version__)'
 
+
+# TF_FORCE_GPU_ALLOW_GROWTH is to prevent tensorflow from allocating the totality of a GPU memory.
+# https://stackoverflow.com/questions/34199233/how-to-prevent-tensorflow-from-allocating-the-totality-of-a-gpu-memory/55541385#55541385
 docker run --rm -t --net=none \
     -e HOME=/tmp \
+    -e TF_FORCE_GPU_ALLOW_GROWTH=true \
     -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
     -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
     -w=/working \

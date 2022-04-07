@@ -1,5 +1,5 @@
 ARG BASE_TAG=staging
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04 AS nvidia
+FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
@@ -7,16 +7,14 @@ ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Cuda support
 COPY --from=nvidia /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/
-COPY --from=nvidia /etc/apt/sources.list.d/nvidia-ml.list /etc/apt/sources.list.d/
 COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
-ENV CUDA_MAJOR_VERSION=10
-ENV CUDA_MINOR_VERSION=2
-ENV CUDA_PATCH_VERSION=89
+ENV CUDA_MAJOR_VERSION=11
+ENV CUDA_MINOR_VERSION=4
+ENV CUDA_PATCH_VERSION=2
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
-ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION=$CUDA_VERSION-1
-ENV CUDNN_VERSION=7.6.5.32
-ENV CUBLAS_VERSION=10.2.2.89
+ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
+ENV CUDNN_VERSION=8.2.4.15
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -39,17 +37,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       cuda-nvml-dev-$CUDA_PKG_VERSION \
       cuda-minimal-build-$CUDA_PKG_VERSION \
       cuda-command-line-tools-$CUDA_PKG_VERSION \
-      libcudnn7=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libcudnn7-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libcublas10=$CUBLAS_VERSION-1 \
-      libcublas-dev=$CUBLAS_VERSION-1 \
-      libnccl2=2.5.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libnccl-dev=2.5.6-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
-    ln -s /usr/local/cuda-$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION /usr/local/cuda && \
-    ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda.so.1 && \
-    # TODO: remove this hack when we move past tensorflow 2.3
-    # https://github.com/tensorflow/tensorflow/issues/38578#issuecomment-760175854
-    ln -sf /usr/local/cuda/lib64/libcudart.so.10.2 /usr/local/cuda/lib64/libcudart.so.10.1 && \
+      libcudnn8=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libcudnn8-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libcublas-$CUDA_PKG_VERSION \
+      libcublas-dev-$CUDA_PKG_VERSION \
+      libnccl2=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libnccl-dev=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
@@ -62,7 +55,7 @@ ENV CUDA_HOME=/usr/local/cuda
 ADD ldpaths $R_HOME/etc/ldpaths
 
 # Install tensorflow with GPU support
-RUN R -e 'keras::install_keras(tensorflow = "2.3-gpu")' && \
+RUN R -e 'keras::install_keras(tensorflow = "2.6-gpu")' && \
     rm -rf /tmp/tensorflow_gpu && \
     /tmp/clean-layer.sh
 
@@ -77,8 +70,9 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example). It will detect CUDA and install the proper version.
-# TODO(b/224540778) Unpin Torch.
-RUN R -e 'library(devtools); install_version("torch", version = "0.6.0", ask=FALSE)'
-RUN R -e 'library(torch); install_torch(reinstall = TRUE)'
+# Make Torch think we use CUDA 11.3 (https://github.com/mlverse/torch/issues/807)
+ENV CUDA=11.3
+RUN R -e 'install.packages("torch")'
+RUN R -e 'library(torch); install_torch()'
 
 CMD ["R"]
