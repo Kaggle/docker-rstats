@@ -1,5 +1,3 @@
-# This test is run first, otherwise the GPU test fails with `CUDA error: out of memory`.
-
 context("torch")
 
 test_that("cpu imports", {
