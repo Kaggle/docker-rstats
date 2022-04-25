@@ -51,6 +51,7 @@ RUN apt-get install -y libzmq3-dev default-jdk && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated && \
     # papermill can replace nbconvert for executing notebooks
     pip install papermill && \
+    pip install jupyterlab-lsp && \
     /tmp/clean-layer.sh
 
 # Miniconda
