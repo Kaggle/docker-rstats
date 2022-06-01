@@ -15,7 +15,6 @@ test_that("imports", {
     Library("digest")
     Library("dplyr")
     Library("fftw")
-    Library("fslr")
     Library("ggforce")
     Library("ggrepel")
     Library("gtable")
