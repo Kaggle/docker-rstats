@@ -35,6 +35,7 @@ install_github("davpinto/fastknn")
 install_github("mukul13/rword2vec")
 
 # b/232137539 Removed from RCRAN but required for Neurohacking in R coursera course
+install_github("muschellij2/neurobase")
 install_github("muschellij2/fslr")
 
 # These signal processing libraries are on CRAN, but they require apt-get dependences that are
