@@ -5,7 +5,7 @@ test_that("check gpu device", {
  
   library(tensorflow)
   gpus = tf$config$experimental$list_physical_devices('GPU')
-  expect_equal(length(gpus), 1)
+  expect_gte(length(gpus), 1)
 })
 
 test_that("tensorflow with gpu", {
