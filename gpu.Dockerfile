@@ -1,5 +1,5 @@
 ARG BASE_TAG=staging
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu18.04 AS nvidia
+FROM nvidia/cuda:11.7.0-cudnn8-devel-ubuntu18.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
@@ -10,12 +10,12 @@ COPY --from=nvidia /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/
 COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
 ENV CUDA_MAJOR_VERSION=11
-ENV CUDA_MINOR_VERSION=8
+ENV CUDA_MINOR_VERSION=7
 ENV CUDA_PATCH_VERSION=0
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
-ENV CUDNN_VERSION=8.6.0.163
-ENV NCCL_VERSION=2.15.5-1
+ENV CUDNN_VERSION=8.5.0.96
+ENV NCCL_VERSION=2.13.4-1
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -72,7 +72,7 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example). It will detect CUDA and install the proper version.
 # Make Torch think we use CUDA 11.8 (https://github.com/mlverse/torch/issues/807)
-ENV CUDA=11.8
+ENV CUDA=11.7
 RUN R -e 'install.packages("torch")'
 RUN R -e 'library(torch); install_torch()'
 
