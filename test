@@ -76,6 +76,7 @@ mkdir -p /tmp/rstats-build/working
 # Check that Jupyter server can run; if it dies on startup, the `docker kill` command will throw an error
 docker run -d --name=jupyter_test_r --read-only --net=none \
     -e HOME=/tmp \
+    -e NVIDIA_DISABLE_REQUIRE=1 \
     -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
     -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
     -w=/working \
