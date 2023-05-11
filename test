@@ -85,7 +85,7 @@ sleep 3
 docker kill jupyter_test_r && docker rm jupyter_test_r
 
 # Check that papermill is installed in python (b/191304257).
-docker run --rm --name=papermill_test_r --read-only --net=none \
+docker run --rm -e NVIDIA_DISABLE_REQUIRE=1 --name=papermill_test_r --read-only --net=none \
     "$IMAGE_TAG" python -c 'import sys;import papermill as pm; print(pm.__version__)'
 
 
