@@ -110,5 +110,6 @@ test_that("flow_images_from_dataframe", {
         class_mode = NULL,
         target_size = c(224, 224))
 
-    expect_is(pred, "keras_preprocessing.image.dataframe_iterator.DataFrameIterator")
+    batch <- generator_next(pred, completed = NULL)
+    expect_gt(length(batch), 0)
 })
