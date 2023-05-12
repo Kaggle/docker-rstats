@@ -1,5 +1,5 @@
 ARG BASE_TAG=staging
-FROM nvidia/cuda:11.4.2-cudnn8-devel-ubuntu18.04 AS nvidia
+FROM nvidia/cuda:11.7.0-cudnn8-devel-ubuntu18.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
@@ -10,11 +10,12 @@ COPY --from=nvidia /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/
 COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
 
 ENV CUDA_MAJOR_VERSION=11
-ENV CUDA_MINOR_VERSION=4
-ENV CUDA_PATCH_VERSION=2
+ENV CUDA_MINOR_VERSION=7
+ENV CUDA_PATCH_VERSION=0
 ENV CUDA_VERSION=$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION.$CUDA_PATCH_VERSION
 ENV CUDA_PKG_VERSION=$CUDA_MAJOR_VERSION-$CUDA_MINOR_VERSION
-ENV CUDNN_VERSION=8.2.4.15
+ENV CUDNN_VERSION=8.5.0.96
+ENV NCCL_VERSION=2.13.4-1
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 LABEL com.nvidia.cuda.version="${CUDA_VERSION}"
 LABEL com.nvidia.cudnn.version="${CUDNN_VERSION}"
@@ -41,8 +42,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       libcudnn8-dev=$CUDNN_VERSION-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
       libcublas-$CUDA_PKG_VERSION \
       libcublas-dev-$CUDA_PKG_VERSION \
-      libnccl2=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
-      libnccl-dev=2.11.4-1+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
+      libnccl2=$NCCL_VERSION+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION \
+      libnccl-dev=$NCCL_VERSION+cuda$CUDA_MAJOR_VERSION.$CUDA_MINOR_VERSION && \
     /tmp/clean-layer.sh
 
 ENV CUDA_HOME=/usr/local/cuda
@@ -55,7 +56,7 @@ ENV CUDA_HOME=/usr/local/cuda
 ADD ldpaths $R_HOME/etc/ldpaths
 
 # Install tensorflow with GPU support
-RUN R -e 'keras::install_keras(tensorflow = "2.6-gpu")' && \
+RUN R -e 'keras::install_keras(tensorflow = "gpu")' && \
     rm -rf /tmp/tensorflow_gpu && \
     /tmp/clean-layer.sh
 
@@ -70,8 +71,8 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 
 # Torch: install the full package upfront otherwise it will be installed on loading the package which doesn't work for kernels
 # without internet (competitions for example). It will detect CUDA and install the proper version.
-# Make Torch think we use CUDA 11.3 (https://github.com/mlverse/torch/issues/807)
-ENV CUDA=11.3
+# Make Torch think we use CUDA 11.8 (https://github.com/mlverse/torch/issues/807)
+ENV CUDA=11.7
 RUN R -e 'install.packages("torch")'
 RUN R -e 'library(torch); install_torch()'
 

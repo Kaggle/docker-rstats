@@ -12,9 +12,11 @@ test_that("model training", {
         layer_dropout(rate=0.4) %>%
         layer_dense(unit=3, activation='softmax')
 
+    optimizers <- keras::keras$optimizers
+
     model %>% compile(
         loss = 'categorical_crossentropy',
-        optimizer = optimizer_rmsprop(),
+        optimizer = optimizers$RMSprop(),
         metrics = c('accuracy')
     )
 
@@ -82,7 +84,7 @@ test_that("CNN model training", {
     datagen %>% fit_image_data_generator(train.feature)
 
     history <- model %>%
-        fit_generator(
+        fit(
             flow_images_from_data(train.feature, train.label, datagen, batch_size = 10),
             steps_per_epoch = nrow(train.feature) / 10,
             epochs = 1)
@@ -108,5 +110,6 @@ test_that("flow_images_from_dataframe", {
         class_mode = NULL,
         target_size = c(224, 224))
 
-    expect_is(pred, "keras_preprocessing.image.dataframe_iterator.DataFrameIterator")
+    batch <- generator_next(pred, completed = NULL)
+    expect_gt(length(batch), 0)
 })

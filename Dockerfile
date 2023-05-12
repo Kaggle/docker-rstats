@@ -28,7 +28,8 @@ RUN apt-get update && \
     touch /root/.jupyter/jupyter_nbconvert_config.py && touch /root/.jupyter/migrated && \
     # papermill can replace nbconvert for executing notebooks
     pip install papermill && \
-    pip install jupyterlab-lsp && \
+    # b/276358430 fix Jupyter lsp freezing up the jupyter server
+    pip install jupyterlab-lsp "jupyter-lsp==1.5.1" && \
     /tmp/clean-layer.sh
 
 # Miniconda

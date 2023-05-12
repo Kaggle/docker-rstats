@@ -76,6 +76,7 @@ mkdir -p /tmp/rstats-build/working
 # Check that Jupyter server can run; if it dies on startup, the `docker kill` command will throw an error
 docker run -d --name=jupyter_test_r --read-only --net=none \
     -e HOME=/tmp \
+    -e NVIDIA_DISABLE_REQUIRE=1 \
     -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
     -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
     -w=/working \
@@ -84,7 +85,7 @@ sleep 3
 docker kill jupyter_test_r && docker rm jupyter_test_r
 
 # Check that papermill is installed in python (b/191304257).
-docker run --rm --name=papermill_test_r --read-only --net=none \
+docker run --rm -e NVIDIA_DISABLE_REQUIRE=1 --name=papermill_test_r --read-only --net=none \
     "$IMAGE_TAG" python -c 'import sys;import papermill as pm; print(pm.__version__)'
 
 
@@ -93,6 +94,7 @@ docker run --rm --name=papermill_test_r --read-only --net=none \
 docker run --rm -t --net=none \
     -e HOME=/tmp \
     -e TF_FORCE_GPU_ALLOW_GROWTH=true \
+    -e NVIDIA_DISABLE_REQUIRE=1 \
     -v $PWD:/input:ro -v /tmp/rstats-build/working:/working \
     -v /tmp/rstats-build/tmp:/tmp -v /tmp/rstats-build/devshm:/dev/shm \
     -w=/working \
