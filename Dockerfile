@@ -15,7 +15,7 @@ RUN python get-pip.py
 
 RUN apt-get update && \
     apt-get install -y libzmq3-dev default-jdk && \
-    apt-get install -y python3.8-dev libcurl4-openssl-dev libssl-dev && \
+    apt-get install -y python3.11-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
