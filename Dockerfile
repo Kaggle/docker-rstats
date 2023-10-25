@@ -1,16 +1,15 @@
 ARG BASE_TAG=latest
-ARG PYTHON_VERSION=3.11
+ARG PYTHON_VERSION=3.10
 
 FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Install Python 
-# TODO(philmod): is this necessary? try to remove!
-RUN apt install  -y software-properties-common && \
+RUN apt install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
     apt update && \
-    apt install  -y python${PYTHON_VERSION} && \
+    apt install -y python${PYTHON_VERSION} && \
     ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python && \
     /tmp/clean-layer.sh    
