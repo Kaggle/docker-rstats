@@ -7,13 +7,13 @@ ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Install Python 
 # TODO(philmod): is this necessary? try to remove!
-RUN apt install software-properties-common -y
-RUN add-apt-repository ppa:deadsnakes/ppa -y
-RUN apt update -y
-RUN apt install python${PYTHON_VERSION} -y
-RUN ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python get-pip.py
+RUN apt install  -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa -y && \
+    apt update && \
+    apt install  -y python${PYTHON_VERSION} && \
+    ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python && \
+    /tmp/clean-layer.sh    
 
 RUN apt-get update && \
     apt-get install -y libzmq3-dev default-jdk && \
