@@ -4,8 +4,12 @@ FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.8
-RUN ln -sf /usr/bin/python3.8 /usr/bin/python
+# Default to python3.11
+RUN apt install software-properties-common -y
+RUN add-apt-repository ppa:deadsnakes/ppa -y
+RUN apt update -y
+RUN apt install python3.11 -y
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python get-pip.py
 
@@ -37,7 +41,7 @@ RUN R -e 'reticulate::install_miniconda()'
 ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
 
 # Tensorflow and Keras
-RUN R -e 'keras::install_keras(tensorflow = "2.11", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
+RUN R -e 'keras::install_keras(tensorflow = "2.13", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
