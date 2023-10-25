@@ -1,21 +1,23 @@
 ARG BASE_TAG=latest
+ARG PYTHON_VERSION=3.11
 
 FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.11
+# Install Python 
+# TODO(philmod): is this necessary? try to remove!
 RUN apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt update -y
-RUN apt install python3.11 -y
+RUN apt install python${PYTHON_VERSION} -y
 RUN ln -sf /usr/bin/python3.11 /usr/bin/python
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN python get-pip.py
 
 RUN apt-get update && \
     apt-get install -y libzmq3-dev default-jdk && \
-    apt-get install -y python3.11-dev libcurl4-openssl-dev libssl-dev && \
+    apt-get install -y python${PYTHON_VERSION}-dev libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
@@ -37,11 +39,14 @@ RUN apt-get update && \
     /tmp/clean-layer.sh
 
 # Miniconda
-RUN R -e 'reticulate::install_miniconda()'
-ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
+RUN R -e 'reticulate::install_python(version = "${PYTHON_VERSION}:latest", force = TRUE)'
+RUN R -e 'reticulate::virtualenv_create("r-reticulate")'
+
+# RUN R -e 'reticulate::install_miniconda(update = TRUE, force = TRUE)'
+# ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
 
 # Tensorflow and Keras
-RUN R -e 'keras::install_keras(tensorflow = "2.13", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
+RUN R -e 'keras::install_keras(tensorflow = "default", extra_packages = c("pandas", "numpy", "pycryptodome"), method="auto", envname="r-reticulate")'
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
