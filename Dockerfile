@@ -1,15 +1,17 @@
 ARG BASE_TAG=latest
-ARG PYTHON_VERSION=3.10
 
 FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
+
+ARG PYTHON_VERSION=3.10
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Install Python 
-RUN apt install -y software-properties-common && \
+RUN apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
-    apt update && \
-    apt install -y python${PYTHON_VERSION} && \
+    apt-get update && \
+    echo "MOD: python${PYTHON_VERSION}" && \
+    apt-get install -y python${PYTHON_VERSION} && \
     ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python && \
     /tmp/clean-layer.sh    
