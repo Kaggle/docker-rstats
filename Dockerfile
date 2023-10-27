@@ -47,7 +47,7 @@ RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", 
 ENV RETICULATE_PYTHON="${MINICONDA_PATH}/envs/${ENV_NAME}/bin/python"
 
 # Tensorflow and Keras
-RUN R -e "keras::install_keras(tensorflow = \"default\", extra_packages = c(\"pandas\", \"numpy\", \"pycryptodome\"), method=\"auto\", envname=\"${ENV_NAME}\")"
+RUN R -e "keras::install_keras(tensorflow = \"default\", extra_packages = c(\"pandas\", \"numpy\", \"pycryptodome\"), method=\"conda\", envname=\"${ENV_NAME}\")"
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
