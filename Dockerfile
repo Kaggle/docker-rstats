@@ -45,7 +45,7 @@ ARG ENV_NAME=r-reticulate
 # RUN R -e "reticulate::virtualenv_create(\"r-reticulate\")"
 
 RUN R -e "reticulate::install_miniconda(path = reticulate::miniconda_path(), update = TRUE, force = TRUE)"
-RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", required = TRUE, python_version = ${PYTHON_VERSION})"
+RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", required = TRUE, python_version = \"${PYTHON_VERSION}\")"
 # ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
 
 # Tensorflow and Keras
