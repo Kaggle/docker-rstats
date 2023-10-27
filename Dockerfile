@@ -40,10 +40,10 @@ RUN apt-get update && \
     /tmp/clean-layer.sh
 
 # Miniconda
-RUN R -e 'reticulate::install_python(version = "${PYTHON_VERSION}:latest", force = TRUE)'
-RUN R -e 'reticulate::virtualenv_create("r-reticulate")'
+RUN R -e "reticulate::install_python(version = \"${PYTHON_VERSION}:latest\", force = TRUE)"
+RUN R -e "reticulate::virtualenv_create(\"r-reticulate\")"
 
-# RUN R -e 'reticulate::install_miniconda(update = TRUE, force = TRUE)'
+# RUN R -e "reticulate::install_miniconda(update = TRUE, force = TRUE)"
 # ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
 
 # Tensorflow and Keras
