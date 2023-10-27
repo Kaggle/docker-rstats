@@ -40,10 +40,11 @@ RUN apt-get update && \
     /tmp/clean-layer.sh
 
 # Miniconda
+ARG MINICONDA_PATH=/root/.local/share/r-miniconda
 ARG ENV_NAME=r-reticulate
-RUN R -e "reticulate::install_miniconda(path = reticulate::miniconda_path(), update = TRUE, force = TRUE)"
+RUN R -e "reticulate::install_miniconda(path = \"${MINICONDA_PATH}\", update = TRUE, force = TRUE)"
 RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", required = TRUE, python_version = \"${PYTHON_VERSION}\")"
-ENV RETICULATE_PYTHON="/root/.local/share/r-miniconda/envs/${ENV_NAME}/bin/python"
+ENV RETICULATE_PYTHON="${MINICONDA_PATH}/envs/${ENV_NAME}/bin/python"
 
 # Tensorflow and Keras
 RUN R -e "keras::install_keras(tensorflow = \"default\", extra_packages = c(\"pandas\", \"numpy\", \"pycryptodome\"), method=\"auto\", envname=\"${ENV_NAME}\")"
