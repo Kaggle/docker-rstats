@@ -2,16 +2,23 @@ ARG BASE_TAG=latest
 
 FROM gcr.io/kaggle-images/rcran:${BASE_TAG}
 
+ARG PYTHON_VERSION=3.10
+
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Default to python3.8
-RUN ln -sf /usr/bin/python3.8 /usr/bin/python
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN python get-pip.py
+# Install Python 
+RUN apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa -y && \
+    apt-get update && \
+    echo "MOD: python${PYTHON_VERSION}" && \
+    apt-get install -y python${PYTHON_VERSION} && \
+    ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python && \
+    /tmp/clean-layer.sh    
 
 RUN apt-get update && \
     apt-get install -y libzmq3-dev default-jdk && \
-    apt-get install -y python3.8-dev libcurl4-openssl-dev libssl-dev && \
+    apt-get install -y python${PYTHON_VERSION}-dev python3-venv libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
@@ -33,11 +40,15 @@ RUN apt-get update && \
     /tmp/clean-layer.sh
 
 # Miniconda
-RUN R -e 'reticulate::install_miniconda()'
-ENV RETICULATE_PYTHON=/root/.local/share/r-miniconda/envs/r-reticulate/bin/python
+ARG MINICONDA_PATH=/root/.local/share/r-miniconda
+ARG ENV_NAME=r-reticulate
+RUN R -e "reticulate::install_miniconda(path = \"${MINICONDA_PATH}\", update = TRUE, force = TRUE)"
+RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", required = TRUE, python_version = \"${PYTHON_VERSION}\")"
+ENV RETICULATE_PYTHON="${MINICONDA_PATH}/envs/${ENV_NAME}/bin/python"
 
 # Tensorflow and Keras
-RUN R -e 'keras::install_keras(tensorflow = "2.6", extra_packages = c("pandas", "numpy", "pycryptodome"), method="conda")'
+ARG TENSORFLOW_VERSION=2.11.0
+RUN R -e "keras::install_keras(tensorflow = \"${TENSORFLOW_VERSION}\", extra_packages = c(\"pandas\", \"numpy\", \"pycryptodome\"), method=\"conda\", envname=\"${ENV_NAME}\")"
 
 # Install kaggle libraries.
 # Do this at the end to avoid rebuilding everything when any change is made.
