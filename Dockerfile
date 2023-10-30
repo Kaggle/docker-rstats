@@ -47,7 +47,7 @@ RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", 
 ENV RETICULATE_PYTHON="${MINICONDA_PATH}/envs/${ENV_NAME}/bin/python"
 
 # Tensorflow and Keras
-ARG TENSORFLOW_VERSION=2.12 # Make sure the version exists also for tensorflow-gpu (https://pypi.org/project/tensorflow-gpu/#history)
+ARG TENSORFLOW_VERSION=2.11.0
 RUN R -e "keras::install_keras(tensorflow = \"${TENSORFLOW_VERSION}\", extra_packages = c(\"pandas\", \"numpy\", \"pycryptodome\"), method=\"conda\", envname=\"${ENV_NAME}\")"
 
 # Install kaggle libraries.
