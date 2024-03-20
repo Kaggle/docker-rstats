@@ -58,6 +58,9 @@ install.packages("imager")
 # without internet (competitions for example).
 install.packages("torch")
 library(torch)
+
+# New polars package is on CRAN
+install.packages("polars")
 install_torch()
 
 install.packages(c('collections', 'languageserver'), dependencies=TRUE)
