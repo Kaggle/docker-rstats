@@ -56,7 +56,7 @@ ENV CUDA_HOME=/usr/local/cuda
 ADD ldpaths $R_HOME/etc/ldpaths
 
 # Install tensorflow with GPU support
-ARG TENSORFLOW_VERSION=2.12.0
+ARG TENSORFLOW_VERSION=2.11.0
 RUN R -e "keras::install_keras(version = \"${TENSORFLOW_VERSION}-gpu\", method = \"conda\", conda = \"auto\", envname=\"r-reticulate\")" && \
     rm -rf /tmp/tensorflow_gpu && \
     /tmp/clean-layer.sh
