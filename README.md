@@ -11,7 +11,7 @@ Here's [an example](https://www.kaggle.com/benhamner/bike-sharing-demand/bike-re
 
 ![example script](http://i.imgur.com/Hk703P7.png)
 
-This is the Dockerfile (etc.) used for building the image that runs R scripts on Kaggle. [Here's](https://registry.hub.docker.com/u/kaggle/rstats/) the Docker image on Dockerhub.
+This is the Dockerfile (etc.) used for building the image that runs R scripts on Kaggle. [Here's](https://hub.docker.com/r/kaggle/rstats/) the Docker image on Dockerhub.
 
 ## Getting started
 
