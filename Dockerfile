@@ -20,6 +20,7 @@ RUN apt-get update && \
     apt-get install -y libzmq3-dev default-jdk && \
     apt-get install -y python${PYTHON_VERSION}-dev python3-venv libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
+    pip install --upgrade setuptools && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
     pip install "tornado<6" && \
     pip install notebook && \
@@ -47,7 +48,7 @@ RUN R -e "reticulate::conda_create(envname = \"${ENV_NAME}\", conda = \"auto\", 
 ENV RETICULATE_PYTHON="${MINICONDA_PATH}/envs/${ENV_NAME}/bin/python"
 
 # Tensorflow and Keras
-ARG TENSORFLOW_VERSION=2.12.0
+ARG TENSORFLOW_VERSION=2.18.0
 RUN R -e "keras::install_keras(tensorflow = \"${TENSORFLOW_VERSION}\", extra_packages = c(\"pandas\", \"numpy\", \"pycryptodome\"), method=\"conda\", envname=\"${ENV_NAME}\")"
 
 # Install kaggle libraries.
