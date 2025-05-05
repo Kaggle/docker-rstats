@@ -21,6 +21,7 @@ RUN apt-get update && \
     apt-get install -y python${PYTHON_VERSION}-dev python3-venv libcurl4-openssl-dev libssl-dev && \
     pip install jupyter pycurl && \
     # Install older tornado - https://github.com/jupyter/notebook/issues/4437
+    pip install --upgrade setuptools && \
     pip install "tornado<6" && \
     pip install notebook && \
     pip install nbconvert && \
