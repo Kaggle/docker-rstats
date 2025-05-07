@@ -74,7 +74,7 @@ RUN CPATH=/usr/local/cuda/targets/x86_64-linux/include install2.r --error --ncpu
 # without internet (competitions for example). It will detect CUDA and install the proper version.
 # Make Torch think we use CUDA 11.8 (https://github.com/mlverse/torch/issues/807)
 ENV CUDA=11.7
-RUN R -e 'install.packages("torch")'
+RUN R -e 'install.packages("torch==0.13.0")'
 RUN R -e 'library(torch); install_torch()'
 
 CMD ["R"]
