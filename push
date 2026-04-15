@@ -46,7 +46,7 @@ while :; do
     shift
 done
 
-LABEL=${1:-testing}
+LABEL=$(echo "${1:-testing}" | sed 's/[^a-zA-Z0-9._-]/-/g')
 
 if [[ -n "$SOURCE_IMAGE_TAG_OVERRIDE" ]]; then
     SOURCE_IMAGE_TAG="$SOURCE_IMAGE_TAG_OVERRIDE"
