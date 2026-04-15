@@ -1,5 +1,5 @@
 ARG BASE_TAG=staging
-FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04 AS nvidia
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu22.04 AS nvidia
 FROM gcr.io/kaggle-images/rstats:${BASE_TAG}
 ARG ncpus=1
 
