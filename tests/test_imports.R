@@ -19,7 +19,6 @@ test_that("imports", {
     Library("ggforce")
     Library("ggrepel")
     Library("gtable")
-    Library("hrbrthemes")
     Library("imager")
     Library("knitr")
     Library("labeling")
