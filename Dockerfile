@@ -6,15 +6,24 @@ ARG PYTHON_VERSION=3.10
 
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
-# Install Python 
-RUN apt-get install -y software-properties-common && \
+# pip >= 26 pulls in wheel 0.46+, which depends on packaging>=24.0. The base
+# image has packaging 24.0 installed via apt without a RECORD file (Debian
+# policy), so pip fails with "uninstall-no-record-file" when trying to upgrade
+# it. Generate the missing RECORD so pip can manage the package normally.
+# TODO: Consider moving this fix upstream into the rcran base image.
+ADD fix-packaging-record.sh /tmp/fix-packaging-record.sh
+
+# Install Python
+RUN apt-get update && \
+    apt-get install -y software-properties-common && \
     add-apt-repository ppa:deadsnakes/ppa -y && \
     apt-get update && \
     echo "MOD: python${PYTHON_VERSION}" && \
     apt-get install -y python${PYTHON_VERSION} && \
     ln -sf /usr/bin/python${PYTHON_VERSION} /usr/bin/python && \
+    /tmp/fix-packaging-record.sh && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python && \
-    /tmp/clean-layer.sh    
+    /tmp/clean-layer.sh
 
 RUN apt-get update && \
     apt-get install -y libzmq3-dev default-jdk && \
