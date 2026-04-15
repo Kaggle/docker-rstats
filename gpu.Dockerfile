@@ -6,8 +6,8 @@ ARG ncpus=1
 ADD clean-layer.sh  /tmp/clean-layer.sh
 
 # Cuda support
-COPY --from=nvidia /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/
-COPY --from=nvidia /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d/cuda.gpg
+COPY --from=nvidia /etc/apt/sources.list.d/cuda-ubuntu2204-x86_64.list /etc/apt/sources.list.d/
+COPY --from=nvidia /usr/share/keyrings/cuda-archive-keyring.gpg /usr/share/keyrings/
 
 ENV CUDA_MAJOR_VERSION=12
 ENV CUDA_MINOR_VERSION=8
