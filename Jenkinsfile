@@ -46,7 +46,7 @@ pipeline {
     }
 
     stage('Docker GPU Build') {
-      agent { label 'ephemeral-linux-gpu' }
+      agent { label 'ephemeral-linux-gpu-t4x2' }
       steps {
         sh '''#!/bin/bash
           set -exo pipefail
@@ -65,7 +65,7 @@ pipeline {
     }
 
     stage('Test GPU Image') {
-      agent { label 'ephemeral-linux-gpu' }
+      agent { label 'ephemeral-linux-gpu-t4x2' }
       steps {
         sh '''#!/bin/bash
           set -exo pipefail
@@ -88,7 +88,7 @@ pipeline {
           }
         }
         stage('GPU Diff') {
-          agent { label 'ephemeral-linux-gpu' }
+          agent { label 'ephemeral-linux-gpu-t4x2' }
           steps {
             sh '''#!/bin/bash
             set -exo pipefail
