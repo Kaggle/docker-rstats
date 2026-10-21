@@ -1,3 +1,5 @@
+> **Note:** R Support has been removed from Kaggle notebooks: https://www.kaggle.com/discussions/product-announcements/751525
+
 # docker-rstats
 
 [Kaggle Notebooks](https://www.kaggle.com/notebooks) allow users to run scripts against our competitions and datasets without having to download data or set up their environment. 
